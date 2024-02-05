@@ -1,0 +1,7 @@
+html {
+    max-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    background-color: #010f1a;
+}
