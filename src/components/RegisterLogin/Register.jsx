@@ -20,7 +20,7 @@ export default function Register() {
   const { register, errors, loading } = useAuthContext();
   const handleRegister = async (e) => {
     e.preventDefault();
-    register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, password_confirmation });
+    register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, cif, profesiones, password_confirmation });
   };
 
   const separarApellidos = (e) => {
