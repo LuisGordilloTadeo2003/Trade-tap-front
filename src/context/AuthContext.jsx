@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import axios from '../lib/axios';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 export const AuthContext = createContext({});
 const SESSION_NAME = 'session-verified';
 export function AuthProvider({ children }) {
@@ -31,6 +31,8 @@ export function AuthProvider({ children }) {
             await csrf();
             await axios.post('/login', data);
             await getUser();
+            navigate('/');
+            window.location.reload();
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -52,6 +54,8 @@ export function AuthProvider({ children }) {
             await csrf();
             await axios.post('/register', data);
             await getUser();
+            navigate('/');
+            window.location.reload();
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -164,20 +168,20 @@ export function AuthProvider({ children }) {
         }
     }, [user]);
     return (<AuthContext.Provider value={{
-            csrf,
-            errors,
-            user,
-            login,
-            register,
-            logout,
-            loading,
-            status,
-            sessionVerified,
-            setStatus,
-            sendPasswordResetLink,
-            newPassword,
-            sendEmailVerificationLink,
-        }}>
-      {children}
+        csrf,
+        errors,
+        user,
+        login,
+        register,
+        logout,
+        loading,
+        status,
+        sessionVerified,
+        setStatus,
+        sendPasswordResetLink,
+        newPassword,
+        sendEmailVerificationLink,
+    }}>
+        {children}
     </AuthContext.Provider>);
 }

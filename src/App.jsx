@@ -34,7 +34,7 @@ export default function App() {
           ) : (
             <>
               <div className="row mb-4">
-                <GuestNavbar />
+                <NavBar />
               </div>
               <div className="row">
                 <MainContent />
