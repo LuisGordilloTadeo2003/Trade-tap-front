@@ -32,17 +32,9 @@ export default function App() {
               <Route element={<RegisterLoginPage />} path="/password-reset/:token" />
             </Routes>
           ) : (
-            <>
-              <div className="row mb-4">
-                <GuestNavbar />
-              </div>
-              <div className="row">
-                <MainContent />
-              </div>
-              <div className="row mt-4">
-                <Footer />
-              </div>
-            </>
+            <Routes>
+              <Route element={<Home/>} path='/'> </Route>
+            </Routes>
           )
         }
         <Toaster position="top-right" toastOptions={{ duration: 6000 }} />
