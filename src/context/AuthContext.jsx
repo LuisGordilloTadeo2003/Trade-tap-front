@@ -31,8 +31,7 @@ export function AuthProvider({ children }) {
             await csrf();
             await axios.post('/login', data);
             await getUser();
-            navigate('/');
-            window.location.reload();
+            navigate("/");
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -54,8 +53,7 @@ export function AuthProvider({ children }) {
             await csrf();
             await axios.post('/register', data);
             await getUser();
-            navigate('/');
-            window.location.reload();
+            navigate("/")
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
