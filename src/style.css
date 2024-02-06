@@ -10,6 +10,13 @@
     color: #495057 !important;
 }
 
+.custom-option {
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid #74c87a;
+    color: #495057;
+}
+
 .custom-input::placeholder {
     color: #a5a5a5 !important;
 }

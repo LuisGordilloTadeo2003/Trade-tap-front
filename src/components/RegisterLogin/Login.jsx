@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Spinner from '../../components/ui/Spinner';
+import Spinner from '../ui/Spinner';
 import useAuthContext from '../../hooks/useAuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -34,7 +34,7 @@ export default function Login() {
                 </div>
                 <div className='col-md-7'>
                     <button type="submit" className="btn color-button-general">
-                        <Spinner loading={loading}/>
+                        <Spinner loading={loading} />
                         <strong>Sign in</strong>
                     </button>
                 </div>

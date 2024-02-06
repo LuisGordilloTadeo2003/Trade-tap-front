@@ -1,33 +1,34 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Spinner from '../../components/ui/Spinner';
+import Spinner from '../ui/Spinner';
 import useAuthContext from '../../hooks/useAuthContext';
+import RegisterWorker from './RegisterWorker';
 
 export default function Register() {
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [apellido1, setApellido1] = useState('');
-    const [apellido2, setApellido2] = useState('');
-    const [direccion, setDireccion] = useState('');
-    const [provincia, setProvincia] = useState('');
-    const [localidad, setLocalidad] = useState('');
-    const [usuario, setUsuario] = useState('');
-    const [cp, setCp] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [password_confirmation, setPasswordConfirmation] = useState('');
-    const { register, errors, loading } = useAuthContext();
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, password_confirmation });
-    };
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [apellido1, setApellido1] = useState('');
+  const [apellido2, setApellido2] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [provincia, setProvincia] = useState('');
+  const [localidad, setLocalidad] = useState('');
+  const [usuario, setUsuario] = useState('');
+  const [cp, setCp] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [password_confirmation, setPasswordConfirmation] = useState('');
+  const { register, errors, loading } = useAuthContext();
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, password_confirmation });
+  };
 
-    const separarApellidos = (e) => {
-      let [apellido1, apellido2] = e.split(' ');
+  const separarApellidos = (e) => {
+    let [apellido1, apellido2] = e.split(' ');
 
-      setApellido1(apellido1);
-      setApellido2(apellido2);
-    }
+    setApellido1(apellido1);
+    setApellido2(apellido2);
+  }
 
   return (
     <div className="col-md-5 p-5 d-flex align-items-center justify-content-center border-custom-registerLogin">
@@ -120,6 +121,7 @@ export default function Register() {
             onChange={(e) => setLocalidad(e.target.value)}
           />
         </div>
+        <RegisterWorker />
         <div className="col-md-12">
           <label className="form-label text-white">Usuario *</label>
           <input
@@ -155,15 +157,15 @@ export default function Register() {
         </div>
         {errors.password && (<span className="text-red-400 text-sm">{errors.password[0]}</span>)}
         <div className='col-md-7 m-0'>
-        <Link to={'/login'} className="text-register" href="/login">Ya tengo una cuenta</Link>
+          <Link to={'/login'} className="text-register" href="/login">Ya tengo una cuenta</Link>
         </div>
         <div className="col-12">
           <button type="submit" className="btn color-button-general" disabled={loading}>
-            <Spinner loading={loading}/>
+            <Spinner loading={loading} />
             <strong>Sign up</strong>
           </button>
         </div>
       </form>
     </div>
   );
-};
+}
