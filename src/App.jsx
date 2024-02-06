@@ -7,6 +7,7 @@ import QuickStart from './pages/QuickStart';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import NavBar from './components/ui/Navbar';
+import GuestNavbar from './components/ui/GuestNavbar';
 
 import MainContent from './pages/MainContent';
 import Footer from './components/ui/Footer';
@@ -33,7 +34,7 @@ export default function App() {
           ) : (
             <>
               <div className="row mb-4">
-                <NavBar />
+                <GuestNavbar />
               </div>
               <div className="row">
                 <MainContent />
@@ -44,16 +45,6 @@ export default function App() {
             </>
           )
         }
-        <Routes>
-          <Route element={<ErrorBoundary>
-            <AuthLayout />
-          </ErrorBoundary>}>
-          </Route>
-          <Route element={<ErrorBoundary>
-            <GuestLayout />
-          </ErrorBoundary>}>
-          </Route>
-        </Routes>
         <Toaster position="top-right" toastOptions={{ duration: 6000 }} />
       </div>
     </div>
