@@ -3,17 +3,21 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext';
+
 const navigation = [
   { name: 'Mis Solicitudes', path: '/request', current: true },
   { name: 'Mis Propuestas', path: '/proposal', current: true },
   { name: 'Mis Reservas', path: '/reserves', current: true },
   { name: 'Mis Encargos', path: '/commisions', current: true },
 ];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+
 export default function Navbar() {
   const { logout } = useAuthContext();
+
   return (<Disclosure as="nav" className="custom-bg-color border-bottom border-color">
     {({ open }) => (<>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 row p-3 custom-bg-color">
