@@ -20,7 +20,7 @@ export default function Register() {
   const { register, errors, loading } = useAuthContext();
   const handleRegister = async (e) => {
     e.preventDefault();
-    register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, password_confirmation });
+    register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, cif, profesiones, password_confirmation });
   };
 
   const separarApellidos = (e) => {
@@ -29,6 +29,17 @@ export default function Register() {
     setApellido1(apellido1);
     setApellido2(apellido2);
   }
+
+  const [cif, setCif] = useState('');
+  const [profesiones, setProfesiones] = useState([]);
+
+  const handleCifChange = (newValue) => {
+    setCif(newValue);
+  };
+
+  const handleProfesionesChange = (newProfesiones) => {
+    setProfesiones(newProfesiones);
+  };
 
   return (
     <div className="col-md-5 p-5 d-flex align-items-center justify-content-center border-custom-registerLogin">
@@ -121,7 +132,7 @@ export default function Register() {
             onChange={(e) => setLocalidad(e.target.value)}
           />
         </div>
-        <RegisterWorker />
+        <RegisterWorker cif={cif} setCif={handleCifChange} profesiones={profesiones} setProfesiones={handleProfesionesChange} />
         <div className="col-md-12">
           <label className="form-label text-white">Usuario *</label>
           <input

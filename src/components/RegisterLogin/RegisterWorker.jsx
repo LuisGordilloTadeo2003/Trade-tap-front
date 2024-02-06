@@ -2,9 +2,8 @@ import react from "react";
 import { useState } from "react";
 import ProfessionSelected from "./ProfessionSelected";
 
-const RegisterWorker = () => {
-    const [cif, setCif] = useState('');
-    const [profesiones, setProfesiones] = useState([]);
+const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
+    const [profesionSeleccionada, setProfesionSeleccionada] = useState('');
 
     const profesion = [
         "jardinero",
@@ -20,23 +19,25 @@ const RegisterWorker = () => {
         "mecanico"
     ];
 
-    const opcionesDisponibles = profesion.filter(profesion => !profesiones.includes(profesion));
+    const opcionesDisponibles = profesion.filter(profesion => {
+        return !profesiones.some(prof => prof.nombre === profesion);
+    });
 
-    const añadirProfesion = (e, selectedIndex) => {
+    const añadirProfesion = (e) => {
         e.preventDefault(); // Evitar el comportamiento predeterminado del evento
         const nuevaProfesion = e.target.value;
 
         let profession = {
-            id: selectedIndex,
+            id: e.target.selectedIndex,
             nombre: nuevaProfesion
         }
 
-        if (!profesiones.includes(nuevaProfesion)) {
+        if (!profesiones.some(prof => prof.nombre === nuevaProfesion)) {
             // Solo añade la profesión si no está ya en la lista
             setProfesiones([...profesiones, profession]);
         }
 
-        console.log(profesiones);
+        setProfesionSeleccionada(nuevaProfesion);
     }
 
     return (
@@ -58,8 +59,8 @@ const RegisterWorker = () => {
                     className="form-control custom-input"
                     name="profesion"
                     placeholder="Selecciona profesiones"
-                    value={profesiones}
-                    onChange={(e) => añadirProfesion(e, e.target.selectedIndex)}
+                    value={profesionSeleccionada}
+                    onChange={añadirProfesion}
                 >
                     <option value="">Elige profesión</option>
                     {opcionesDisponibles.map((profesion, index) => (
@@ -67,13 +68,11 @@ const RegisterWorker = () => {
                     ))}
                 </select>
             </div >
-            <div className="col-md-12">
-                {
-                    profesiones.map((profesionSeleccionada, index) => {
-                        return <ProfessionSelected key={index} profesion={profesionSeleccionada} />
-                    })
-                }
-            </div>
+            {
+                profesiones.map((profesionSeleccionada, index) => {
+                    return <ProfessionSelected key={index} profesion={profesionSeleccionada} />
+                })
+            }
         </>
     );
 }
