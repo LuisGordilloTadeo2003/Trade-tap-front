@@ -2,9 +2,8 @@ import react from "react";
 import { useState } from "react";
 import ProfessionSelected from "./ProfessionSelected";
 
-const RegisterWorker = () => {
-    const [cif, setCif] = useState('');
-    const [profesiones, setProfesiones] = useState([]);
+const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
+    const [profesionSeleccionada, setProfesionSeleccionada] = useState('');
 
     const profesion = [
         "jardinero",
@@ -20,7 +19,9 @@ const RegisterWorker = () => {
         "mecanico"
     ];
 
-    const opcionesDisponibles = profesion.filter(profesion => !profesiones.includes(profesion));
+    const opcionesDisponibles = profesion.filter(profesion => {
+        return !profesiones.some(prof => prof.nombre === profesion);
+    });
 
     const añadirProfesion = (e, selectedIndex) => {
         e.preventDefault(); // Evitar el comportamiento predeterminado del evento
@@ -67,13 +68,11 @@ const RegisterWorker = () => {
                     ))}
                 </select>
             </div >
-            <div className="col-md-12">
-                {
-                    profesiones.map((profesionSeleccionada, index) => {
-                        return <ProfessionSelected key={index} profesion={profesionSeleccionada} />
-                    })
-                }
-            </div>
+            {
+                profesiones.map((profesionSeleccionada, index) => {
+                    return <ProfessionSelected key={index} profesion={profesionSeleccionada} />
+                })
+            }
         </>
     );
 }

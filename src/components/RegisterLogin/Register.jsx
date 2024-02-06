@@ -30,6 +30,17 @@ export default function Register() {
     setApellido2(apellido2);
   }
 
+  const [cif, setCif] = useState('');
+  const [profesiones, setProfesiones] = useState([]);
+
+  const handleCifChange = (newValue) => {
+    setCif(newValue);
+  };
+
+  const handleProfesionesChange = (newProfesiones) => {
+    setProfesiones(newProfesiones);
+  };
+
   return (
     <div className="col-md-5 p-5 d-flex align-items-center justify-content-center border-custom-registerLogin">
       <form className="pl-3 row g-3" onSubmit={handleRegister}>
@@ -121,7 +132,7 @@ export default function Register() {
             onChange={(e) => setLocalidad(e.target.value)}
           />
         </div>
-        <RegisterWorker />
+        <RegisterWorker cif={cif} setCif={handleCifChange} profesiones={profesiones} setProfesiones={handleProfesionesChange} />
         <div className="col-md-12">
           <label className="form-label text-white">Usuario *</label>
           <input
