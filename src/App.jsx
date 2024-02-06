@@ -1,12 +1,15 @@
 import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import useAuthContext from './hooks/useAuthContext';
 import AuthLayout from './components/layout/AuthLayout';
 import GuestLayout from './components/layout/GuestLayout';
 import Home from './pages/Home';
 import QuickStart from './pages/QuickStart';
 import ErrorBoundary from './components/ErrorBoundary';
 
-import NavBar from './components/ui/Navbar';
+import Navbar from './components/ui/Navbar';
 import GuestNavbar from './components/ui/GuestNavbar';
 
 import MainContent from './pages/MainContent';
@@ -18,6 +21,20 @@ import "../src/style.css"
 import RegisterLoginPage from './pages/RegisterLoginPage';
 
 export default function App() {
+  const { user, sessionVerified, sendEmailVerificationLink, status, loading } = useAuthContext();
+  useEffect(() => {
+    if (status) {
+      toast.success(status);
+    }
+  }, [status]);
+
+  let navbar;
+
+  if (!user) {
+    navbar = <GuestNavbar />
+  } else {
+    navbar = <Navbar />
+  }
 
   return (
     <div className="App custom-bg-color ">
@@ -30,7 +47,7 @@ export default function App() {
         </Routes>
 
         <div className="row mb-4">
-          <NavBar />
+          {navbar}
         </div>
         <div className="row">
           <MainContent />
