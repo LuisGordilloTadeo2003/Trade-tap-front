@@ -5,10 +5,8 @@ import { Link, NavLink } from 'react-router-dom'
 import useAuthContext from '../../hooks/useAuthContext'
 
 const navigation = [
-  { name: 'Iniciar Sesion', path: '/login', current: true },
-  { name: 'Registrarse', path: '/register', current: true },
-  { name: 'Trabaja con nosotros', path: '/registerWorker', current: true },
-];
+
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -35,8 +33,8 @@ export default function GuestNavbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex items-center justify-start sm:justify-start">
-                <div className="d-flex align-items-start justify-content-start">
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
                   <NavLink to="/">
                     <img
                       className="img-fluid"
@@ -51,22 +49,23 @@ export default function GuestNavbar() {
                 </div>
               </div>
               <div className=" hidden inset-y-0 right-0 flex sm:flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              {navigation.map((item) => (
-                  <NavLink key={item.name} to={item.path} className="btn mx-3 color-button-general">
-                    <strong>{item.name}</strong>
-                  </NavLink>
-                ))}
+                <NavLink to={"/login"} className="btn mx-3 color-button-general">
+                  <strong>Iniciar Sesion</strong>
+                </NavLink>
+                <NavLink to={"/register"} className="btn mx-3 color-button-general">
+                  <strong>Registrarse</strong>
+                </NavLink>
+                <NavLink to={"/registerWorker"} className="btn mx-3 color-button-general">
+                  <strong>Trabaja con nosotros</strong>
+                </NavLink>
               </div>
             </div>
           </div>
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
-            {navigation.map((item) => (<NavLink key={item.name} to={item.path} className={({ isActive }) => classNames(isActive
-            ? 'bg-gray-900 text-white'
-            : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium')}>
-            {item.name}
-          </NavLink>))}
+              <a href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium"><strong>Iniciar sesion</strong></a>
+              <a href='/register' className="text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium"><strong>Registrarse</strong></a>
             </div>
           </Disclosure.Panel>
         </>
