@@ -31,7 +31,7 @@ export default function Navbar() {
             </Disclosure.Button>
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
+            <div className="d-flex align-items-start justify-content-start">
               <NavLink to="/">
                 <img className="img-fluid"
                   style={{ maxWidth: '70px', maxHeight: '70px' }}
@@ -49,7 +49,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <NavLink to={"/register"} className="btn mx-3 color-button-general">
+            <NavLink to={"/registerWorker"} className="btn mx-3 color-button-general">
               <strong>Únete a nosotros</strong>
             </NavLink>
 

@@ -33,8 +33,8 @@ export default function GuestNavbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+              <div className="flex items-center justify-start sm:justify-start">
+                <div className="d-flex align-items-start justify-content-start">
                   <NavLink to="/">
                     <img
                       className="img-fluid"
