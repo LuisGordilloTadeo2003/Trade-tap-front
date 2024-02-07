@@ -41,7 +41,7 @@ const SearchBar = () => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <div className="col-1 m-0">
+                <div className="col-1 pr-3 d-flex justify-content-end">
                     <Link to="/workers" onClick={handleSearch}>
                         <Search color="white" size={30} />
                     </Link>
