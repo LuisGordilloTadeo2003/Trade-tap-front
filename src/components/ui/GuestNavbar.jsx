@@ -1,11 +1,11 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon,UserIcon  } from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/react/24/outline';
 import { Fragment } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import useAuthContext from '../../hooks/useAuthContext'
 
 const navigation = [
-  
+
 ]
 
 function classNames(...classes) {
@@ -44,22 +44,24 @@ export default function GuestNavbar() {
                     />
                   </NavLink>
                 </div>
-                <div className="hidden sm:ml-6 sm:flex align-items-center">
-                    <h1>Trade Tap</h1>
+                <div className="hidden sm:ml-6 sm:flex align-items-center h3 pl-5">
+                  TradeTap
                 </div>
               </div>
               <div className=" hidden inset-y-0 right-0 flex sm:flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {/*  */}
-               <a href='/login' className="btn mx-3 color-button-general"><strong>Iniciar sesion</strong></a>
-               <a href='/register' className="btn mx-3 color-button-general"><strong>Registrarse</strong></a>
+                <a href='/login' className="btn mx-3 color-button-general"><strong>Iniciar sesion</strong></a>
+                <a href='/register' className="btn mx-3 color-button-general"><strong>Registrarse</strong></a>
+                <NavLink to={"/register"} className="btn mx-3 color-button-general">
+                  <strong>Trabaja con nosotros</strong>
+                </NavLink>
               </div>
             </div>
           </div>
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
-               <a href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium"><strong>Iniciar sesion</strong></a>
-               <a href='/register' className="text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium"><strong>Registrarse</strong></a>
+              <a href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium"><strong>Iniciar sesion</strong></a>
+              <a href='/register' className="text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium"><strong>Registrarse</strong></a>
             </div>
           </Disclosure.Panel>
         </>

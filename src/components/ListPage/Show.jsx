@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
+import { ArrowLeftCircleFill } from "react-bootstrap-icons";
+
 const Show = ({ cambiarRuta }) => {
     const [isDragging, setDragging] = useState(false);
     const [initialX, setInitialX] = useState(0);
@@ -64,7 +66,9 @@ const Show = ({ cambiarRuta }) => {
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleMouseDown}
             >
-                <strong>←</strong>
+                <div className="d-flex justify-content-center">
+                    <ArrowLeftCircleFill color="black" size={40} />
+                </div>
             </button>
 
         </div>
