@@ -49,9 +49,13 @@ export default function GuestNavbar() {
                 </div>
               </div>
               <div className=" hidden inset-y-0 right-0 flex sm:flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <a href='/login' className="btn mx-3 color-button-general"><strong>Iniciar sesion</strong></a>
-                <a href='/register' className="btn mx-3 color-button-general"><strong>Registrarse</strong></a>
+                <NavLink to={"/login"} className="btn mx-3 color-button-general">
+                  <strong>Iniciar Sesion</strong>
+                </NavLink>
                 <NavLink to={"/register"} className="btn mx-3 color-button-general">
+                  <strong>Registrarse</strong>
+                </NavLink>
+                <NavLink to={"/registerWorker"} className="btn mx-3 color-button-general">
                   <strong>Trabaja con nosotros</strong>
                 </NavLink>
               </div>

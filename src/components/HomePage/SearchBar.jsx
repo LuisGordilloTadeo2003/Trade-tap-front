@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { Search } from "react-bootstrap-icons";
 
 const SearchBar = () => {
     const [search, setSearch] = useState('');
@@ -28,8 +29,8 @@ const SearchBar = () => {
 
     return (
         <div className="d-flex col-6 justify-content-center align-items-center">
-            <div className="col-10 d-flex py-2" style={{ border: "2px solid #74c87a", borderRadius: "32px", alignItems: "center", paddingLeft: "10px" }}>
-                <div className="col">
+            <div className="col-10 d-flex" style={{ border: "2px solid #74c87a", borderRadius: "32px", alignItems: "center", paddingLeft: "10px" }}>
+                <div className="col-11">
                     <input
                         className="search-bar"
                         type="text"
@@ -42,13 +43,7 @@ const SearchBar = () => {
                 </div>
                 <div className="col-1 m-0">
                     <Link to="/workers" onClick={handleSearch}>
-                        <button className="btn-search">
-                            <img
-                                style={{ maxHeight: "80%", maxWidth: "80%" }}
-                                src="/Iconos/Icono-Lupa.png"
-                                alt=""
-                            />
-                        </button>
+                        <Search color="white" size={30} />
                     </Link>
                 </div>
             </div>

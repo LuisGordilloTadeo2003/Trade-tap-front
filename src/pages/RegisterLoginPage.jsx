@@ -17,7 +17,7 @@ const RegisterLoginPage = () => {
                 {
                     path === "/login"
                         ? <Login />
-                        : path === "/register"
+                        : path === "/register" || path === "/registerWorker"
                             ? <Register />
                             : path === "/forgot-password"
                                 ? <ForgotPassword />

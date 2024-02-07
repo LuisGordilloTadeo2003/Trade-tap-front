@@ -5,6 +5,8 @@ import useAuthContext from '../../hooks/useAuthContext';
 import RegisterWorker from './RegisterWorker';
 
 export default function Register() {
+  let path = window.location.pathname;
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -133,7 +135,11 @@ export default function Register() {
             onChange={(e) => setLocalidad(e.target.value)}
           />
         </div>
-        <RegisterWorker cif={cif} setCif={handleCifChange} profesiones={profesiones} setProfesiones={handleProfesionesChange} />
+        {
+          path === "/registerWorker" ?
+            <RegisterWorker cif={cif} setCif={handleCifChange} profesiones={profesiones} setProfesiones={handleProfesionesChange} />
+            : null
+        }
         <div className="col-md-12">
           <label className="form-label text-white">Usuario *</label>
           <input
