@@ -1,21 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../../lib/axios";
 import { useState } from "react";
 import { Search } from "react-bootstrap-icons";
 
 const SearchBar = () => {
     const [search, setSearch] = useState('');
 
+    const xsrfToken = document.cookie
+        .split("; ")
+        .find(cookie => cookie.startsWith('XSRF-TOKEN'))
+        .split('=')[1];
+
     const handleInputChange = (event) => {
         setSearch(event.target.value);
     };
 
-    const handleSearch = () => {
-        // Realizar la solicitud GET utilizando Axios
-        window.location.pathname = `/workers`;
-
-        axios.get(`/workers?search=${search}`)
+    const handleSearch = async () => {
+        await axios.get(`api/trabajador`, {
+            headers: {
+                'X-XSRF-TOKEN': xsrfToken
+            }
+        })
             .then(response => {
                 console.log(response.data);
             })
