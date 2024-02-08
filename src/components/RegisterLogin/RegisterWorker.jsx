@@ -1,23 +1,33 @@
 import react from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from '../../lib/axios';
 import ProfessionSelected from "./ProfessionSelected";
 
 const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
     const [profesionSeleccionada, setProfesionSeleccionada] = useState('');
+    const [profesion, setProfesion] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const profesion = [
-        "jardinero",
-        "electricista",
-        "carpintero",
-        "programador",
-        "fontanero",
-        "crupier",
-        "dj",
-        "cocinero",
-        "jamonero",
-        "soldador",
-        "mecanico"
-    ];
+
+    const profesionesbase = async () => {
+       await axios.get('api/profesion', {
+        })
+            .then(function (response) {
+                setProfesion(response.data.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+              });;
+    }
+
+    useEffect(() => {
+        profesionesbase();
+      }, []);
+
+      console.log(profesion)
 
     const opcionesDisponibles = profesion.filter(profesion => {
         return !profesiones.some(prof => prof.nombre === profesion);
@@ -64,7 +74,7 @@ const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
                 >
                     <option value="">Elige profesión</option>
                     {opcionesDisponibles.map((profesion, index) => (
-                        <option key={index} id={index} value={profesion}>{profesion}</option>
+                        <option key={index} id={index} value={profesion.nombre}> {profesion.nombre} </option>
                     ))}
                 </select>
             </div >
