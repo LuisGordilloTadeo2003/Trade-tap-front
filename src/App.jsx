@@ -21,14 +21,6 @@ import "../src/style.css"
 import RegisterLoginPage from './pages/RegisterLoginPage';
 
 export default function App() {
-  const { user, sessionVerified, sendEmailVerificationLink, status, loading } = useAuthContext();
-
-  useEffect(() => {
-    if (status) {
-      toast.success(status);
-    }
-  }, [status]);
-
   return (
     <div className="App custom-bg-color ">
       <div className="justify-content-center align-items-center text-white">
@@ -38,19 +30,9 @@ export default function App() {
           <Route element={<RegisterLoginPage />} path="/registerWorker"></Route>
           <Route element={<RegisterLoginPage />} path="/forgot-password" />
           <Route element={<RegisterLoginPage />} path="/password-reset/:token" />
+          <Route element={<MainContent />} path="/*" />
         </Routes>
 
-        <div className="row mb-4">
-          {
-            user ? <Navbar /> : <GuestNavbar />
-          }
-        </div>
-        <div className="row">
-          <MainContent />
-        </div>
-        <div className="row mt-4">
-          <Footer />
-        </div>
         <Toaster position="top-right" toastOptions={{ duration: 6000 }} />
       </div>
     </div>
