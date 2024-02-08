@@ -14,17 +14,15 @@ const SearchBar = () => {
     const handleSearch = () => {
         // Realizar la solicitud GET utilizando Axios
         window.location.pathname = `/workers`;
-        /*
+
         axios.get(`/workers?search=${search}`)
             .then(response => {
-                // Manejar la respuesta aquí
                 console.log(response.data);
             })
             .catch(error => {
-                // Manejar errores aquí
                 console.error('Error al realizar la búsqueda:', error);
             });
-            */
+
     };
 
     return (

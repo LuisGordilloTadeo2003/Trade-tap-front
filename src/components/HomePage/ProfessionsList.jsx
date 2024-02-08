@@ -2,19 +2,21 @@ import React from "react";
 import ProfessionName from "./ProfessionName";
 import ProfessionIcon from "./ProfessionIcon";
 
+import axios from "axios";
+
 const ProfessionsList = () => {
     let profesiones = [
-        "jardinero",
-        "electricista",
-        "carpintero",
-        "programador",
-        "fontanero",
-        "crupier",
-        "dj",
-        "cocinero",
-        "jamonero",
-        "soldador",
-        "mecanico"
+        "Jardinero",
+        "Electricista",
+        "Carpintero",
+        "Programador",
+        "Fontanero",
+        "Crupier",
+        "Dj",
+        "Cocinero",
+        "Jamonero",
+        "Soldador",
+        "Mecanico"
     ]
 
     return (
