@@ -23,7 +23,6 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     register({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, cif, profesiones, password_confirmation });
-    console.log({ name, usuario, email, password, apellido1, apellido2, direccion, provincia, localidad, cp, telefono, cif, profesiones, password_confirmation })
   };
 
   const separarApellidos = (e) => {

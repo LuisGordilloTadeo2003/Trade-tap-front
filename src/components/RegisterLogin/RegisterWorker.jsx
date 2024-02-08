@@ -6,6 +6,7 @@ import ProfessionSelected from "./ProfessionSelected";
 const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
     const [profesionSeleccionada, setProfesionSeleccionada] = useState('');
     const [profesion, setProfesion] = useState([]);
+    const [nombreProfesion, setNombreProfesion] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -20,14 +21,12 @@ const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
             })
             .finally(() => {
                 setIsLoading(false);
-              });;
+              });
     }
 
     useEffect(() => {
         profesionesbase();
       }, []);
-
-      console.log(profesion)
 
     const opcionesDisponibles = profesion.filter(profesion => {
         return !profesiones.some(prof => prof.nombre === profesion);
@@ -42,9 +41,15 @@ const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
             nombre: nuevaProfesion
         }
 
-        if (!profesiones.some(prof => prof.nombre === nuevaProfesion)) {
+
+        if (!profesiones.some(prof => prof.id === e.target.selectedIndex)) {
             // Solo añade la profesión si no está ya en la lista
-            setProfesiones([...profesiones, profession]);
+            setProfesiones([...profesiones, e.target.selectedIndex]);
+        }
+        
+        if (!nombreProfesion.some(prof => prof.nombre === nuevaProfesion)) {
+            // Solo añade la profesión si no está ya en la lista
+            setNombreProfesion([...nombreProfesion, profession]);
         }
 
         setProfesionSeleccionada(nuevaProfesion);
@@ -73,14 +78,14 @@ const RegisterWorker = ({ cif, setCif, profesiones, setProfesiones }) => {
                     onChange={añadirProfesion}
                 >
                     <option value="">Elige profesión</option>
-                    {opcionesDisponibles.map((profesion, index) => (
-                        <option key={index} id={index} value={profesion.nombre}> {profesion.nombre} </option>
+                    {opcionesDisponibles.map((profesion) => (
+                        <option key={profesion.id} id={profesion.id} value={profesion.nombre}> {profesion.nombre} </option>
                     ))}
                 </select>
             </div >
             {
-                profesiones.map((profesionSeleccionada, index) => {
-                    return <ProfessionSelected key={index} profesion={profesionSeleccionada} />
+                nombreProfesion.map((profesionSeleccionada) => {
+                    return <ProfessionSelected key={profesion.id} profesion={profesionSeleccionada} />
                 })
             }
         </>
