@@ -21,8 +21,6 @@ const Show = ({ cambiarRuta }) => {
                         setInitialX(e.clientX);
                     }
 
-                    console.log(newWidth)
-
                     // Si alcanza el ancho máximo, cambia la ruta automáticamente
                     if (newWidth >= maxButtonWidth) {
                         setTimeout(() => cambiarRuta(), 100)

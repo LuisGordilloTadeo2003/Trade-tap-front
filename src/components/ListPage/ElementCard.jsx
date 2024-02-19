@@ -1,7 +1,6 @@
 import React from "react";
 import AcceptOrReject from "./AcceptOrReject";
 import Show from "./Show";
-import { Link } from "react-router-dom";
 
 const ElementCard = ({ item, index, tipo }) => {
     const generarEstrellas = (valoracion) => {
@@ -12,8 +11,8 @@ const ElementCard = ({ item, index, tipo }) => {
         return estrellas;
     };
 
-    const cambiarRuta = () => {
-        window.location.pathname = '/';
+    const cambiarRuta = (item) => {
+        window.location.assign(`/profile/worker/${item.id}`);
         console.log('Cambiando la ruta...');
     };
 
@@ -27,7 +26,7 @@ const ElementCard = ({ item, index, tipo }) => {
                 {
                     tipo === "workers" && (
                         <>
-                            <p className="h5">{item.user.name + ' ' + item.user.apellido1 + ' ' + item.user.apellido2}{generarEstrellas(item.valoracion)}</p>
+                            <p className="h5">{item.user.nombre + ' ' + item.user.apellido1 + ' ' + item.user.apellido2}{generarEstrellas(item.valoracion)}</p>
                             <p className="h6">{item.descripcion}</p>
                         </>
                     )
@@ -46,7 +45,7 @@ const ElementCard = ({ item, index, tipo }) => {
                 tipo === "proposal" ? (
                     <AcceptOrReject />
                 ) : (
-                    <Show cambiarRuta={cambiarRuta} />
+                    <Show cambiarRuta={() => cambiarRuta(item)} />
                 )
             }
         </div>
