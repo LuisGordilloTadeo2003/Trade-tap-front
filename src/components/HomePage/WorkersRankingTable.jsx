@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "../../lib/axios.jsx"
 import RankingWorker from "./RankingWorker.jsx"
 
 const WorkersRankingTable = () => {
-    const workers = [];
+    let [workers,setWorkers] = useState([]);
 
-    for (let i = 0; i < 10; i++) {
-        let worker = {
-            id: i,
-            nombre: "Luis",
-            apellido1: "Gordillo",
-            apellido2: "Tadeo",
-            profesion: "Programador",
-            valoracion: Math.floor(Math.random() * 5 + 1)
-        }
+    const topTrabajadores = async () => {
+        await axios.get('api/trabajador?top=g&tipo=1', {
+         })
+             .then(function (response) {
+                 setWorkers(response.data.data);
+             })
+             .catch(function (error) {
+                 console.log(error);
+             })
+             .finally(() => {
+                 setIsLoading(false);
+               });
+     }
 
-        workers.push(worker);
-    }
+    useEffect(() => {
+        topTrabajadores();
+      }, []);
 
     workers.sort((a, b) => b.valoracion - a.valoracion);
 
