@@ -7,28 +7,8 @@ import { Search } from "react-bootstrap-icons";
 const SearchBar = () => {
     const [search, setSearch] = useState('');
 
-    const xsrfToken = document.cookie
-        .split("; ")
-        .find(cookie => cookie.startsWith('XSRF-TOKEN'))
-        .split('=')[1];
-
     const handleInputChange = (event) => {
         setSearch(event.target.value);
-    };
-
-    const handleSearch = async () => {
-        await axios.get(`api/trabajador`, {
-            headers: {
-                'X-XSRF-TOKEN': xsrfToken
-            }
-        })
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error('Error al realizar la búsqueda:', error);
-            });
-
     };
 
     return (
@@ -46,7 +26,7 @@ const SearchBar = () => {
                     />
                 </div>
                 <div className="col-1 pr-3 d-flex justify-content-end">
-                    <Link to="/workers" onClick={handleSearch}>
+                    <Link to={`/workers?search=${search}`}>
                         <Search color="white" size={30} />
                     </Link>
                 </div>

@@ -1,188 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import List from "../components/ListPage/List"
-let dataWorkers = [
-    {
-        id: 1,
-        name: "Luis",
-        apellido1: "Gordillo",
-        apellido2: "Tadeo",
-        descripcion: "soy el primero",
-        valoracion: 5,
-        foto: "/Profile.png",
-        profesiones: ["dj", "carpintero", "electricista"]
-    },
-    {
-        id: 2,
-        name: "Luis",
-        apellido1: "Gordillo",
-        apellido2: "Tadeo",
-        descripcion: "soy el segundo",
-        valoracion: 3,
-        foto: "/Profile.png",
-        profesiones: ["dj", "carpintero", "electricista"]
-    },
-    {
-        id: 3,
-        name: "Luis",
-        apellido1: "Gordillo",
-        apellido2: "Tadeo",
-        descripcion: "soy el tercero",
-        valoracion: 4.5,
-        foto: "/Profile.png",
-        profesiones: ["dj", "carpintero", "electricista"]
-    }
-];
-
-let dataRequest = [
-    {
-        id: 1,
-        titulo: "Programar Web",
-        descripcion: "DescripcionDescripcionDescripcionDescripcionDescripcionDescripcionDescripcion",
-        estado: ["Aceptada", "Pendiente", "Cancelada"],
-        cliente: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        trabajador: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        foto: "/Profile.png"
-    },
-    {
-        id: 2,
-        titulo: "Programar Web",
-        descripcion: "DescripcionDescripcionDescripcionDescripcionDescripcionDescripcionDescripcion",
-        estado: ["Aceptada", "Pendiente", "Cancelada"],
-        cliente: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        trabajador: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        foto: "/Profile.png"
-    },
-    {
-        id: 3,
-        titulo: "Programar Web",
-        descripcion: "DescripcionDescripcionDescripcionDescripcionDescripcionDescripcionDescripcion",
-        estado: ["Aceptada", "Pendiente", "Cancelada"],
-        cliente: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        trabajador: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        foto: "/Profile.png"
-    }
-]
-
-let dataProposal = [
-    {
-        id: 1,
-        titulo: "Programar Web",
-        descripcion: "DescripcionDescripcionDescripcionDescripcionDescripcionDescripcionDescripcion",
-        presupuesto: 2000,
-        estado: ["Aceptada", "Pendiente", "Cancelada"],
-        cliente: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        trabajador: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        foto: "/Profile.png"
-    },
-    {
-        id: 2,
-        titulo: "Programar Web",
-        descripcion: "DescripcionDescripcionDescripcionDescripcionDescripcionDescripcionDescripcion",
-        presupuesto: 2000,
-        estado: ["Aceptada", "Pendiente", "Cancelada"],
-        cliente: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        trabajador: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        foto: "/Profile.png"
-    },
-    {
-        id: 3,
-        titulo: "Programar Web",
-        descripcion: "DescripcionDescripcionDescripcionDescripcionDescripcionDescripcionDescripcion",
-        presupuesto: 2000,
-        estado: ["Aceptada", "Pendiente", "Cancelada"],
-        cliente: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        trabajador: {
-            id: 1,
-            name: "Juan",
-            apellido1: "Ramirez",
-            apellido2: "Zapata",
-        },
-        foto: "/Profile.png"
-    }
-]
+import axios from "../lib/axios";
 
 const PageList = () => {
-    let data;
-    let tipo;
+    const [results, setResults] = useState([]);
+    const [tipo, setTipo] = useState("");
 
-    switch (window.location.pathname) {
-        case '/request':
-            data = dataRequest;
-            tipo = "request";
-            break;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const xsrfToken = document.cookie
+                    .split("; ")
+                    .find(cookie => cookie.startsWith('XSRF-TOKEN'))
+                    .split('=')[1];
 
-        case '/workers':
-            data = dataWorkers;
-            tipo = "workers";
-            break;
+                let path, tipo;
+                switch (window.location.pathname) {
+                    case '/request':
+                        path = `api/solicitud`;
+                        tipo = "request";
+                        break;
+                    case '/workers':
+                        path = `api/trabajador`;
+                        tipo = "workers";
+                        break;
+                    case '/proposal':
+                        path = `api/propuesta`;
+                        tipo = "proposal";
+                        break;
+                    default:
+                        path = false;
+                        break;
+                }
 
-        case '/proposal':
-            data = dataProposal;
-            tipo = "proposal";
-            break;
+                if (path) {
+                    const response = await axios.get(path, {
+                        headers: {
+                            'X-XSRF-TOKEN': xsrfToken
+                        }
+                    });
+                    setResults(response.data.data);
+                    setTipo(tipo);
+                }
+            } catch (error) {
+                console.error('Error al realizar la búsqueda:', error);
+            }
+        };
 
-        default:
-            data = [];
-            break;
-    }
+        fetchData();
+
+    }, []);
+
     return (
         <div>
-            <List data={data} tipo={tipo} />
+            <List data={results} tipo={tipo} />
         </div>
     );
 }
