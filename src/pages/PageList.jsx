@@ -3,7 +3,7 @@ import List from "../components/ListPage/List"
 import axios from "../lib/axios";
 
 const PageList = () => {
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState();
     const [tipo, setTipo] = useState("");
 
     useEffect(() => {

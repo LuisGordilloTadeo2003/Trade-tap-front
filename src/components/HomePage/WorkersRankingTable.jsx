@@ -3,25 +3,22 @@ import axios from "../../lib/axios.jsx"
 import RankingWorker from "./RankingWorker.jsx"
 
 const WorkersRankingTable = () => {
-    let [workers,setWorkers] = useState([]);
+    let [workers, setWorkers] = useState([]);
 
     const topTrabajadores = async () => {
         await axios.get('api/trabajador?top=g&tipo=1', {
-         })
-             .then(function (response) {
-                 setWorkers(response.data.data);
-             })
-             .catch(function (error) {
-                 console.log(error);
-             })
-             .finally(() => {
-                 setIsLoading(false);
-               });
-     }
+        })
+            .then(function (response) {
+                setWorkers(response.data.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
 
     useEffect(() => {
         topTrabajadores();
-      }, []);
+    }, []);
 
     workers.sort((a, b) => b.valoracion - a.valoracion);
 

@@ -3,7 +3,7 @@ import React from "react";
 import PersonalInformation from "../components/ProfilePage/PersonalInformation";
 import { useParams } from "react-router-dom";
 import axios from "../lib/axios";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
     const [result, setResult] = useState()
@@ -16,7 +16,6 @@ const ProfilePage = () => {
                 const response = await axios.get(`api/trabajador/${id}`);
                 setResult(response.data.data);
             } catch (error) {
-                // Manejar errores aquí si es necesario
                 console.error('Error fetching data:', error);
             }
         };
@@ -29,7 +28,7 @@ const ProfilePage = () => {
 
     return (
         <div>
-            <PersonalInformation worker={result} />
+            <PersonalInformation user={result} />
         </div>
     );
 }

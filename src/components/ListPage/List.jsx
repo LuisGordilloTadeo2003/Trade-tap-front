@@ -1,8 +1,15 @@
 import React from "react";
 import ElementCard from "./ElementCard";
+import BigSpinner from "../ui/BigSpinner";
 
 
 const List = ({ data, tipo }) => {
+    if (data == undefined) {
+        return (
+            <BigSpinner />
+        );
+    }
+
     console.log(data);
 
     return (
