@@ -27,7 +27,7 @@ const ProfessionsList = () => {
         <table>
             {
                 profesiones.map((profesion) => {
-                    let icono = `/Iconos/Icono-${profesion}.png`;
+                    let icono = `/Iconos/Icono-${profesion.nombre}.png`;
 
                     console.log(icono);
 
