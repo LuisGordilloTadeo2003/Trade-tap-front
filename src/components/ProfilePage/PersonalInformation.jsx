@@ -38,7 +38,7 @@ const PersonalInformation = ({ user }) => {
                     </div>
                     <div className="d-flex align-items-center ml-3">
                         <HeartFill color="white" size={20} />
-                        <span className="mx-3">Le gusta a 274 personas</span>
+                        <span className="mx-3">{"Le gusta a "+user.valaracionesTotales+" personas"}</span>
                     </div>
                     <div className="d-flex justify-content-between mt-4">
                         <button className="btn ml-auto mr-4" style={{ color: "black", background: "#74c87a" }}><strong>Contacta</strong></button>
