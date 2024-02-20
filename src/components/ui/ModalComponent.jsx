@@ -1,15 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
+import BigSpinner from './BigSpinner';
 
 import axios from '../../lib/axios';
+import Cookies from 'js-cookie';
 
-const ModalComponent = ({ showModal, handleCloseModal }) => {
+const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
+
+    if (user == undefined || nav == undefined) {
+        return (
+            <></>
+        );
+    }
+
+    const xsrfToken = Cookies.get('XSRF-TOKEN');
+    let [description, setDescription] = useState();
+    let [titulo, setTitulo] = useState();
+    const trabajador_id = user.id;
+    const cliente_id = nav.id;
+    
+
+    const enviarSolicitud = async () => {
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+        const payload = {
+            description,
+            titulo,
+            trabajador_id,
+            cliente_id
+          };
+
+        await axios.post('api/solicitud', payload)
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         handleCloseModal();
 
-        axios.post('')
     };
 
     return (
@@ -21,11 +48,11 @@ const ModalComponent = ({ showModal, handleCloseModal }) => {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="title">
                         <Form.Label>Título de la Solicitud</Form.Label>
-                        <Form.Control type="text" placeholder="Ingrese el título" />
+                        <Form.Control type="text" placeholder="Ingrese el título" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
                     </Form.Group>
                     <Form.Group controlId="description">
                         <Form.Label>Descripción de la Solicitud</Form.Label>
-                        <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" />
+                        <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={description} onChange={(e) => setDescription(e.target.value)} />
                     </Form.Group>
 
                     <div className="col-12 my-2 px-3 d-flex justify-content-center">

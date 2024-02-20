@@ -24,28 +24,18 @@ const ProfilePage = () => {
 
         ProfileData();
 
-        const UserData = async () => {
+        const getUser = async () => {
             try {
-                const xsrfToken = getCookieValue('XSRF-TOKEN');
-
-                const response = await axios.get(`api/user`, {
-                    headers: { 'X-XSRF-TOKEN': xsrfToken }
-                });
-                setUser(response.data.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
+                const { data } = await axios.get('/api/user');
+                setUser(data);
             }
-        }
+            catch (e) {
+                console.warn('Error ', e);
+            }
+        };
 
-        UserData();
-
+        getUser();
     }, [id]);
-
-    function getCookieValue(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
 
     const [showModal, setShowModal] = useState(false);
 
@@ -60,7 +50,7 @@ const ProfilePage = () => {
     return (
         <div>
             <PersonalInformation nav={user} user={result} handleOpenModal={handleOpenModal} />
-            <ModalComponent showModal={showModal} handleCloseModal={handleCloseModal} />
+            <ModalComponent nav={user} user={result} showModal={showModal} handleCloseModal={handleCloseModal} />
         </div>
     );
 }
