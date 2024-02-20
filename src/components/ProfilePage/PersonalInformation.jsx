@@ -1,22 +1,23 @@
-import react from "react";
+import React from "react";
 import ProfessionSelected from "../RegisterLogin/ProfessionSelected";
 
-const PersonalInformation = ({ type, worker }) => {
-
-    console.log(worker);
-
+const PersonalInformation = ({ worker }) => {
+    if (worker == undefined) {
+        return <div>Loading...</div>; // Muestra un mensaje de carga mientras los datos se están cargando
+    }
 
     return (
-        <div>
+        <div className="">
             <p>{worker.user.nombre + ' ' + worker.user.apellido1 + ' ' + worker.user.apellido2}</p>
             <img src="" alt="" />
             <div>
                 {
-                    worker.profesiones.map((profesion) => {
-                        <ProfessionSelected profesion={profesion} />
-                    })
+                    worker.profesiones.data.map((profesion, index) => (
+                        <ProfessionSelected key={index} profesion={profesion} />
+                    ))
                 }
             </div>
+            <p>{worker.user.localidad + ", " + worker.user.provincia}</p>
         </div>
     );
 }

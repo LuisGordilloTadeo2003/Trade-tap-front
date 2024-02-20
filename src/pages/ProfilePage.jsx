@@ -1,39 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import PersonalInformation from "../components/ProfilePage/PersonalInformation";
 import { useParams } from "react-router-dom";
 import axios from "../lib/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-const ProfilePage = ({ type }) => {
-    const [results, setResults] = useState([]);
+const ProfilePage = () => {
+    const [result, setResult] = useState()
     let id = useParams().id;
     console.log(id);
 
     useEffect(() => {
-        console.log(`api/trabajador/${id}`)
-
         const fetchData = async () => {
             try {
-                const response = await axios.get(`api/trabajador/1`)
-                console.log(`api/trabajador/${id}`)
-                setResults(response.data.data);
+                const response = await axios.get(`api/trabajador/${id}`);
+                setResult(response.data.data);
             } catch (error) {
-                console.error('Error al realizar la búsqueda:', error);
+                // Manejar errores aquí si es necesario
+                console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
 
-    }, []);
+    }, [id]);
 
-    console.log(results);
+    console.log(result);
 
     return (
-        type == "worker" ? (
-            <div>
-                <PersonalInformation type={type} worker={results} />
-            </div>
-        ) : null
+        <div>
+            <PersonalInformation worker={result} />
+        </div>
     );
 }
 

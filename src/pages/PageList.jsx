@@ -9,11 +9,6 @@ const PageList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const xsrfToken = document.cookie
-                    .split("; ")
-                    .find(cookie => cookie.startsWith('XSRF-TOKEN'))
-                    .split('=')[1];
-
                 let path, tipo;
                 switch (window.location.pathname) {
                     case '/request':
@@ -34,11 +29,7 @@ const PageList = () => {
                 }
 
                 if (path) {
-                    const response = await axios.get(path, {
-                        headers: {
-                            'X-XSRF-TOKEN': xsrfToken
-                        }
-                    });
+                    const response = await axios.get(path);
                     setResults(response.data.data);
                     setTipo(tipo);
                 }
