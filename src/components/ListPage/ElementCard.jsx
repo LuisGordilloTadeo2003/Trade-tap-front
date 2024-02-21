@@ -11,8 +11,6 @@ const ElementCard = ({ item, index, tipo }) => {
         return estrellas;
     };
 
-    console.log(item)
-
     const cambiarRuta = (item) => {
 
         switch (tipo) {
@@ -20,13 +18,13 @@ const ElementCard = ({ item, index, tipo }) => {
                 window.location.assign(`/request/client/${item.id}`);
                 break;
             case 'proposal':
-                
+
                 break;
             case 'reserves':
-                
+
                 break;
             case 'commisions':
-                
+
                 break;
 
             default:

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import ElementCard from "./ElementCard";
 import BigSpinner from "../ui/BigSpinner";
@@ -29,23 +30,19 @@ const List = ({ data, tipo }) => {
         listadoProfesiones();
     }, []);
 
-    const togglePendiente = (nuevoEstado) => {
-        setPendiente(nuevoEstado);
-        const filtradas = data.filter(item => nuevoEstado ? item.estado === "pendiente" : item.estado !== "pendiente");
-        setSolicitudesFiltradas(filtradas);
-    };
-
-    useEffect(() => {
-        togglePendiente(pendiente);
-    }, []);
-
     if (data == undefined) {
         return (
             <BigSpinner />
         );
     }
 
-    console.log(data);
+    const togglePendiente = (nuevoEstado) => {
+        setPendiente(nuevoEstado);
+        const filtradas = data.filter(item => {
+            return nuevoEstado ? item.estado === "Aceptado" : item.estado !== "Aceptado";
+        });
+        setSolicitudesFiltradas(filtradas);
+    };
 
     return (
         <div>
