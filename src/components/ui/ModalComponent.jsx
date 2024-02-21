@@ -19,6 +19,7 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
     let [titulo, setTitulo] = useState();
     const trabajador_id = user.id;
     const cliente_id = nav.id;
+    const estado = 'Pendiente';
     
 
     const enviarSolicitud = async () => {
@@ -27,6 +28,7 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
             titulo,
             trabajador_id,
             cliente_id,
+            estado
         };
         
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
