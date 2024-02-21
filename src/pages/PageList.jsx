@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import List from "../components/ListPage/List"
 import axios from "../lib/axios";
+import Cookies from 'js-cookie';
 
 const PageList = () => {
     const [results, setResults] = useState();
     const [tipo, setTipo] = useState("");
+    const xsrfToken = Cookies.get('XSRF-TOKEN');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,12 +31,18 @@ const PageList = () => {
                 }
 
                 if (path) {
+                    axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
                     const response = await axios.get(path);
                     setResults(response.data.data);
                     setTipo(tipo);
                 }
-            } catch (error) {
-                console.error('Error al realizar la búsqueda:', error);
+            } catch (e) {
+                if (typeof e === 'object' && e !== null && 'response' in e) {
+                    console.warn(e.response.data);
+                }
+                else {
+                    console.warn(e);
+                }
             }
         };
 
