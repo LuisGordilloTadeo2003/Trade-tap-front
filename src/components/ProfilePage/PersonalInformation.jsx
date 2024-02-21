@@ -14,14 +14,13 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
     }
 
     let tipo = useParams().tipo;
-    console.log(user)
 
     return (
         <div className="row mt-3 d-flex justify-content-center">
             <div className="col-3" style={{ border: "1px solid #74c87a", borderRadius: "20px" }}>
                 <div className="text-center py-3">
                     {
-                        tipo === "workers" && (
+                        tipo === "profile" && (
                             <>
                                 <p className="h5 m-0">{user.user.name + ' ' + user.user.apellido1 + ' ' + user.user.apellido2}</p>
                             </>
@@ -41,7 +40,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                     </div>
                     <div className="mt-2 d-flex justify-content-center align-items-center flex-wrap mb-4">
                         {
-                            tipo === "workers" && (
+                            tipo === "profile" && (
                                 <>
                                     {user.profesiones.data.map((profesion, index) => (
                                         <div key={index} className="d-inline-block mb-2">
@@ -62,7 +61,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                         }
                     </div>
                     {
-                        tipo === "workers" && (
+                        tipo === "profile" && (
                             <>
                                 <div className="d-flex align-items-center ml-3">
                                     <HouseFill color="white" size={20} />
