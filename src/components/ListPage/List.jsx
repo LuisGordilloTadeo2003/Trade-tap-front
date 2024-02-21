@@ -10,6 +10,9 @@ import { useState, useEffect } from "react";
 
 const List = ({ data, tipo }) => {
     let [profesiones, setProfesiones] = useState([]);
+    const [pendiente, setPendiente] = useState(true);
+    const [solicitudesFiltradas, setSolicitudesFiltradas] = useState([]);
+
 
     const listadoProfesiones = async () => {
         await axios.get('api/profesion', {
@@ -24,6 +27,16 @@ const List = ({ data, tipo }) => {
 
     useEffect(() => {
         listadoProfesiones();
+    }, []);
+
+    const togglePendiente = (nuevoEstado) => {
+        setPendiente(nuevoEstado);
+        const filtradas = data.filter(item => nuevoEstado ? item.estado === "pendiente" : item.estado !== "pendiente");
+        setSolicitudesFiltradas(filtradas);
+    };
+
+    useEffect(() => {
+        togglePendiente(pendiente);
     }, []);
 
     if (data == undefined) {
@@ -44,10 +57,16 @@ const List = ({ data, tipo }) => {
             {
                 tipo == "request" ? (
                     <div className="row my-4">
-                        <div className="col-6 d-flex justify-content-center border-bottom">
+                        <div
+                            className={`col-6 d-flex justify-content-center border-bottom ${pendiente ? 'selected' : ''}`}
+                            onClick={() => { togglePendiente(true) }}
+                        >
                             <p className="h4">Mis solicitudes</p>
                         </div>
-                        <div className="col-6 d-flex justify-content-center border-bottom">
+                        <div
+                            className={`col-6 d-flex justify-content-center border-bottom ${!pendiente ? 'selected' : ''}`}
+                            onClick={() => { togglePendiente(false) }}
+                        >
                             <p className="h4">Mis solicitudes pendientes</p>
                         </div>
                     </div>
@@ -90,9 +109,15 @@ const List = ({ data, tipo }) => {
                 </div>
                 <div className="col-9">
                     {
-                        data.map((item, index) => {
-                            return <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
-                        })
+                        tipo == "request" ? (
+                            solicitudesFiltradas.map((item, index) => (
+                                <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
+                            ))
+                        ) : tipo == "worker" ? (
+                            data.map((item, index) => {
+                                return <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
+                            })
+                        ) : null
                     }
                 </div>
             </div>
