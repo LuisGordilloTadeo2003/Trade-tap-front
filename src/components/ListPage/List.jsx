@@ -104,13 +104,13 @@ const List = ({ data, tipo }) => {
                         }
                     </table>
                 </div>
-                <div className="col-9">
+                <div className="col-9 mt-3">
                     {
                         tipo == "request" ? (
                             solicitudesFiltradas.map((item, index) => (
                                 <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
                             ))
-                        ) : tipo == "worker" ? (
+                        ) : tipo == "workers" ? (
                             data.map((item, index) => {
                                 return <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
                             })
