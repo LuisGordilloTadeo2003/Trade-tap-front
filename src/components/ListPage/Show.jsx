@@ -9,6 +9,7 @@ const Show = ({ cambiarRuta }) => {
     const [buttonWidth, setButtonWidth] = useState(70);
     const maxButtonWidth = 250;
 
+
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (isDragging) {

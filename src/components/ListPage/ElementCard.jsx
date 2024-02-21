@@ -11,9 +11,29 @@ const ElementCard = ({ item, index, tipo }) => {
         return estrellas;
     };
 
+    console.log(item)
+
     const cambiarRuta = (item) => {
-        window.location.assign(`/profile/worker/${item.id}`);
-        console.log('Cambiando la ruta...');
+
+        switch (tipo) {
+            case 'request':
+                window.location.assign(`/request/client/${item.id}`);
+                break;
+            case 'proposal':
+                
+                break;
+            case 'reserves':
+                
+                break;
+            case 'commisions':
+                
+                break;
+
+            default:
+                window.location.assign(`/profile/worker/${item.id}`);
+                break;
+        }
+
     };
 
     return (

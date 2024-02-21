@@ -36,7 +36,7 @@ const MainContent = () => {
                     <Route element={<PageList />} path="/proposal"></Route>
                     <Route element={<PageList />} path="/workers"></Route>
                     <Route element={<ProfilePage />} path="/profile/worker/:id"></Route>
-                    <Route element={<ProfilePage />} path="/profile/client/:id"></Route>
+                    <Route element={<ProfilePage />} path="/:tipo/client/:id"></Route>
                 </Routes>
             </div>
             <div className="row mt-4">
