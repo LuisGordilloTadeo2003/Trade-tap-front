@@ -26,7 +26,7 @@ const ElementCard = ({ item, index, tipo }) => {
                 {
                     tipo === "workers" && (
                         <>
-                            <p className="h5">{item.user.nombre + ' ' + item.user.apellido1 + ' ' + item.user.apellido2}{generarEstrellas(item.valoracion)}</p>
+                            <p className="h5">{item.user.name + ' ' + item.user.apellido1 + ' ' + item.user.apellido2}{generarEstrellas(item.valoracion)}</p>
                             <p className="h6">{item.descripcion}</p>
                         </>
                     )
@@ -35,7 +35,7 @@ const ElementCard = ({ item, index, tipo }) => {
                     (tipo === "request" || tipo === "proposal") && (
                         <>
                             <p className="h5">{item.titulo}</p>
-                            <p className="h6">{item.cliente.name + ' ' + item.cliente.apellido1 + ' ' + item.cliente.apellido2}</p>
+                            <p className="h6">{item.cliente.user.name + ' ' + item.cliente.user.apellido1 + ' ' + item.cliente.user.apellido2}</p>
                         </>
                     )
                 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../lib/axios.jsx"
 import RankingWorker from "./RankingWorker.jsx"
+import BigSpinner from "../ui/BigSpinner.jsx";
 
-const WorkersRankingTable = () => {
+const WorkersRankingTable = ({ id }) => {
     let [workers, setWorkers] = useState([]);
 
     const topTrabajadores = async () => {
-        await axios.get('api/trabajador?top=g&tipo=1', {
+        await axios.get(`api/trabajador?top=g&tipo=${id}`, {
         })
             .then(function (response) {
                 setWorkers(response.data.data);
@@ -17,8 +18,10 @@ const WorkersRankingTable = () => {
     }
 
     useEffect(() => {
-        topTrabajadores();
-    }, []);
+        if (id) {
+            topTrabajadores();
+        }
+    }, [id]);
 
     workers.sort((a, b) => b.valoracion - a.valoracion);
 
@@ -32,6 +35,8 @@ const WorkersRankingTable = () => {
         return estrellas;
     };
 
+    console.log(workers);
+
     return (
         <>
             {
@@ -39,7 +44,7 @@ const WorkersRankingTable = () => {
                     return (
                         <tr key={worker.id}>
                             <td>
-                                <RankingWorker worker={worker} generarEstrellas={generarEstrellas} />
+                                <RankingWorker idTrabajo={id} worker={worker} generarEstrellas={generarEstrellas} />
                             </td>
                         </tr>
                     )

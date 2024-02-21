@@ -18,7 +18,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
         <div className="row mt-3 d-flex justify-content-center">
             <div className="col-3" style={{ border: "1px solid #74c87a", borderRadius: "20px" }}>
                 <div className="text-center py-3">
-                    <p className="h5 m-0">{user.user.nombre + ' ' + user.user.apellido1 + ' ' + user.user.apellido2}</p>
+                    <p className="h5 m-0">{user.user.name + ' ' + user.user.apellido1 + ' ' + user.user.apellido2}</p>
                     <div className="d-flex justify-content-center">
                         <img src="/Profile.png" alt="Imagen" className="rounded-circle"
                             style={{ maxWidth: "200px", maxHeight: "200px" }}
@@ -44,7 +44,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                         <span className="mx-3">{"Le gusta a " + user.valaracionesTotales + " personas"}</span>
                     </div>
                     <div className="d-flex justify-content-between mt-4">
-                       {nav.rol == "cliente" ? <button className="btn ml-auto mr-4" onClick={handleOpenModal} style={{ color: "black", background: "#74c87a" }}><strong>Contacta</strong></button> : <></>}
+                        {nav.rol == "cliente" ? <button className="btn ml-auto mr-4" onClick={handleOpenModal} style={{ color: "black", background: "#74c87a" }}><strong>Contacta</strong></button> : <></>}
                         <button className="btn mx-2" style={{ color: "black", background: "#FC0FC0" }}><strong>Me gusta</strong></button>
                         <button className="btn mr-auto ml-4" style={{ color: "black", background: "#FF2333" }}><strong>Reportar</strong></button>
                     </div>

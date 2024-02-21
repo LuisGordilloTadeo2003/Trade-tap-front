@@ -31,12 +31,6 @@ const SearchBar = () => {
                     </Link>
                 </div>
             </div>
-
-            <div className="col-2 mx-5">
-                <button className="px-4 btn-filter">
-                    Filtros
-                </button>
-            </div>
         </div>
     );
 }
