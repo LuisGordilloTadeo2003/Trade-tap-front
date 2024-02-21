@@ -15,26 +15,43 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
     }
 
     const xsrfToken = Cookies.get('XSRF-TOKEN');
-    let [description, setDescription] = useState();
+    let [descripcion, setDescripcion] = useState();
     let [titulo, setTitulo] = useState();
     const trabajador_id = user.id;
     const cliente_id = nav.id;
+    const estado = 'Pendiente';
     
 
     const enviarSolicitud = async () => {
-        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
         const payload = {
-            description,
+            descripcion,
             titulo,
             trabajador_id,
-            cliente_id
-          };
+            cliente_id,
+            estado,
+        };
 
-        await axios.post('api/solicitud', payload)
+        console.log(payload);
+        console.log(xsrfToken);
+        
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            await axios.post('api/solicitud', payload)
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault()
+        enviarSolicitud();
         handleCloseModal();
 
     };
@@ -52,7 +69,7 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
                     </Form.Group>
                     <Form.Group controlId="description">
                         <Form.Label>Descripción de la Solicitud</Form.Label>
-                        <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
                     </Form.Group>
 
                     <div className="col-12 my-2 px-3 d-flex justify-content-center">

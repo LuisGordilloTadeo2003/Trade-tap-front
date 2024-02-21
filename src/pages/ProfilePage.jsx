@@ -10,7 +10,6 @@ const ProfilePage = () => {
     const [result, setResult] = useState()
     const [user, setUser] = useState();
     let id = useParams().id;
-    console.log(id);
 
     useEffect(() => {
         const ProfileData = async () => {
