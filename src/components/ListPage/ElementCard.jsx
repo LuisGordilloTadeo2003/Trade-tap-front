@@ -44,9 +44,33 @@ const ElementCard = ({ item, user, index, tipo }) => {
         const payload = {
             descripcion: item.descripcion,
             titulo: item.titulo,
-            trabajador_id: item.trabajador.user.id,
-            cliente_id: item.cliente.user.id,
+            trabajador_id: item.trabajador.user.userable_id,
+            cliente_id: item.cliente.user.userable_id,
             estado: "Aceptado"
+        };
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            await axios.put(`api/solicitud/${item.id}`, payload)
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
+
+    const rechazarSolicitud = async () => {
+        const payload = {
+            descripcion: item.descripcion,
+            titulo: item.titulo,
+            trabajador_id: item.trabajador.user.userable_id,
+            cliente_id: item.cliente.user.userable_id,
+            estado: "Rechazado"
         };
 
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
@@ -67,6 +91,14 @@ const ElementCard = ({ item, user, index, tipo }) => {
     const handleAccept = (accepted) => {
         if (accepted && tipo == "request") {
             aceptarSolicitud();
+
+            console.log(item);
+        }
+    };
+
+    const handleReject = (Reject) => {
+        if (Reject && tipo == "request") {
+            rechazarSolicitud();
 
             console.log(item);
         }
@@ -106,7 +138,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
 
             {
                 ((tipo == "request" || tipo == "proposal") && item.estado == "Pendiente" && user.rol == "trabajador") ? (
-                    <AcceptOrReject onAccept={handleAccept} />
+                    <AcceptOrReject onAccept={handleAccept} onReject={handleReject}/>
                 ) : (
                     <Show cambiarRuta={() => cambiarRuta(item)} />
                 )

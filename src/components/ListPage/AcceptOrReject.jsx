@@ -2,13 +2,13 @@ import React from "react";
 
 import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons";
 
-const AcceptOrReject = ({ onAccept }) => {
+const AcceptOrReject = ({ onAccept, onReject }) => {
     const handleAccept = () => {
         onAccept(true);
     };
 
     const handleReject = () => {
-        onAccept(false);
+        onReject(true);
     }
 
     return (
