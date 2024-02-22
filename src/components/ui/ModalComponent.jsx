@@ -17,11 +17,8 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user }) => {
     }
 
     const trabajador_id = user.id;
-    const cliente_id = nav.id;
+    const cliente_id = nav.userable_id;
     const estado = 'Pendiente';
-
-    console.log(nav)
-    console.log(user);
 
     const enviarSolicitud = async () => {
         const payload = {
