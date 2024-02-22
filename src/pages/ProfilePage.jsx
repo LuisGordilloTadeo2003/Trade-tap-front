@@ -47,7 +47,6 @@ const ProfilePage = () => {
                     try {
                         const response = await axios.get(`api/solicitud/${id}`);
                         setResult(response.data.data);
-                        console.log(response.data.data);
                     } catch (e) {
                         if (typeof e === 'object' && e !== null && 'response' in e) {
                             console.warn(e.response.data);
@@ -102,7 +101,7 @@ const ProfilePage = () => {
             </div>
 
             <Valoraciones />
-            <ModalComponent nav={user} user={result} showModal={showModal} handleCloseModal={handleCloseModal} />
+            <ModalComponent nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
         </div>
     );
 }
