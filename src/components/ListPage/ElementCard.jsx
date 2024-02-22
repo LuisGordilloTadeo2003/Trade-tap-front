@@ -105,7 +105,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
             </div>
 
             {
-                ((tipo == "request" || tipo == "proposal") && item.estado == "Pendiente" && user.rol == "worker") ? (
+                ((tipo == "request" || tipo == "proposal") && item.estado == "Pendiente" && user.rol == "trabajador") ? (
                     <AcceptOrReject onAccept={handleAccept} />
                 ) : (
                     <Show cambiarRuta={() => cambiarRuta(item)} />
