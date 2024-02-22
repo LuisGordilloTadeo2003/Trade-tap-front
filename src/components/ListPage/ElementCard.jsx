@@ -2,7 +2,12 @@ import React from "react";
 import AcceptOrReject from "./AcceptOrReject";
 import Show from "./Show";
 
+import axios from "../../lib/axios";
+import Cookies from 'js-cookie';
+
 const ElementCard = ({ item, index, tipo }) => {
+    const xsrfToken = Cookies.get('XSRF-TOKEN');
+
     const generarEstrellas = (valoracion) => {
         const estrellas = [];
         for (let j = 1; j <= valoracion; j++) {
@@ -12,7 +17,6 @@ const ElementCard = ({ item, index, tipo }) => {
     };
 
     const cambiarRuta = (item) => {
-
         switch (tipo) {
             case 'request':
                 window.location.assign(`/request/client/${item.id}`);
@@ -32,6 +36,38 @@ const ElementCard = ({ item, index, tipo }) => {
                 break;
         }
 
+    };
+
+    const aceptarSolicitud = async () => {
+        const payload = {
+            descripcion: item.descripcion,
+            titulo: item.titulo,
+            trabajador_id: item.trabajador.user.id,
+            cliente_id: item.cliente.user.id,
+            estado: "Aceptado"
+        };
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            await axios.put(`api/solicitud/${item.id}`, payload)
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
+
+    const handleAccept = (accepted) => {
+        if (accepted && tipo == "request") {
+            aceptarSolicitud();
+
+            console.log(item);
+        }
     };
 
     return (
@@ -60,8 +96,8 @@ const ElementCard = ({ item, index, tipo }) => {
             </div>
 
             {
-                tipo === "proposal" ? (
-                    <AcceptOrReject />
+                tipo == "request" && item.estado == "Pendiente" ? (
+                    <AcceptOrReject onAccept={handleAccept} />
                 ) : (
                     <Show cambiarRuta={() => cambiarRuta(item)} />
                 )

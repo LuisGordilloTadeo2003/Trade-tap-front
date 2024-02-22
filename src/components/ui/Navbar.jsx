@@ -15,7 +15,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar() {
+export default function Navbar({ user }) {
+  let url;
+  user.rol == "trabajador" ? url = "worker" : url = "client";
+
   const { logout } = useAuthContext();
 
   return (<Disclosure as="nav" className="custom-bg-color border-bottom border-color">
@@ -41,9 +44,9 @@ export default function Navbar() {
             <div className="hidden sm:ml-6 sm:flex align-items-center">
               <div className="d-flex justify-content-start align-items-center">
                 {navigation.map((item) => (
-                  <NavLink key={item.name} to={item.path} className="btn mx-3 color-button-general">
+                  <Link key={item.name} to={item.path} className="btn mx-3 color-button-general">
                     <strong>{item.name}</strong>
-                  </NavLink>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -73,10 +76,10 @@ export default function Navbar() {
                   <Menu.Item>
                     {({ active }) => (
                       <>
-                        <Link to={'/profile'} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                        <Link to={`/profile/${url}/${user.id}`} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                           Mi Perfil
                         </Link>
-                        <Link to={''} onClick={logout} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                        <Link onClick={logout} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                           Cerrar Sesión
                         </Link>
                       </>

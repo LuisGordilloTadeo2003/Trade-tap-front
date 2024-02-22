@@ -25,7 +25,7 @@ const MainContent = () => {
         <>
             <div className="row mb-4">
                 {
-                    user ? <Navbar /> : <GuestNavbar />
+                    user ? <Navbar user={user} /> : <GuestNavbar />
                 }
             </div>
             <div className="row">
@@ -35,8 +35,7 @@ const MainContent = () => {
                     <Route element={<PageList />} path="/reserves"></Route>
                     <Route element={<PageList />} path="/proposal"></Route>
                     <Route element={<PageList />} path="/workers"></Route>
-                    <Route element={<ProfilePage />} path="/profile/worker/:id"></Route>
-                    <Route element={<ProfilePage />} path="/:tipo/client/:id"></Route>
+                    <Route element={<ProfilePage />} path="/:tipo/:user/:id"></Route>
                 </Routes>
             </div>
             <div className="row mt-4">

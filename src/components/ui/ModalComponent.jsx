@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { CheckCircleFill, XCircleFill } from 'react-bootstrap-icons';
-import BigSpinner from './BigSpinner';
 
 import axios from '../../lib/axios';
 import Cookies from 'js-cookie';
 
-const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
+const ModalComponent = ({ showModal, handleCloseModal, nav, user }) => {
+    const xsrfToken = Cookies.get('XSRF-TOKEN');
+    let [descripcion, setDescripcion] = useState();
+    let [titulo, setTitulo] = useState();
 
     if (user == undefined || nav == undefined) {
         return (
@@ -14,13 +16,12 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
         );
     }
 
-    const xsrfToken = Cookies.get('XSRF-TOKEN');
-    let [descripcion, setDescripcion] = useState();
-    let [titulo, setTitulo] = useState();
     const trabajador_id = user.id;
     const cliente_id = nav.id;
     const estado = 'Pendiente';
-    
+
+    console.log(nav)
+    console.log(user);
 
     const enviarSolicitud = async () => {
         const payload = {
@@ -30,7 +31,7 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
             cliente_id,
             estado
         };
-        
+
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
@@ -50,7 +51,6 @@ const ModalComponent = ({ showModal, handleCloseModal, nav, user}) => {
         event.preventDefault()
         enviarSolicitud();
         handleCloseModal();
-
     };
 
     return (

@@ -4,13 +4,12 @@ import ElementCard from "./ElementCard";
 import BigSpinner from "../ui/BigSpinner";
 import SearchBar from "../HomePage/SearchBar";
 import ProfessionIcon from "../HomePage/ProfessionIcon";
-import ProfessionName from "../HomePage/ProfessionName";
 import axios from "../../lib/axios";
 import { useState, useEffect } from "react";
 
 
 const List = ({ data, tipo }) => {
-    let [profesiones, setProfesiones] = useState([]);
+    const [profesiones, setProfesiones] = useState([]);
     const [pendiente, setPendiente] = useState(true);
     const [solicitudesFiltradas, setSolicitudesFiltradas] = useState([]);
 
@@ -41,8 +40,11 @@ const List = ({ data, tipo }) => {
         const filtradas = data.filter(item => {
             return nuevoEstado ? item.estado === "Aceptado" : item.estado !== "Aceptado";
         });
+
         setSolicitudesFiltradas(filtradas);
     };
+
+    console.log(data);
 
     return (
         <div>
@@ -57,12 +59,14 @@ const List = ({ data, tipo }) => {
                         <div
                             className={`col-6 d-flex justify-content-center border-bottom ${pendiente ? 'selected' : ''}`}
                             onClick={() => { togglePendiente(true) }}
+                            style={{ cursor: "pointer" }}
                         >
                             <p className="h4">Mis solicitudes</p>
                         </div>
                         <div
                             className={`col-6 d-flex justify-content-center border-bottom ${!pendiente ? 'selected' : ''}`}
                             onClick={() => { togglePendiente(false) }}
+                            style={{ cursor: "pointer" }}
                         >
                             <p className="h4">Mis solicitudes pendientes</p>
                         </div>
@@ -83,25 +87,27 @@ const List = ({ data, tipo }) => {
             <div className="row">
                 <div className="col-2" style={{ marginLeft: "50px" }}>
                     <table>
-                        {
-                            profesiones.map((profesion) => {
-                                return (
-                                    <tr>
-                                        <td className="p-2">
-                                            <ProfessionIcon
-                                                key={profesion.nombre}
-                                                icono={`/Iconos/Icono-${profesion.nombre}.png`}
-                                                onClick={() => onProfessionClick(profesion.id)} // Llamamos a la función de devolución de llamada con el ID de la profesión
-                                            />
-                                        </td>
-                                        <td className="p-2">
-                                            <p className="pl-1 text-start" style={{ fontSize: "20px", marginTop: "3px" }}>{profesion.nombre}</p>
-                                        </td>
-                                    </tr>
+                        <tbody>
+                            {
+                                profesiones.map((profesion) => {
+                                    return (
+                                        <tr key={profesion.id}>
+                                            <td className="p-2">
+                                                <ProfessionIcon
+                                                    key={profesion.nombre}
+                                                    icono={`/Iconos/Icono-${profesion.nombre}.png`}
+                                                /*onClick={() => onProfessionClick(profesion.id)}*/ // Llamamos a la función de devolución de llamada con el ID de la profesión
+                                                />
+                                            </td>
+                                            <td className="p-2">
+                                                <p className="pl-1 text-start" style={{ fontSize: "20px", marginTop: "3px" }}>{profesion.nombre}</p>
+                                            </td>
+                                        </tr>
 
-                                )
-                            })
-                        }
+                                    )
+                                })
+                            }
+                        </tbody>
                     </table>
                 </div>
                 <div className="col-9 mt-3">

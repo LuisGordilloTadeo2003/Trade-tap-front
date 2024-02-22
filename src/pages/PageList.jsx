@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 const PageList = () => {
     const [results, setResults] = useState();
     const [tipo, setTipo] = useState("");
+    const [page, setPage] = useState();
     const xsrfToken = Cookies.get('XSRF-TOKEN');
 
     useEffect(() => {
@@ -14,14 +15,17 @@ const PageList = () => {
                 let path, tipo;
                 switch (window.location.pathname) {
                     case '/request':
+                        setPage("solicitud");
                         path = `api/solicitud`;
                         tipo = "request";
                         break;
                     case '/workers':
+                        setPage("trabajador");
                         path = `api/trabajador`;
                         tipo = "workers";
                         break;
                     case '/proposal':
+                        setPage("propuesta");
                         path = `api/propuesta`;
                         tipo = "proposal";
                         break;
@@ -49,6 +53,8 @@ const PageList = () => {
         fetchData();
 
     }, []);
+
+    console.log(results);
 
     return (
         <div>
