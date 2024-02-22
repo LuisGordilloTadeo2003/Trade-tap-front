@@ -18,16 +18,12 @@ const ProfilePage = () => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
     let id = useParams().id;
     let tipo = useParams().tipo;
-<<<<<<< HEAD
     let typeUser = useParams().user;
 
     let url;
 
     typeUser == "worker" ? url = "trabajador" : url = "cliente";
-=======
->>>>>>> 90fc12e79b44017b0cb3de890eb0f643982c9e9c
 
-    
     useEffect(() => {
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
@@ -60,23 +56,6 @@ const ProfilePage = () => {
                             console.warn(e);
                         }
                     }
-                    break;
-<<<<<<< HEAD
-                default:
-=======
-                case 'profile':
-                    try {
-                        const response = await axios.get(`api/trabajador/${id}`);
-                        setResult(response.data.data);
-                    } catch (e) {
-                        if (typeof e === 'object' && e !== null && 'response' in e) {
-                            console.warn(e.response.data);
-                        }
-                        else {
-                            console.warn(e);
-                        }
-                    }
->>>>>>> 90fc12e79b44017b0cb3de890eb0f643982c9e9c
                     break;
                 default:
                     break;
