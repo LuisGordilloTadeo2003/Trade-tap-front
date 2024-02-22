@@ -30,9 +30,11 @@ const ElementCard = ({ item, index, tipo }) => {
             case 'commisions':
 
                 break;
+            case 'workers':
+                window.location.assign(`/profile/worker/${item.id}`);
+                break;
 
             default:
-                window.location.assign(`/profile/worker/${item.id}`);
                 break;
         }
 
