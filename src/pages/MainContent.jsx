@@ -11,6 +11,7 @@ import Footer from "../components/ui/Footer";
 import HomePage from "./HomePage";
 import PageList from "./PageList";
 import ProfilePage from "./ProfilePage"
+import RequestPage from "./RequestPage";
 
 const MainContent = () => {
     const { user, sessionVerified, sendEmailVerificationLink, status, loading } = useAuthContext();
@@ -32,10 +33,11 @@ const MainContent = () => {
                 <Routes>
                     <Route element={<HomePage />} path="/"></Route>
                     <Route element={<PageList />} path="/request"></Route>
-                    <Route element={<PageList />} path="/reserves"></Route>
-                    <Route element={<PageList />} path="/proposal"></Route>
+                    <Route element={<RequestPage />} path="/request/:user/:id"></Route>
+                    <Route element={<PageList />} path="/reserves/:user/:id"></Route>
+                    <Route element={<PageList />} path="/proposal/:user/:id"></Route>
                     <Route element={<PageList />} path="/workers"></Route>
-                    <Route element={<ProfilePage />} path="/:tipo/:user/:id"></Route>
+                    <Route element={<ProfilePage />} path="/profile/:user/:id"></Route>
                 </Routes>
             </div>
             <div className="row mt-4">

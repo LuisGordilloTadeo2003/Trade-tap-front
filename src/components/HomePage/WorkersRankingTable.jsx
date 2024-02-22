@@ -21,11 +21,9 @@ const WorkersRankingTable = ({ id }) => {
         if (id) {
             topTrabajadores();
         }
-    }, [id]);
+    }, [workers]);
 
     workers.sort((a, b) => b.valoracion - a.valoracion);
-
-    console.log(workers);
 
     const generarEstrellas = (valoracion) => {
         const estrellas = [];
@@ -34,8 +32,6 @@ const WorkersRankingTable = ({ id }) => {
         }
         return estrellas;
     };
-
-    console.log(workers);
 
     return (
         <>

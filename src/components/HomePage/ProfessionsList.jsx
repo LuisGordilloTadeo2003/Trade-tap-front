@@ -4,7 +4,7 @@ import ProfessionIcon from "./ProfessionIcon";
 import axios from "../../lib/axios";
 
 const ProfessionsList = ({ onProfessionClick }) => {
-    let [profesiones, setProfesiones] = useState([]);
+    const [profesiones, setProfesiones] = useState([]);
 
     const listadoProfesiones = async () => {
         await axios.get('api/profesion', {
@@ -19,9 +19,7 @@ const ProfessionsList = ({ onProfessionClick }) => {
 
     useEffect(() => {
         listadoProfesiones();
-    }, []);
-
-    console.log(profesiones)
+    }, [profesiones]);
 
     return (
         <table>
