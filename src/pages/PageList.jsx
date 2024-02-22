@@ -4,9 +4,10 @@ import axios from "../lib/axios";
 import Cookies from 'js-cookie';
 
 const PageList = () => {
-    const [results, setResults] = useState();
-    const [tipo, setTipo] = useState("");
+    const [results, setResults] = useState([]);
+    const [tipo, setTipo] = useState();
     const [page, setPage] = useState();
+    const [user, setUser] = useState();
     const xsrfToken = Cookies.get('XSRF-TOKEN');
 
     useEffect(() => {
@@ -50,15 +51,25 @@ const PageList = () => {
             }
         };
 
+        const getUser = async () => {
+            try {
+                const { data } = await axios.get('/api/user');
+                setUser(data);
+            }
+            catch (e) {
+                console.warn('Error ', e);
+            }
+        };
+
+        getUser();
+
         fetchData();
 
-    }, []);
-
-    console.log(results);
+    }, [results]);
 
     return (
         <div>
-            <List data={results} tipo={tipo} />
+            <List data={results} tipo={tipo} user={user} />
         </div>
     );
 }

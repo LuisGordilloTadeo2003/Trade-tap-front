@@ -5,7 +5,7 @@ import Show from "./Show";
 import axios from "../../lib/axios";
 import Cookies from 'js-cookie';
 
-const ElementCard = ({ item, index, tipo }) => {
+const ElementCard = ({ item, user, index, tipo }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
 
     const generarEstrellas = (valoracion) => {
@@ -91,20 +91,27 @@ const ElementCard = ({ item, index, tipo }) => {
                     (tipo === "request" || tipo === "proposal") && (
                         <>
                             <p className="h5">{item.titulo}</p>
-                            <p className="h6">{item.cliente.user.name + ' ' + item.cliente.user.apellido1 + ' ' + item.cliente.user.apellido2}</p>
+                            {
+                                user.rol == "cliente" ? (
+                                    <p className="h6">{item.trabajador.user.name + ' ' + item.trabajador.user.apellido1 + ' ' + item.trabajador.user.apellido2}</p>
+                                ) : (
+                                    <p className="h6">{item.cliente.user.name + ' ' + item.cliente.user.apellido1 + ' ' + item.cliente.user.apellido2}</p>
+                                )
+                            }
+
                         </>
                     )
                 }
             </div>
 
             {
-                tipo == "request" && item.estado == "Pendiente" ? (
+                ((tipo == "request" || tipo == "proposal") && item.estado == "Pendiente" && user.rol == "worker") ? (
                     <AcceptOrReject onAccept={handleAccept} />
                 ) : (
                     <Show cambiarRuta={() => cambiarRuta(item)} />
                 )
             }
-        </div>
+        </div >
     );
 }
 

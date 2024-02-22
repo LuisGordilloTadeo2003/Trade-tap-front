@@ -8,7 +8,7 @@ import axios from "../../lib/axios";
 import { useState, useEffect } from "react";
 
 
-const List = ({ data, tipo }) => {
+const List = ({ data, tipo, user }) => {
     const [profesiones, setProfesiones] = useState([]);
     const [pendiente, setPendiente] = useState(true);
     const [solicitudesFiltradas, setSolicitudesFiltradas] = useState([]);
@@ -27,24 +27,30 @@ const List = ({ data, tipo }) => {
 
     useEffect(() => {
         listadoProfesiones();
-    }, []);
 
-    if (data == undefined) {
+        const filtradas = data.filter(item => {
+            return pendiente ? item.estado === "Aceptado" : item.estado !== "Aceptado";
+        });
+
+        setSolicitudesFiltradas(filtradas);
+
+    }, [profesiones]);
+
+    if (data.length == 0) {
         return (
             <BigSpinner />
         );
     }
 
     const togglePendiente = (nuevoEstado) => {
-        setPendiente(nuevoEstado);
+
         const filtradas = data.filter(item => {
             return nuevoEstado ? item.estado === "Aceptado" : item.estado !== "Aceptado";
         });
 
         setSolicitudesFiltradas(filtradas);
+        setPendiente(nuevoEstado);
     };
-
-    console.log(data);
 
     return (
         <div>
@@ -114,7 +120,7 @@ const List = ({ data, tipo }) => {
                     {
                         tipo == "request" ? (
                             solicitudesFiltradas.map((item, index) => (
-                                <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
+                                <ElementCard key={item.id} item={item} user={user} index={index} tipo={tipo} />
                             ))
                         ) : tipo == "workers" ? (
                             data.map((item, index) => {
