@@ -4,6 +4,7 @@ import Show from "./Show";
 
 import axios from "../../lib/axios";
 import Cookies from 'js-cookie';
+import { Link } from "react-router-dom";
 
 const ElementCard = ({ item, user, index, tipo }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
@@ -105,7 +106,6 @@ const ElementCard = ({ item, user, index, tipo }) => {
     };
 
     return (
-
         <div key={index} className="row d-flex mx-5 my-3" style={{ border: "2px solid #74c87a", borderRadius: "20px" }}>
             <div className="col-1 d-flex align-items-center justify-content-center">
                 <img style={{ maxWidth: "100px", maxHeight: "100px" }} src="/Profile.png" alt="" />
@@ -138,7 +138,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
 
             {
                 ((tipo == "request" || tipo == "proposal") && item.estado == "Pendiente" && user.rol == "trabajador") ? (
-                    <AcceptOrReject onAccept={handleAccept} onReject={handleReject}/>
+                    <AcceptOrReject onAccept={handleAccept} onReject={handleReject} />
                 ) : (
                     <Show cambiarRuta={() => cambiarRuta(item)} />
                 )

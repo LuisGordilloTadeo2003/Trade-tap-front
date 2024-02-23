@@ -77,7 +77,7 @@ const ProfilePage = () => {
             </div>
 
             <Valoraciones />
-            <ModalComponent nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
+            <ModalComponent tipo={"solicitud"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
         </div>
     );
 }
