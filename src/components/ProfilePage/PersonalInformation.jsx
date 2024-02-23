@@ -35,7 +35,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                 </div>
                 <div className="mt-2 d-flex justify-content-center align-items-center flex-wrap mb-4">
                     {
-                        typeUser === "worker" || send == "request" ? (
+                        ((typeUser == "worker" && send != "request") || (send == "request" && typeUser == "client")) ? (
                             <>
                                 {user.profesiones.data.map((profesion, index) => (
                                     <div key={index} className="d-inline-block mb-2">
@@ -50,7 +50,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                     }
                 </div>
                 {
-                    typeUser === "worker" || send == "request" ? (
+                    ((typeUser == "worker" && send != "request") || (send == "request" && typeUser == "client")) ? (
                         <>
                             <div className="d-flex align-items-center ml-3">
                                 <HouseFill color="white" size={20} />

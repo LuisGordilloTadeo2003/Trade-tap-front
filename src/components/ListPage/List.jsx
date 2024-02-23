@@ -36,12 +36,6 @@ const List = ({ data, tipo, user }) => {
 
     }, [profesiones]);
 
-    if (data.length == 0) {
-        return (
-            <BigSpinner />
-        );
-    }
-
     const togglePendiente = (nuevoEstado) => {
 
         const filtradas = data.filter(item => {
@@ -51,6 +45,12 @@ const List = ({ data, tipo, user }) => {
         setSolicitudesFiltradas(filtradas);
         setPendiente(nuevoEstado);
     };
+
+    if (data.length == 0 || user == undefined) {
+        return (
+            <BigSpinner />
+        );
+    }
 
     return (
         <div>
@@ -124,7 +124,7 @@ const List = ({ data, tipo, user }) => {
                             ))
                         ) : tipo == "workers" ? (
                             data.map((item, index) => {
-                                return <ElementCard key={item.id} item={item} index={index} tipo={tipo} />
+                                return <ElementCard key={item.id} item={item} user={user} index={index} tipo={tipo} />
                             })
                         ) : null
                     }
