@@ -60,6 +60,7 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
             cliente_id,
             trabajador_id
         };
+
     }
 
     const enviarData = async () => {
@@ -68,6 +69,7 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
 
         try {
             await axios.post(`api/${tipo}`, payload)
+            console.log(payload);
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -109,7 +111,8 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
 
     const recalculateTotal = (data) => {
         const total = data.reduce((acc, curr) => acc + (parseFloat(curr.presupuesto) * parseInt(curr.cantidad)), 0);
-        setPresupuestoTotal(total);
+        const formattedTotal = total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        setPresupuestoTotal(formattedTotal);
     };
 
     const handleFechaSeleccionada = fecha => {

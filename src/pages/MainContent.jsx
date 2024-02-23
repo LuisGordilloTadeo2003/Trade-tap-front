@@ -33,6 +33,9 @@ const MainContent = () => {
                 <Routes>
                     <Route element={<HomePage />} path="/"></Route>
                     <Route element={<PageList />} path="/request"></Route>
+                    <Route element={<PageList />} path="/proposal"></Route>
+                    <Route element={<PageList />} path="/reserves"></Route>
+                    <Route element={<PageList />} path="/commisions"></Route>
                     <Route element={<RequestPage />} path="/request/:user/:id"></Route>
                     <Route element={<PageList />} path="/proposal/:user/:id"></Route>
                     <Route element={<PageList />} path="/reserves/:user/:id"></Route>

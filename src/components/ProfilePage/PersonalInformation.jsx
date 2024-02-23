@@ -10,9 +10,6 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
     let tipo = useParams().tipo;
     let typeUser = useParams().user;
 
-    console.log(user);
-    console.log(nav);
-
     const parts = window.location.pathname.split('/');
     const send = parts[1];
 

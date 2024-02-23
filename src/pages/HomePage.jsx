@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import RankingTable from "../components/HomePage/RankingTable";
 import SixWorkers from "../components/HomePage/SixWorkers";
 import SearchBar from "../components/HomePage/SearchBar";
 import ProfessionsList from "../components/HomePage/ProfessionsList";
 
+import axios from "../lib/axios";
+
 const HomePage = () => {
+    const [user, setUser] = useState();
     const [selectedProfessionId, setSelectedProfessionId] = useState(null);
 
     const handleProfessionClick = (id) => {
         setSelectedProfessionId(id);
     };
+
+    const getUser = async () => {
+        try {
+            const { data } = await axios.get('/api/user');
+            setUser(data);
+        }
+        catch (e) {
+            console.warn('Error ', e);
+        }
+    };
+
+    useEffect(() => {
+        getUser()
+    }, []);
 
     return (
         <div className="row d-flex justify-content-center">
@@ -20,7 +37,7 @@ const HomePage = () => {
             </div>
             <div className="row mt-4">
                 <RankingTable selectedProfessionId={selectedProfessionId} />
-                <SixWorkers />
+                <SixWorkers user={user} />
             </div>
         </div>
     );
