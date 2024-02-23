@@ -71,12 +71,13 @@ const ProfilePage = () => {
 
     return (
         <div className="row mt-3 d-flex justify-content-center">
-            <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} />
-            <div className="col-7 d-flex justify-content-center p-3" style={{ border: "1px solid #74c87a", borderRadius: "20px", marginLeft: "50px" }}>
-                <Publicaciones />
+            <div className="col-3">
+                <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} />
+                <Valoraciones />
             </div>
 
-            <Valoraciones />
+            <Publicaciones />
+
             <ModalComponent tipo={"solicitud"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
         </div>
     );

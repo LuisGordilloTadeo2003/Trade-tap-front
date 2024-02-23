@@ -34,8 +34,9 @@ const MainContent = () => {
                     <Route element={<HomePage />} path="/"></Route>
                     <Route element={<PageList />} path="/request"></Route>
                     <Route element={<RequestPage />} path="/request/:user/:id"></Route>
-                    <Route element={<PageList />} path="/reserves/:user/:id"></Route>
                     <Route element={<PageList />} path="/proposal/:user/:id"></Route>
+                    <Route element={<PageList />} path="/reserves/:user/:id"></Route>
+                    <Route element={<PageList />} path="/commisions/:user/:id"></Route>
                     <Route element={<PageList />} path="/workers"></Route>
                     <Route element={<ProfilePage />} path="/profile/:user/:id"></Route>
                 </Routes>

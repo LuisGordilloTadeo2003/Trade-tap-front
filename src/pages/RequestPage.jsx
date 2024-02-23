@@ -8,6 +8,8 @@ import axios from "../lib/axios";
 import Cookies from "js-cookie";
 
 import { useParams } from "react-router-dom";
+import { Result } from "postcss";
+import BigSpinner from "../components/ui/BigSpinner";
 
 const RequestPage = () => {
     const [request, setRequest] = useState([]);
@@ -20,14 +22,13 @@ const RequestPage = () => {
 
     let url;
 
-    typeUser == "worker" ? url = "trabajador" : url = "cliente";
+    typeUser == "worker" ? url = "cliente" : url = "trabajador";
 
     useEffect(() => {
         const RequestData = async () => {
             try {
                 const response = await axios.get(`api/solicitud/${id}`);
                 setRequest(response.data.data);
-                console.log(response.data.data);
             } catch (e) {
                 if (typeof e === 'object' && e !== null && 'response' in e) {
                     console.warn(e.response.data);
@@ -81,26 +82,20 @@ const RequestPage = () => {
         setShowModal(false);
     };
 
+    if (user == undefined && profile == undefined && request.length == 0) {
+        return (
+            <BigSpinner />
+        )
+    }
+
     return (
         <div className="row mt-3 d-flex justify-content-center">
-            <PersonalInformation nav={user} user={profile} />
-            <div className="col-7 d-flex flex-column p-3" style={{ border: "1px solid #74c87a", borderRadius: "20px", marginLeft: "50px" }}>
-                <InfoRequest extra={request} />
-                <div className="row" style={{ height: "10%" }}> {/* Ocupa el 10% */}
-                    <p className="h2 mt-1 text-center">Solicitud</p>
-                </div>
-                <div className="row mb-2 mx-3 py-3 px-1" style={{ height: "15%", border: "1px solid #74c87a", borderRadius: "20px" }}> {/* Ocupa el 20% */}
-                    <p>{request.titulo}</p>
-                </div>
-                <div className="row mx-3 py-3 px-1" style={{ height: "60%", border: "1px solid #74c87a", borderRadius: "20px" }}> {/* Ocupa el 70% */}
-                    <p>{request.descripcion}</p>
-                </div>
-                <div className="row mx-3 py-3 px-1 align-items-center" style={{ height: "15%", width: "10%" }}>
-                    <button className="btn ml-auto mr-4" onClick={handleOpenModal} style={{ borderRadius: "30px", color: "black", background: "#74c87a" }}><strong>Contacta</strong></button>
-                </div>
+            <div className="col-3">
+                <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} />
+                <Valoraciones />
             </div>
 
-            <Valoraciones />
+            <InfoRequest extra={request} handleOpenModal={handleOpenModal} />
 
             <ModalComponent tipo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
 

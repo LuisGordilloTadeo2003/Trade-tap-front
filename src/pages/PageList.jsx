@@ -10,6 +10,9 @@ const PageList = () => {
     const [user, setUser] = useState();
     const xsrfToken = Cookies.get('XSRF-TOKEN');
 
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const searchValue = urlParams.get('search');
+
     useEffect(() => {
         const fetchData = async () => {
             try {

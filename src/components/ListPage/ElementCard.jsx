@@ -17,19 +17,22 @@ const ElementCard = ({ item, user, index, tipo }) => {
         return estrellas;
     };
 
+    let rol;
+    user.rol == "trabajador" ? rol = "worker" : rol = "client";
+
     const cambiarRuta = (item) => {
         switch (tipo) {
             case 'request':
-                window.location.assign(`/request/client/${item.id}`);
+                window.location.assign(`/request/${rol}/${item.id}`);
                 break;
             case 'proposal':
-
+                window.location.assign(`/proposal/${rol}/${item.id}`);
                 break;
             case 'reserves':
-
+                window.location.assign(`/reserves/${rol}/${item.id}`);
                 break;
             case 'commisions':
-
+                window.location.assign(`/commisions/${rol}/${item.id}`);
                 break;
             case 'workers':
                 window.location.assign(`/profile/worker/${item.id}`);

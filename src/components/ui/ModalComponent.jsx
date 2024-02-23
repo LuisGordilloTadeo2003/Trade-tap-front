@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Form, Table } from 'react-bootstrap';
 import { CheckCircleFill, XCircleFill, PlusCircleFill, DashCircleFill } from 'react-bootstrap-icons';
 
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import axios from '../../lib/axios';
 import Cookies from 'js-cookie';
-import { useParams } from 'react-router-dom';
 
 const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
@@ -16,6 +15,8 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
     const [tableData, setTableData] = useState([{ cantidad: "", descripcionCorta: "", presupuesto: 0 }]);
     const [presupuestoTotal, setPresupuestoTotal] = useState(0);
     const [trabajo, setTrabajo] = useState("encargo");
+    const [fechasSeleccionadas, setFechasSeleccionadas] = useState([]);
+    const [showCalendar, setShowCalendar] = useState(false);
 
     const parts = window.location.pathname.split('/');
     const send = parts[1];
@@ -32,6 +33,16 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
 
     let payload;
 
+    const obtenerDescripcionesCortas = () => {
+        // Obtener todas las descripciones cortas
+        const descripcionesCortas = tableData.map(row => row.descripcionCorta);
+
+        // Unir las descripciones cortas en un solo string separado por " - "
+        const descripcionCompleta = descripcionesCortas.join(" - ");
+
+        return descripcionCompleta;
+    };
+
     if (tipo == "solicitud") {
         payload = {
             descripcion,
@@ -41,36 +52,17 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
             estado
         };
     } else if (tipo == "propuesta") {
-        payload = {};
-    }
-
-    const enviarSolicitud = async () => {
-        /*
-        const payload = {
-            descripcion,
-            titulo,
-            trabajador_id,
+        payload = {
+            nombre: titulo,
+            descripcion: obtenerDescripcionesCortas(),
+            presupuesto: presupuestoTotal,
+            tipo: trabajo,
             cliente_id,
-            estado
+            trabajador_id
         };
-*/
-
-        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
-
-        try {
-            await axios.post(`api/${tipo}`, payload)
-        }
-        catch (e) {
-            if (typeof e === 'object' && e !== null && 'response' in e) {
-                console.warn(e.response.data);
-            }
-            else {
-                console.warn(e);
-            }
-        }
     }
 
-    const enviarPropuesta = async () => {
+    const enviarData = async () => {
 
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
@@ -90,12 +82,7 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        if (send == "profile") {
-            enviarSolicitud();
-        } else if (send == "request") {
-            enviarPropuesta();
-        }
-        obtenerDescripcionesCortas();
+        enviarData();
         handleCloseModal();
     };
 
@@ -121,20 +108,21 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
     };
 
     const recalculateTotal = (data) => {
-        const total = data.reduce((acc, curr) => acc + parseFloat(curr.presupuesto), 0);
+        const total = data.reduce((acc, curr) => acc + (parseFloat(curr.presupuesto) * parseInt(curr.cantidad)), 0);
         setPresupuestoTotal(total);
     };
 
-    const obtenerDescripcionesCortas = () => {
-        // Obtener todas las descripciones cortas
-        const descripcionesCortas = tableData.map(row => row.descripcionCorta);
+    const handleFechaSeleccionada = fecha => {
+        let nuevasFechasSeleccionadas = [...fechasSeleccionadas];
 
-        // Unir las descripciones cortas en un solo string separado por " - "
-        const descripcionCompleta = descripcionesCortas.join(" - ");
+        // Si la fecha ya está seleccionada, la eliminamos; de lo contrario, la agregamos
+        if (nuevasFechasSeleccionadas.find(f => f.getTime() === fecha.getTime())) {
+            nuevasFechasSeleccionadas = nuevasFechasSeleccionadas.filter(f => f.getTime() !== fecha.getTime());
+        } else {
+            nuevasFechasSeleccionadas.push(fecha);
+        }
 
-        console.log(descripcionCompleta);
-
-        return descripcionCompleta;
+        setFechasSeleccionadas(nuevasFechasSeleccionadas);
     };
 
     return (
@@ -190,29 +178,20 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
                                         />
                                     </Form.Group>
 
-                                    {/* Calendario para fechas estimadas de entrega */}
-                                    {trabajo === 'encargo' && (
-                                        <Form.Group controlId="fechasEntrega">
-                                            <Form.Label>Fechas estimadas de entrega:</Form.Label>
-                                            <FullCalendar
-                                                plugins={[dayGridPlugin]}
-                                                initialView="dayGridMonth"
-                                            // Añade más propiedades y eventos según sea necesario
+                                    { /*  
+                                    <Button onClick={() => setShowCalendar(!showCalendar)} className="my-1 mx-1" style={{ border: "none", backgroundColor: "#74c87a", width: "30px", height: "30px", borderRadius: "50%", padding: "0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <span>&#8595;</span>
+                                    </Button>
+                                    {showCalendar && (
+                                        <div style={{ position: 'absolute', zIndex: '1' }}>
+                                            <Calendar
+                                                onChange={handleFechaSeleccionada}
+                                                value={fechasSeleccionadas}
+                                                selectRange={trabajo === 'reserva'}
                                             />
-                                        </Form.Group>
+                                        </div>
                                     )}
-
-                                    {/* Calendario para horarios de reserva */}
-                                    {trabajo === 'reserva' && (
-                                        <Form.Group controlId="horarios">
-                                            <Form.Label>Horarios de reserva:</Form.Label>
-                                            <FullCalendar
-                                                plugins={[dayGridPlugin]}
-                                                initialView="dayGridMonth"
-                                            // Añade más propiedades y eventos según sea necesario
-                                            />
-                                        </Form.Group>
-                                    )}
+                                    */}
 
                                     {/* Botones para agregar y eliminar filas */}
                                     <div className="d-flex justify-content-between">

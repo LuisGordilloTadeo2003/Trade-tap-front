@@ -10,6 +10,12 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
     let tipo = useParams().tipo;
     let typeUser = useParams().user;
 
+    console.log(user);
+    console.log(nav);
+
+    const parts = window.location.pathname.split('/');
+    const send = parts[1];
+
     if (user == undefined || nav == undefined) {
         return (
             <BigSpinner />
@@ -17,14 +23,10 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
     }
 
     return (
-        <div className="col-3" style={{ border: "1px solid #74c87a", borderRadius: "20px" }}>
+        <div className="row" style={{ border: "1px solid #74c87a", borderRadius: "20px" }}>
             <div className="text-center py-3">
                 {
-                    typeUser == "worker" ? (
-                        <p className="h5 m-0">{user.user.name + ' ' + user.user.apellido1 + ' ' + user.user.apellido2}</p>
-                    ) : typeUser === "client" ? (
-                        <p className="h5 m-0">{user.user.name + ' ' + user.user.apellido1 + ' ' + user.user.apellido2}</p>
-                    ) : null
+                    <p className="h5 m-0">{user.user.name + ' ' + user.user.apellido1 + ' ' + user.user.apellido2}</p>
                 }
                 <div className="d-flex justify-content-center">
                     <img src="/Profile.png" alt="Imagen" className="rounded-circle"
@@ -33,7 +35,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                 </div>
                 <div className="mt-2 d-flex justify-content-center align-items-center flex-wrap mb-4">
                     {
-                        typeUser === "worker" ? (
+                        typeUser === "worker" || send == "request" ? (
                             <>
                                 {user.profesiones.data.map((profesion, index) => (
                                     <div key={index} className="d-inline-block mb-2">
@@ -48,7 +50,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                     }
                 </div>
                 {
-                    typeUser === "worker" ? (
+                    typeUser === "worker" || send == "request" ? (
                         <>
                             <div className="d-flex align-items-center ml-3">
                                 <HouseFill color="white" size={20} />
@@ -65,10 +67,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                                 <button className="btn mr-auto ml-4" style={{ color: "black", background: "#FF2333" }}><strong>Reportar</strong></button>
                             </div>
                             <div className="text-start mt-3 py-3 px-3" style={{ border: "1px solid #74c87a", borderRadius: "20px" }}>
-                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    Iusto quod earum est quia vel quibusdam culpa voluptas magni.
-                                    Quaerat consequatur alias delectus esse repudiandae nemo veritatis rerum vel, ratione autem.
-                                </p>
+                                <p>{user.user.descripcion}</p>
                             </div>
                         </>
                     ) : typeUser == "client" ? (

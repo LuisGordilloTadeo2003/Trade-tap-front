@@ -124,3 +124,14 @@
 .selected {
     border-bottom: 2px solid #74c87a !important;
 }
+
+.marked-day {
+    background-color: #FFD700;
+    /* Fondo amarillo */
+    color: #000;
+    /* Texto negro */
+    border-radius: 50%;
+    /* Bordes redondeados para que parezcan círculos */
+    padding: 3px;
+    /* Espacio alrededor del número */
+}
