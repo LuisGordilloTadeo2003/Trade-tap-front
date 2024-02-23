@@ -8,11 +8,17 @@ import axios from "../../lib/axios";
 import { useState, useEffect } from "react";
 
 
-const List = ({ data, tipo, user }) => {
+const List = ({ filtroProfesion, data, tipo, user }) => {
     const [profesiones, setProfesiones] = useState([]);
     const [pendiente, setPendiente] = useState(true);
-    const [solicitudesFiltradas, setSolicitudesFiltradas] = useState([]);
+    const [Filtradas, setFiltradas] = useState([]);
 
+    // const solicitudesFiltradasProfesion = filtroProfesion
+    //     ? data.filter(solicitud => solicitud.profesiones.includes(filtroProfesion))
+    //     : data;
+
+    // console.log(data);
+    // console.log(solicitudesFiltradasProfesion)
 
     const listadoProfesiones = async () => {
         await axios.get('api/profesion', {
@@ -32,7 +38,7 @@ const List = ({ data, tipo, user }) => {
             return pendiente ? item.estado === "Aceptado" : item.estado !== "Aceptado";
         });
 
-        setSolicitudesFiltradas(filtradas);
+        setFiltradas(filtradas);
 
     }, [profesiones]);
 
@@ -42,7 +48,7 @@ const List = ({ data, tipo, user }) => {
             return nuevoEstado ? item.estado === "Aceptado" : item.estado !== "Aceptado";
         });
 
-        setSolicitudesFiltradas(filtradas);
+        setFiltradas(filtradas);
         setPendiente(nuevoEstado);
     };
 
@@ -51,6 +57,8 @@ const List = ({ data, tipo, user }) => {
             <BigSpinner />
         );
     }
+
+    console.log(data);
 
     return (
         <div>
@@ -78,11 +86,19 @@ const List = ({ data, tipo, user }) => {
                         </div>
                     </div>
                 ) : tipo == "proposal" ? (
-                    <div className="row">
-                        <div className="col-6 d-flex justify-content-center border-bottom">
+                    <div className="row my-4">
+                        <div
+                            className={`col-6 d-flex justify-content-center border-bottom ${pendiente ? 'selected' : ''}`}
+                            onClick={() => { togglePendiente(true) }}
+                            style={{ cursor: "pointer" }}
+                        >
                             <p className="h4">Mis propuestas</p>
                         </div>
-                        <div className="col-6 d-flex justify-content-center border-bottom">
+                        <div
+                            className={`col-6 d-flex justify-content-center border-bottom ${!pendiente ? 'selected' : ''}`}
+                            onClick={() => { togglePendiente(false) }}
+                            style={{ cursor: "pointer" }}
+                        >
                             <p className="h4">Mis propuestas pendientes</p>
                         </div>
                     </div>
@@ -118,8 +134,8 @@ const List = ({ data, tipo, user }) => {
                 </div>
                 <div className="col-9 mt-3">
                     {
-                        tipo == "request" ? (
-                            solicitudesFiltradas.map((item, index) => (
+                        tipo == "request" || tipo == "proposal" ? (
+                            Filtradas.map((item, index) => (
                                 <ElementCard key={item.id} item={item} user={user} index={index} tipo={tipo} />
                             ))
                         ) : tipo == "workers" ? (

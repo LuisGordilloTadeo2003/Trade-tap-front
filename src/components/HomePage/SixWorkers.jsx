@@ -37,38 +37,33 @@ const SixWorkers = ({ user }) => {
     //     workers.push(worker);
     // }
 
-    if (workers.length == 0) {
-        return (
-            <BigSpinner />
-        )
-    }
+    console.log(workers)
 
     return (
-        <></>
-        // <div className="col-8">
-        //     <div className="row">
-        //         <div className="col-4">
-        //             <SixWorkerCard key={workers[0].id} worker={workers[0]} />
-        //         </div>
-        //         <div className="col-4">
-        //             <SixWorkerCard key={workers[1].id} worker={workers[1]} />
-        //         </div>
-        //         <div className="col-4">
-        //             <SixWorkerCard key={workers[2].id} worker={workers[2]} />
-        //         </div>
-        //     </div>
-        //     <div className="row">
-        //         <div className="col-4">
-        //             <SixWorkerCard key={workers[3].id} worker={workers[3]} />
-        //         </div>
-        //         <div className="col-4">
-        //             <SixWorkerCard key={workers[4].id} worker={workers[4]} />
-        //         </div>
-        //         <div className="col-4">
-        //             <SixWorkerCard key={workers[5].id} worker={workers[5]} />
-        //         </div>
-        //     </div>
-        // </div>
+        <div className="col-8">
+            <div className="row">
+                <div className="col-4">
+                    <SixWorkerCard worker={workers[0]} />
+                </div>
+                <div className="col-4">
+                    <SixWorkerCard worker={workers[1]} />
+                </div>
+                <div className="col-4">
+                    <SixWorkerCard worker={workers[2]} />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-4">
+                    <SixWorkerCard worker={workers[3]} />
+                </div>
+                <div className="col-4">
+                    <SixWorkerCard worker={workers[4]} />
+                </div>
+                <div className="col-4">
+                    <SixWorkerCard worker={workers[5]} />
+                </div>
+            </div>
+        </div>
     );
 }
 

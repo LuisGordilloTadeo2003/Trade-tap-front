@@ -9,6 +9,7 @@ const PageList = () => {
     const [page, setPage] = useState();
     const [user, setUser] = useState();
     const xsrfToken = Cookies.get('XSRF-TOKEN');
+    const [filtroProfesion, setFiltroProfesion] = useState(null);
 
     // const urlParams = new URLSearchParams(window.location.search);
     // const searchValue = urlParams.get('search');
@@ -72,7 +73,7 @@ const PageList = () => {
 
     return (
         <div>
-            <List data={results} tipo={tipo} user={user} />
+            <List filtroProfesion={filtroProfesion} data={results} tipo={tipo} user={user} />
         </div>
     );
 }
