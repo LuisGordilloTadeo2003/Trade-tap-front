@@ -84,7 +84,7 @@ const PageList = () => {
             getUser();
             setTimeout(listadoProfesiones, 1000);
         }
-    }, [loading]);
+    }, []);
 
 
     return (

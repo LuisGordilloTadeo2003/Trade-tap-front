@@ -132,15 +132,18 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
     };
 
     const handleFechaSeleccionada = nuevaFecha => {
+        // Creamos una nueva fecha con la misma fecha que la nueva fecha seleccionada, pero sin incluir la hora
+        const fechaSinHora = new Date(nuevaFecha.getFullYear(), nuevaFecha.getMonth(), nuevaFecha.getDate());
+
         // Si la nueva fecha seleccionada es la misma que la fecha seleccionada actualmente,
         // cerramos el calendario y no hacemos nada más
-        if (fechaSeleccionada && nuevaFecha.getTime() === fechaSeleccionada.getTime()) {
+        if (fechaSeleccionada && fechaSinHora.getTime() === fechaSeleccionada.getTime()) {
             setShowCalendar(false);
             return;
         }
 
-        // Actualizamos la fecha seleccionada con la nueva fecha
-        setFechaSeleccionada(nuevaFecha);
+        // Actualizamos la fecha seleccionada con la nueva fecha sin hora
+        setFechaSeleccionada(fechaSinHora);
 
         // Si estamos en modo de reserva y ya hay una fecha seleccionada,
         // eliminamos la fecha seleccionada anterior
