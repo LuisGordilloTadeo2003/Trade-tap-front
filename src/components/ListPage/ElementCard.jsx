@@ -5,6 +5,7 @@ import Show from "./Show";
 import axios from "../../lib/axios";
 import Cookies from 'js-cookie';
 import { Link } from "react-router-dom";
+import MensajeFlash from "../ui/MensajeFlash";
 
 const ElementCard = ({ item, user, index, tipo }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
@@ -57,6 +58,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
 
         try {
             await axios.put(`api/solicitud/${item.id}`, payload)
+            MensajeFlash('Solicitud aceptada correctamente', 'success')
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -69,18 +71,10 @@ const ElementCard = ({ item, user, index, tipo }) => {
     }
 
     const rechazarSolicitud = async () => {
-        const payload = {
-            descripcion: item.descripcion,
-            titulo: item.titulo,
-            trabajador_id: item.trabajador.user.userable_id,
-            cliente_id: item.cliente.user.userable_id,
-            estado: "Rechazado"
-        };
-
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
-            await axios.delete(`api/solicitud/${item.id}`, payload)
+            await axios.delete(`api/solicitud/${item.id}`)
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -92,21 +86,75 @@ const ElementCard = ({ item, user, index, tipo }) => {
         }
     }
 
+    let insert;
+    item.tipo == "Encargo" ? insert = "encargo" : insert = "reserva";
+
     const aceptarPropuesta = async () => {
         const payload = {
             descripcion: item.descripcion,
-            nombre: item.nombre,
+            titulo: item.titulo,
             trabajador_id: item.trabajador.user.userable_id,
             cliente_id: item.cliente.user.userable_id,
             presupuesto: item.presupuesto,
-            tipo: item.tipo,
+            fecha_estimada_inicio: item.fecha_estimada_inicio,
+            fecha_estimada_final: item.fecha_estimada_final,
+            tipo: insert,
             estado: "Aceptado"
         };
+
+        const encargo = {
+            descripcion: item.descripcion,
+            titulo: item.titulo,
+            trabajador_id: item.trabajador.user.userable_id,
+            cliente_id: item.cliente.user.userable_id,
+            fecha_estimada_inicio: item.fecha_estimada_inicio,
+            fecha_estimada_final: item.fecha_estimada_final,
+            presupuesto: item.presupuesto,
+            tipo: insert,
+            estado: "Pendiente"
+        }
+
+        console.log(encargo)
 
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
             await axios.put(`api/propuesta/${item.id}`, payload)
+            await axios.post(`api/encargo`, encargo)
+            MensajeFlash('Solicitud aceptada correctamente', 'success')
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
+
+    const rechazar = async () => {
+        let campo;
+        let msg;
+
+        switch (tipo) {
+            case "request":
+                campo = "solicitud";
+                msg = "Solicitud eliminada correctamente"
+                break;
+            case "proposal":
+                campo = "propuesta";
+                msg = "Propuesta eliminada correctamente"
+                break;
+            default:
+                break;
+        }
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            await axios.delete(`api/${campo}/${item.id}`)
+            MensajeFlash(msg, 'success')
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -119,20 +167,10 @@ const ElementCard = ({ item, user, index, tipo }) => {
     }
 
     const rechazarPropuesta = async () => {
-        const payload = {
-            descripcion: item.descripcion,
-            nombre: item.nombre,
-            trabajador_id: item.trabajador.user.userable_id,
-            cliente_id: item.cliente.user.userable_id,
-            presupuesto: item.presupuesto,
-            tipo: item.tipo,
-            estado: "Rechazado"
-        };
-
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
-            await axios.put(`api/propuesta/${item.id}`, payload)
+            await axios.delete(`api/propuesta/${item.id}`)
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -153,10 +191,8 @@ const ElementCard = ({ item, user, index, tipo }) => {
     };
 
     const handleReject = (reject) => {
-        if (reject && tipo == "request") {
-            rechazarSolicitud();
-        } else if (reject && tipo == "proposal") {
-            rechazarPropuesta();
+        if (reject) {
+            rechazar(tipo);
         }
     };
 

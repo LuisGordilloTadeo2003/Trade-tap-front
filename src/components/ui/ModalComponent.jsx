@@ -135,7 +135,8 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
 
     const recalculateTotal = (data) => {
         const total = data.reduce((acc, curr) => acc + (parseFloat(curr.presupuesto) * parseInt(curr.cantidad)), 0);
-        const formattedTotal = total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        // Formatear el total con dos dígitos decimales y punto como separador decimal
+        const formattedTotal = total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         setPresupuestoTotal(formattedTotal);
     };
 
