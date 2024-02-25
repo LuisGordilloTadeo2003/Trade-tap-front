@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { HouseFill } from 'react-bootstrap-icons';
-import { HeartFill } from 'react-bootstrap-icons';
+import { HouseFill, HeartFill, PhoneFill } from 'react-bootstrap-icons';
 import BigSpinner from "../ui/BigSpinner";
 
 const PersonalInformation = ({ nav, user, handleOpenModal }) => {
-    let tipo = useParams().tipo;
     let typeUser = useParams().user;
 
     const parts = window.location.pathname.split('/');
@@ -68,10 +66,16 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                             </div>
                         </>
                     ) : typeUser == "client" ? (
-                        <div className="d-flex align-items-center ml-3">
-                            <HouseFill color="white" size={20} />
-                            <span className="mx-3">{user.user.localidad + ", " + user.user.provincia}</span>
-                        </div>
+                        <>
+                            <div className="d-flex align-items-center ml-3">
+                                <HouseFill color="white" size={20} />
+                                <span className="mx-3">{user.user.localidad + ", " + user.user.provincia}</span>
+                            </div>
+                            <div className="d-flex align-items-center ml-3">
+                                <PhoneFill color="white" size={20} />
+                                <span className="mx-3">{user.user.telefono}</span>
+                            </div>
+                        </>
                     ) : null
                 }
             </div>

@@ -167,7 +167,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
             </div>
             <div className="col-7 d-block px-4 align-self-center">
                 {
-                    tipo === "workers" && (
+                    tipo == "workers" && (
                         <>
                             <p className="h5">{item.user.name + ' ' + item.user.apellido1 + ' ' + item.user.apellido2}{generarEstrellas(item.valoracion)}</p>
                             <p className="h6">{item.descripcion}</p>
@@ -175,7 +175,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
                     )
                 }
                 {
-                    (tipo === "request" || tipo === "proposal") && (
+                    (tipo == "request" || tipo == "proposal" || tipo == "reserves" || tipo == "commisions") && (
                         <>
                             <p className="h5">{item.titulo}</p>
                             {

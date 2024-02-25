@@ -13,27 +13,34 @@ const PageList = () => {
     const [filtroProfesion, setFiltroProfesion] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const searchValue = urlParams.get('search');
-
     const fetchData = async () => {
         try {
-            let path, tipo;
+            let path;
             switch (window.location.pathname) {
                 case '/request':
                     setPage("solicitud");
                     path = `api/solicitud`;
-                    tipo = "request";
+                    setTipo("request");
                     break;
                 case '/workers':
                     setPage("trabajador");
                     path = `api/trabajador`;
-                    tipo = "workers";
+                    setTipo("workers");
                     break;
                 case '/proposal':
                     setPage("propuesta");
                     path = `api/propuesta`;
-                    tipo = "proposal";
+                    setTipo("proposal");
+                    break;
+                case '/reserves':
+                    setPage("reserva");
+                    path = `api/reserva`;
+                    setTipo("reserves");
+                    break;
+                case '/commisions':
+                    setPage("encargo");
+                    path = `api/encargo`;
+                    setTipo("commisions");
                     break;
                 default:
                     path = false;
@@ -45,7 +52,6 @@ const PageList = () => {
                 const response = await axios.get(path);
                 setResults(response.data.data);
                 setLoading(false);
-                setTipo(tipo);
             }
         } catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
