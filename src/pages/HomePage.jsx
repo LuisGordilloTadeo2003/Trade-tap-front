@@ -39,11 +39,11 @@ const HomePage = () => {
 
     useEffect(() => {
         listadoProfesiones();
-    }, [profesiones]);
+    }, []);
 
     useEffect(() => {
         getUser()
-    }, [user]);
+    }, []);
 
     return (
         <div className="row d-flex justify-content-center">

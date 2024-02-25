@@ -20,7 +20,7 @@ const SixWorkers = ({ user }) => {
 
     useEffect(() => {
         sixWorkers();
-    }, [workers]);
+    }, []);
 
     console.log(user);
 
@@ -41,28 +41,15 @@ const SixWorkers = ({ user }) => {
 
     return (
         <div className="col-8">
-            <div className="row">
-                <div className="col-4">
-                    <SixWorkerCard worker={workers[0]} />
+            {workers.map((worker, index) => (
+                (index % 3 === 0) && <div key={index} className="row">
+                    {workers.slice(index, index + 3).map((worker, subIndex) => (
+                        <div key={subIndex} className="col-4">
+                            <SixWorkerCard worker={worker} />
+                        </div>
+                    ))}
                 </div>
-                <div className="col-4">
-                    <SixWorkerCard worker={workers[1]} />
-                </div>
-                <div className="col-4">
-                    <SixWorkerCard worker={workers[2]} />
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-4">
-                    <SixWorkerCard worker={workers[3]} />
-                </div>
-                <div className="col-4">
-                    <SixWorkerCard worker={workers[4]} />
-                </div>
-                <div className="col-4">
-                    <SixWorkerCard worker={workers[5]} />
-                </div>
-            </div>
+            ))}
         </div>
     );
 }
