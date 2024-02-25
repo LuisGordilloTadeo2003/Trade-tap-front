@@ -7,7 +7,7 @@ const PageList = () => {
     const [results, setResults] = useState([]);
     const [tipo, setTipo] = useState();
     const [page, setPage] = useState();
-    const [user, setUser] = useState();
+    const [user, setUser] = useState(null);
     const [profesiones, setProfesiones] = useState([]);
     const xsrfToken = Cookies.get('XSRF-TOKEN');
     const [filtroProfesion, setFiltroProfesion] = useState(null);
@@ -15,7 +15,7 @@ const PageList = () => {
     // const urlParams = new URLSearchParams(window.location.search);
     // const searchValue = urlParams.get('search');
 
-    const fetchData = async () => {
+    useEffect(() => {
         try {
             let path, tipo;
             switch (window.location.pathname) {
@@ -41,7 +41,7 @@ const PageList = () => {
 
             if (path) {
                 axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
-                const response = await axios.get(path);
+                const response = axios.get(path);
                 setResults(response.data.data);
                 setTipo(tipo);
             }
@@ -53,34 +53,25 @@ const PageList = () => {
                 console.warn(e);
             }
         }
-    };
 
-    const getUser = async () => {
         try {
-            const { data } = await axios.get('/api/user');
+            const { data } = axios.get('/api/user');
             setUser(data);
         }
         catch (e) {
             console.warn('Error ', e);
         }
-    };
 
-    const listadoProfesiones = async () => {
         try {
-            const response = await axios.get('api/profesion');
+            const response = axios.get('api/profesion');
             setProfesiones(response.data.data);
         } catch (error) {
             console.log(error);
         }
-    };
-
-    useEffect(() => {
-        fetchData();
-        getUser();
-        setTimeout(listadoProfesiones, 1000); // Agrega un retraso de 1 segundo entre las solicitudes
 
     }, []);
 
+    if (profesiones.length == 0 && results.length == 0 && user == null) return null;
 
     return (
         <div>
