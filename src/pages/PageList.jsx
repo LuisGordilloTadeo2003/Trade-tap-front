@@ -11,6 +11,7 @@ const PageList = () => {
     const [profesiones, setProfesiones] = useState([]);
     const xsrfToken = Cookies.get('XSRF-TOKEN');
     const [filtroProfesion, setFiltroProfesion] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // const urlParams = new URLSearchParams(window.location.search);
     // const searchValue = urlParams.get('search');
@@ -43,6 +44,7 @@ const PageList = () => {
                 axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
                 const response = await axios.get(path);
                 setResults(response.data.data);
+                setLoading(false);
                 setTipo(tipo);
             }
         } catch (e) {
@@ -59,6 +61,7 @@ const PageList = () => {
         try {
             const { data } = await axios.get('/api/user');
             setUser(data);
+            setLoading(false);
         }
         catch (e) {
             console.warn('Error ', e);
@@ -69,17 +72,19 @@ const PageList = () => {
         try {
             const response = await axios.get('api/profesion');
             setProfesiones(response.data.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        fetchData();
-        getUser();
-        setTimeout(listadoProfesiones, 1000); // Agrega un retraso de 1 segundo entre las solicitudes
-
-    }, []);
+        if (loading) {
+            fetchData();
+            getUser();
+            setTimeout(listadoProfesiones, 1000);
+        }
+    }, [loading]);
 
 
     return (
