@@ -7,6 +7,7 @@ const PageList = () => {
     const [results, setResults] = useState([]);
     const [tipo, setTipo] = useState();
     const [user, setUser] = useState();
+    const [path, setPath] = useState();
     const [profesiones, setProfesiones] = useState([]);
     const xsrfToken = Cookies.get('XSRF-TOKEN');
     const [filtroProfesion, setFiltroProfesion] = useState(null);
@@ -14,36 +15,39 @@ const PageList = () => {
 
     const fetchData = async () => {
         try {
-            let path;
+            let pathPage;
             switch (window.location.pathname) {
                 case '/request':
-                    path = `api/solicitud`;
+                    pathPage = `api/solicitud`;
                     setTipo("request");
                     break;
                 case '/workers':
-                    path = `api/trabajador`;
+                    pathPage = `api/trabajador`;
                     setTipo("workers");
                     break;
                 case '/proposal':
-                    path = `api/propuesta`;
+                    pathPage = `api/propuesta`;
                     setTipo("proposal");
                     break;
                 case '/reserves':
-                    path = `api/reserva`;
+                    pathPage = `api/reserva`;
                     setTipo("reserves");
                     break;
                 case '/commisions':
-                    path = `api/encargo`;
+                    pathPage = `api/encargo`;
                     setTipo("commisions");
                     break;
                 default:
-                    path = false;
+                    pathPage = false;
                     break;
             }
 
-            if (path) {
+            setPath(pathPage);
+            console.log(path, pathPage)
+
+            if (pathPage) {
                 axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
-                const response = await axios.get(path);
+                const response = await axios.get(pathPage);
                 setResults(response.data.data);
                 setLoading(false);
             }

@@ -57,7 +57,15 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                                 <span className="mx-3">{"Le gusta a " + user.valaracionesTotales + " personas"}</span>
                             </div>
                             <div className="d-flex justify-content-between mt-4">
-                                {nav.rol == "cliente" ? <button className="btn ml-auto mr-4" onClick={handleOpenModal} style={{ color: "black", background: "#74c87a" }}><strong>Contacta</strong></button> : <></>}
+                                {
+                                    nav.rol == "cliente" ?
+                                        <button className="btn ml-auto mr-4" onClick={handleOpenModal} style={{ color: "black", background: "#74c87a" }}><strong>Contacta</strong></button>
+                                        : nav.id == user.id ?
+                                            <Link to={`/profile/edit/${user.id}`}>
+                                                <button className="btn ml-auto mr-4" style={{ color: "black", background: "#74c87a" }}><strong>Editar</strong></button>
+                                            </Link>
+                                            : null
+                                }
                                 <button className="btn mx-2" style={{ color: "black", background: "#FC0FC0" }}><strong>Me gusta</strong></button>
                                 <button className="btn mr-auto ml-4" style={{ color: "black", background: "#FF2333" }}><strong>Reportar</strong></button>
                             </div>
@@ -65,7 +73,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                                 <p>{user.user.descripcion}</p>
                             </div>
                         </>
-                    ) : typeUser == "client" ? (
+                    ) : typeUser == "client" || (typeUser == "worker" && send == "request") ? (
                         <>
                             <div className="d-flex align-items-center ml-3">
                                 <HouseFill color="white" size={20} />

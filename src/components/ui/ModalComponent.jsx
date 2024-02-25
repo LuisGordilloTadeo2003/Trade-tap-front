@@ -15,10 +15,9 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
     const [tableData, setTableData] = useState([{ cantidad: "", descripcionCorta: "", presupuesto: 0 }]);
     const [presupuestoTotal, setPresupuestoTotal] = useState(0);
     const [trabajo, setTrabajo] = useState("encargo");
-    const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
-    const [fechaEncargo, setFechaEncargo] = useState(null);
-    const [fechaReservaInicio, setFechaReservaInicio] = useState(null);
-    const [fechaReservaFin, setFechaReservaFin] = useState(null);
+    const [fechaEncargoInicio, setFechaEncargoInicio] = useState(null);
+    const [fechaEncargoFin, setFechaEncargoFin] = useState(null);
+    const [fechasReserva, setFechasReserva] = useState([{ inicio: null, fin: null }]);
 
     const parts = window.location.pathname.split('/');
     const send = parts[1];
@@ -49,42 +48,41 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
         return presupuestoTotal;
     }
 
-    const obtenerFecha = () => {
-        if (trabajo === 'encargo') {
-            return fechaEncargo;
-        } else if (trabajo === 'reserva') {
-            return {
-                inicio: fechaReservaInicio,
-                fin: fechaReservaFin
-            };
-        }
-        return null;
-    };
-
-    let descripcion = obtenerDescripcionesCortas();
     let presupuesto = obtenerPresupuesto();
     let tipo = trabajo;
-    let fecha_estimada = obtenerFecha().toString();
-    let nombre = titulo;
 
     if (campo == "solicitud") {
         payload = {
-            descripcion,
+            descripcion: descripcions,
             titulo,
             trabajador_id,
             cliente_id,
             estado
         };
     } else if (campo == "propuesta") {
-        payload = {
-            nombre,
-            descripcion,
-            presupuesto,
-            tipo,
-            fecha_estimada,
-            cliente_id,
-            trabajador_id
-        };
+        if (trabajo == "encargo") {
+            payload = {
+                titulo,
+                descripcion: obtenerDescripcionesCortas(),
+                presupuesto,
+                tipo,
+                estado,
+                fecha_estimada_inicio: fechaEncargoInicio,
+                fecha_estimada_final: fechaEncargoFin,
+                cliente_id,
+                trabajador_id
+            };
+        } else if (trabajo == "reserva") {
+            payload = {
+                titulo,
+                descripcion: descripcions,
+                presupuesto,
+                tipo,
+                cliente_id,
+                trabajador_id
+            };
+        }
+
 
     }
 
@@ -96,6 +94,7 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
         try {
             await axios.post(`api/${campo}`, payload)
             console.log(payload);
+            console.log("Hecho");
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -140,6 +139,21 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
         setPresupuestoTotal(formattedTotal);
     };
 
+    const handleFechaReservaChange = (index, tipo, value) => {
+        const nuevasFechasReserva = [...fechasReserva];
+        nuevasFechasReserva[index][tipo] = value;
+        setFechasReserva(nuevasFechasReserva);
+    };
+
+    const handleRemoveFechaReserva = (index) => {
+        const nuevasFechasReserva = fechasReserva.filter((_, i) => i !== index);
+        setFechasReserva(nuevasFechasReserva);
+    };
+
+    const handleAddFechaReserva = () => {
+        setFechasReserva([...fechasReserva, { inicio: null, fin: null }]);
+    };
+
     return (
         <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
@@ -174,21 +188,33 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
                                     <Form.Check type="radio" name="trabajo" id="reserva" label="Reserva" checked={trabajo === 'reserva'} onChange={() => setTrabajo('reserva')} />
                                 </Form.Group>
                                 {trabajo === 'encargo' && (
-                                    <Form.Group controlId="fechaEncargo">
-                                        <Form.Label>Fecha de Encargo:</Form.Label>
-                                        <Form.Control type="date" value={fechaEncargo} onChange={(e) => setFechaEncargo(e.target.value)} />
-                                    </Form.Group>
+                                    <>
+                                        <Form.Group controlId="fechaEncargoInicio" className="mb-2">
+                                            <Form.Label>Fecha de Inicio:</Form.Label>
+                                            <Form.Control type="date" value={fechaEncargoInicio} onChange={(e) => setFechaEncargoInicio(e.target.value)} />
+                                        </Form.Group>
+                                        <Form.Group controlId="fechaEncargoFin" className="mb-2">
+                                            <Form.Label>Fecha de Fin:</Form.Label>
+                                            <Form.Control type="date" value={fechaEncargoFin} onChange={(e) => setFechaEncargoFin(e.target.value)} />
+                                        </Form.Group>
+                                    </>
                                 )}
                                 {trabajo === 'reserva' && (
                                     <>
-                                        <Form.Group controlId="fechaReservaInicio">
-                                            <Form.Label>Fecha de Inicio:</Form.Label>
-                                            <Form.Control type="date" value={fechaReservaInicio} onChange={(e) => setFechaReservaInicio(e.target.value)} />
-                                        </Form.Group>
-                                        <Form.Group controlId="fechaReservaFin">
-                                            <Form.Label>Fecha de Fin:</Form.Label>
-                                            <Form.Control type="date" value={fechaReservaFin} onChange={(e) => setFechaReservaFin(e.target.value)} />
-                                        </Form.Group>
+                                        {fechasReserva.map((fecha, index) => (
+                                            <div key={index}>
+                                                <Form.Group controlId={`fechaReservaInicio-${index}`} className="mb-2">
+                                                    <Form.Label>Fecha de Inicio:</Form.Label>
+                                                    <Form.Control type="date" value={fecha.inicio} onChange={(e) => handleFechaReservaChange(index, 'inicio', e.target.value)} />
+                                                </Form.Group>
+                                                <Form.Group controlId={`fechaReservaFin-${index}`} className="mb-2">
+                                                    <Form.Label>Fecha de Fin:</Form.Label>
+                                                    <Form.Control type="date" value={fecha.fin} onChange={(e) => handleFechaReservaChange(index, 'fin', e.target.value)} />
+                                                </Form.Group>
+                                                {index > 0 && <Button onClick={() => handleRemoveFechaReserva(index)}>Eliminar</Button>}
+                                            </div>
+                                        ))}
+                                        <Button onClick={handleAddFechaReserva}>Agregar Fecha</Button>
                                     </>
                                 )}
                                 <Table striped bordered hover>
@@ -197,7 +223,7 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
                                             <th>Cantidad</th>
                                             <th>Descripción Corta</th>
                                             <th>Presupuesto</th>
-                                            <th>Acción</th>
+                                            <th><Button onClick={handleAddRow}><PlusCircleFill size={20} /></Button></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,8 +233,7 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
                                                 <td><Form.Control type="text" name="descripcionCorta" value={row.descripcionCorta} onChange={(e) => handleInputChange(index, e)} /></td>
                                                 <td><Form.Control type="number" name="presupuesto" value={row.presupuesto} onChange={(e) => handleInputChange(index, e)} /></td>
                                                 <td>
-                                                    {index === tableData.length - 1 && <Button onClick={handleAddRow}><PlusCircleFill size={20} /></Button>}
-                                                    {tableData.length > 1 && <Button onClick={() => handleRemoveRow(index)}><DashCircleFill size={20} /></Button>}
+                                                    {index > 0 && <Button onClick={() => handleRemoveRow(index)}><DashCircleFill size={20} /></Button>}
                                                 </td>
                                             </tr>
                                         ))}
