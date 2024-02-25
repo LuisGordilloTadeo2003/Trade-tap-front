@@ -50,8 +50,16 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
     }
 
     const obtenerFecha = () => {
-        return fechaSeleccionada;
-    }
+        if (trabajo === 'encargo') {
+            return fechaEncargo;
+        } else if (trabajo === 'reserva') {
+            return {
+                inicio: fechaReservaInicio,
+                fin: fechaReservaFin
+            };
+        }
+        return null;
+    };
 
     let descripcion = obtenerDescripcionesCortas();
     let presupuesto = obtenerPresupuesto();

@@ -6,46 +6,41 @@ import Cookies from 'js-cookie';
 const PageList = () => {
     const [results, setResults] = useState([]);
     const [tipo, setTipo] = useState();
-    const [page, setPage] = useState();
     const [user, setUser] = useState();
     const [profesiones, setProfesiones] = useState([]);
     const xsrfToken = Cookies.get('XSRF-TOKEN');
     const [filtroProfesion, setFiltroProfesion] = useState(null);
     const [loading, setLoading] = useState(true);
-    let path;
-    switch (window.location.pathname) {
-        case '/request':
-            setPage("solicitud");
-            path = `api/solicitud`;
-            setTipo("request");
-            break;
-        case '/workers':
-            setPage("trabajador");
-            path = `api/trabajador`;
-            setTipo("workers");
-            break;
-        case '/proposal':
-            setPage("propuesta");
-            path = `api/propuesta`;
-            setTipo("proposal");
-            break;
-        case '/reserves':
-            setPage("reserva");
-            path = `api/reserva`;
-            setTipo("reserves");
-            break;
-        case '/commisions':
-            setPage("encargo");
-            path = `api/encargo`;
-            setTipo("commisions");
-            break;
-        default:
-            path = false;
-            break;
-    }
 
     const fetchData = async () => {
         try {
+            let path;
+            switch (window.location.pathname) {
+                case '/request':
+                    path = `api/solicitud`;
+                    setTipo("request");
+                    break;
+                case '/workers':
+                    path = `api/trabajador`;
+                    setTipo("workers");
+                    break;
+                case '/proposal':
+                    path = `api/propuesta`;
+                    setTipo("proposal");
+                    break;
+                case '/reserves':
+                    path = `api/reserva`;
+                    setTipo("reserves");
+                    break;
+                case '/commisions':
+                    path = `api/encargo`;
+                    setTipo("commisions");
+                    break;
+                default:
+                    path = false;
+                    break;
+            }
+
             if (path) {
                 axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
                 const response = await axios.get(path);
