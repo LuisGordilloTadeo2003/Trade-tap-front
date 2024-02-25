@@ -15,77 +15,72 @@ const PageList = () => {
     // const urlParams = new URLSearchParams(window.location.search);
     // const searchValue = urlParams.get('search');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let path, tipo;
-                switch (window.location.pathname) {
-                    case '/request':
-                        setPage("solicitud");
-                        path = `api/solicitud`;
-                        tipo = "request";
-                        break;
-                    case '/workers':
-                        setPage("trabajador");
-                        path = `api/trabajador`;
-                        tipo = "workers";
-                        break;
-                    case '/proposal':
-                        setPage("propuesta");
-                        path = `api/propuesta`;
-                        tipo = "proposal";
-                        break;
-                    default:
-                        path = false;
-                        break;
-                }
-
-                if (path) {
-                    axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
-                    const response = await axios.get(path);
-                    setResults(response.data.data);
-                    setTipo(tipo);
-                }
-            } catch (e) {
-                if (typeof e === 'object' && e !== null && 'response' in e) {
-                    console.warn(e.response.data);
-                }
-                else {
-                    console.warn(e);
-                }
+    const fetchData = async () => {
+        try {
+            let path, tipo;
+            switch (window.location.pathname) {
+                case '/request':
+                    setPage("solicitud");
+                    path = `api/solicitud`;
+                    tipo = "request";
+                    break;
+                case '/workers':
+                    setPage("trabajador");
+                    path = `api/trabajador`;
+                    tipo = "workers";
+                    break;
+                case '/proposal':
+                    setPage("propuesta");
+                    path = `api/propuesta`;
+                    tipo = "proposal";
+                    break;
+                default:
+                    path = false;
+                    break;
             }
-        };
 
-        const getUser = async () => {
-            try {
-                const { data } = await axios.get('/api/user');
-                setUser(data);
+            if (path) {
+                axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+                const response = await axios.get(path);
+                setResults(response.data.data);
+                setTipo(tipo);
             }
-            catch (e) {
-                console.warn('Error ', e);
+        } catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
             }
-        };
+            else {
+                console.warn(e);
+            }
+        }
+    };
 
-        getUser();
-
-        fetchData();
-
-    }, []);
+    const getUser = async () => {
+        try {
+            const { data } = await axios.get('/api/user');
+            setUser(data);
+        }
+        catch (e) {
+            console.warn('Error ', e);
+        }
+    };
 
     const listadoProfesiones = async () => {
-        await axios.get('api/profesion', {
-        })
-            .then(function (response) {
-                setProfesiones(response.data.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
+        try {
+            const response = await axios.get('api/profesion');
+            setProfesiones(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
-        listadoProfesiones();
+        fetchData();
+        getUser();
+        setTimeout(listadoProfesiones, 1000); // Agrega un retraso de 1 segundo entre las solicitudes
+
     }, []);
+
 
     return (
         <div>
