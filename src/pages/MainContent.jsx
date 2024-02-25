@@ -12,6 +12,7 @@ import HomePage from "./HomePage";
 import PageList from "./PageList";
 import ProfilePage from "./ProfilePage"
 import RequestPage from "./RequestPage";
+import ProposalPage from "./ProposalPage";
 
 const MainContent = () => {
     const { user, sessionVerified, sendEmailVerificationLink, status, loading } = useAuthContext();
@@ -37,7 +38,7 @@ const MainContent = () => {
                     <Route element={<PageList />} path="/reserves"></Route>
                     <Route element={<PageList />} path="/commisions"></Route>
                     <Route element={<RequestPage />} path="/request/:user/:id"></Route>
-                    <Route element={<PageList />} path="/proposal/:user/:id"></Route>
+                    <Route element={<ProposalPage />} path="/proposal/:user/:id"></Route>
                     <Route element={<PageList />} path="/reserves/:user/:id"></Route>
                     <Route element={<PageList />} path="/commisions/:user/:id"></Route>
                     <Route element={<PageList />} path="/workers"></Route>

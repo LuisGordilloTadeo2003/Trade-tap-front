@@ -8,6 +8,7 @@ const PageList = () => {
     const [tipo, setTipo] = useState();
     const [page, setPage] = useState();
     const [user, setUser] = useState();
+    const [profesiones, setProfesiones] = useState([]);
     const xsrfToken = Cookies.get('XSRF-TOKEN');
     const [filtroProfesion, setFiltroProfesion] = useState(null);
 
@@ -69,11 +70,26 @@ const PageList = () => {
 
         fetchData();
 
-    }, [results]);
+    }, []);
+
+    const listadoProfesiones = async () => {
+        await axios.get('api/profesion', {
+        })
+            .then(function (response) {
+                setProfesiones(response.data.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    useEffect(() => {
+        listadoProfesiones();
+    }, []);
 
     return (
         <div>
-            <List filtroProfesion={filtroProfesion} data={results} tipo={tipo} user={user} />
+            <List profesiones={profesiones} filtroProfesion={filtroProfesion} data={results} tipo={tipo} user={user} />
         </div>
     );
 }

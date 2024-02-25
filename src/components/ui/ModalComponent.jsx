@@ -8,14 +8,14 @@ import 'react-calendar/dist/Calendar.css';
 import axios from '../../lib/axios';
 import Cookies from 'js-cookie';
 
-const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
+const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
-    let [descripcion, setDescripcion] = useState();
+    let [descripcions, setDescripcions] = useState();
     let [titulo, setTitulo] = useState();
     const [tableData, setTableData] = useState([{ cantidad: "", descripcionCorta: "", presupuesto: 0 }]);
     const [presupuestoTotal, setPresupuestoTotal] = useState(0);
     const [trabajo, setTrabajo] = useState("encargo");
-    const [fechasSeleccionadas, setFechasSeleccionadas] = useState([]);
+    const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
 
     const parts = window.location.pathname.split('/');
@@ -43,7 +43,21 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
         return descripcionCompleta;
     };
 
-    if (tipo == "solicitud") {
+    const obtenerPresupuesto = () => {
+        return presupuestoTotal;
+    }
+
+    const obtenerFecha = () => {
+        return fechaSeleccionada;
+    }
+
+    let descripcion = obtenerDescripcionesCortas();
+    let presupuesto = obtenerPresupuesto();
+    let tipo = trabajo;
+    let fecha_estimada = obtenerFecha().toString();
+    let nombre = titulo;
+
+    if (campo == "solicitud") {
         payload = {
             descripcion,
             titulo,
@@ -51,12 +65,13 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
             cliente_id,
             estado
         };
-    } else if (tipo == "propuesta") {
+    } else if (campo == "propuesta") {
         payload = {
-            nombre: titulo,
-            descripcion: obtenerDescripcionesCortas(),
-            presupuesto: presupuestoTotal,
-            tipo: trabajo,
+            nombre,
+            descripcion,
+            presupuesto,
+            tipo,
+            fecha_estimada,
             cliente_id,
             trabajador_id
         };
@@ -64,11 +79,12 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
     }
 
     const enviarData = async () => {
+        console.log(payload);
 
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
-            await axios.post(`api/${tipo}`, payload)
+            await axios.post(`api/${campo}`, payload)
             console.log(payload);
         }
         catch (e) {
@@ -115,17 +131,25 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
         setPresupuestoTotal(formattedTotal);
     };
 
-    const handleFechaSeleccionada = fecha => {
-        let nuevasFechasSeleccionadas = [...fechasSeleccionadas];
-
-        // Si la fecha ya está seleccionada, la eliminamos; de lo contrario, la agregamos
-        if (nuevasFechasSeleccionadas.find(f => f.getTime() === fecha.getTime())) {
-            nuevasFechasSeleccionadas = nuevasFechasSeleccionadas.filter(f => f.getTime() !== fecha.getTime());
-        } else {
-            nuevasFechasSeleccionadas.push(fecha);
+    const handleFechaSeleccionada = nuevaFecha => {
+        // Si la nueva fecha seleccionada es la misma que la fecha seleccionada actualmente,
+        // cerramos el calendario y no hacemos nada más
+        if (fechaSeleccionada && nuevaFecha.getTime() === fechaSeleccionada.getTime()) {
+            setShowCalendar(false);
+            return;
         }
 
-        setFechasSeleccionadas(nuevasFechasSeleccionadas);
+        // Actualizamos la fecha seleccionada con la nueva fecha
+        setFechaSeleccionada(nuevaFecha);
+
+        // Si estamos en modo de reserva y ya hay una fecha seleccionada,
+        // eliminamos la fecha seleccionada anterior
+        if (trabajo === 'reserva' && fechaSeleccionada) {
+            setFechaSeleccionada(null);
+        }
+
+        // Cerramos el calendario
+        setShowCalendar(false);
     };
 
     return (
@@ -148,7 +172,7 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
                                     <Form.Control type="text" placeholder="Ingrese el título" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
                                 </Form.Group>
                                 <Form.Group controlId="description" className='my-3'>
-                                    <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+                                    <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={descripcions} onChange={(e) => setDescripcions(e.target.value)} />
                                 </Form.Group>
                             </>
                         ) : send == "request" ? (
@@ -158,7 +182,7 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
                                         <Form.Control type="text" placeholder="Ingrese el título" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
                                     </Form.Group>
                                     <Form.Group controlId="description" className='my-3'>
-                                        <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+                                        <Form.Control as="textarea" rows={3} placeholder="Ingrese la descripción" value={descripcions} onChange={(e) => setDescripcions(e.target.value)} />
                                     </Form.Group>
 
                                     <Form.Group controlId="trabajo">
@@ -181,7 +205,7 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
                                         />
                                     </Form.Group>
 
-                                    { /*  
+
                                     <Button onClick={() => setShowCalendar(!showCalendar)} className="my-1 mx-1" style={{ border: "none", backgroundColor: "#74c87a", width: "30px", height: "30px", borderRadius: "50%", padding: "0", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         <span>&#8595;</span>
                                     </Button>
@@ -189,12 +213,11 @@ const ModalComponent = ({ tipo, showModal, handleCloseModal, nav, user }) => {
                                         <div style={{ position: 'absolute', zIndex: '1' }}>
                                             <Calendar
                                                 onChange={handleFechaSeleccionada}
-                                                value={fechasSeleccionadas}
+                                                value={fechaSeleccionada}
                                                 selectRange={trabajo === 'reserva'}
                                             />
                                         </div>
                                     )}
-                                    */}
 
                                     {/* Botones para agregar y eliminar filas */}
                                     <div className="d-flex justify-content-between">

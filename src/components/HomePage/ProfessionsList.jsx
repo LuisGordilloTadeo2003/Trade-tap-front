@@ -3,23 +3,8 @@ import ProfessionName from "./ProfessionName";
 import ProfessionIcon from "./ProfessionIcon";
 import axios from "../../lib/axios";
 
-const ProfessionsList = ({ onProfessionClick }) => {
-    const [profesiones, setProfesiones] = useState([]);
+const ProfessionsList = ({ profesiones, onProfessionClick }) => {
 
-    const listadoProfesiones = async () => {
-        await axios.get('api/profesion', {
-        })
-            .then(function (response) {
-                setProfesiones(response.data.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
-
-    useEffect(() => {
-        listadoProfesiones();
-    }, [profesiones]);
 
     return (
         <table>

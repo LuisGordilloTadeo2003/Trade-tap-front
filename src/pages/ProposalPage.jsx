@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from "react";
 import PersonalInformation from "../components/ProfilePage/PersonalInformation";
 import Valoraciones from "../components/ProfilePage/Valoraciones";
-import InfoRequest from "../components/ProfilePage/InfoRequest";
+import InfoProposal from "../components/ProfilePage/InfoProposal";
 import ModalComponent from "../components/ui/ModalComponent";
 
 import axios from "../lib/axios";
@@ -27,7 +27,7 @@ const RequestPage = () => {
     useEffect(() => {
         const RequestData = async () => {
             try {
-                const response = await axios.get(`api/solicitud/${id}`);
+                const response = await axios.get(`api/propuesta/${id}`);
                 setRequest(response.data.data);
             } catch (e) {
                 if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -95,9 +95,9 @@ const RequestPage = () => {
                 <Valoraciones />
             </div>
 
-            <InfoRequest extra={request} handleOpenModal={handleOpenModal} />
+            <InfoProposal extra={request} handleOpenModal={handleOpenModal} />
 
-            <ModalComponent campo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
+            <ModalComponent tipo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
 
         </div>
     );

@@ -8,32 +8,12 @@ import axios from "../../lib/axios";
 import { useState, useEffect } from "react";
 
 
-const List = ({ filtroProfesion, data, tipo, user }) => {
-    const [profesiones, setProfesiones] = useState([]);
+const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
+
     const [pendiente, setPendiente] = useState(true);
     const [Filtradas, setFiltradas] = useState([]);
 
-    // const solicitudesFiltradasProfesion = filtroProfesion
-    //     ? data.filter(solicitud => solicitud.profesiones.includes(filtroProfesion))
-    //     : data;
-
-    // console.log(data);
-    // console.log(solicitudesFiltradasProfesion)
-
-    const listadoProfesiones = async () => {
-        await axios.get('api/profesion', {
-        })
-            .then(function (response) {
-                setProfesiones(response.data.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
-
     useEffect(() => {
-        listadoProfesiones();
-
         const filtradas = data.filter(item => {
             return pendiente ? item.estado === "Aceptado" : item.estado !== "Aceptado";
         });
@@ -57,8 +37,6 @@ const List = ({ filtroProfesion, data, tipo, user }) => {
             <BigSpinner />
         );
     }
-
-    console.log(data);
 
     return (
         <div>

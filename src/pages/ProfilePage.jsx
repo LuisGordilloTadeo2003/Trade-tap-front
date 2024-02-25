@@ -78,7 +78,7 @@ const ProfilePage = () => {
 
             <Publicaciones />
 
-            <ModalComponent tipo={"solicitud"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
+            <ModalComponent campo={"solicitud"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
         </div>
     );
 }

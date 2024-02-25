@@ -32,7 +32,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal }) => {
                 </div>
                 <div className="mt-2 d-flex justify-content-center align-items-center flex-wrap mb-4">
                     {
-                        ((typeUser == "worker" && send != "request") || (send == "request" && typeUser == "client")) ? (
+                        ((typeUser == "worker" && (send != "request" && send != "proposal")) || ((send == "request" && send == "proposal") && typeUser == "client")) ? (
                             <>
                                 {user.profesiones.data.map((profesion, index) => (
                                     <div key={index} className="d-inline-block mb-2">

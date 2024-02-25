@@ -80,7 +80,59 @@ const ElementCard = ({ item, user, index, tipo }) => {
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
-            await axios.put(`api/solicitud/${item.id}`, payload)
+            await axios.delete(`api/solicitud/${item.id}`, payload)
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
+
+    const aceptarPropuesta = async () => {
+        const payload = {
+            descripcion: item.descripcion,
+            nombre: item.nombre,
+            trabajador_id: item.trabajador.user.userable_id,
+            cliente_id: item.cliente.user.userable_id,
+            presupuesto: item.presupuesto,
+            tipo: item.tipo,
+            estado: "Aceptado"
+        };
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            await axios.put(`api/propuesta/${item.id}`, payload)
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
+
+    const rechazarPropuesta = async () => {
+        const payload = {
+            descripcion: item.descripcion,
+            nombre: item.nombre,
+            trabajador_id: item.trabajador.user.userable_id,
+            cliente_id: item.cliente.user.userable_id,
+            presupuesto: item.presupuesto,
+            tipo: item.tipo,
+            estado: "Rechazado"
+        };
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            await axios.put(`api/propuesta/${item.id}`, payload)
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -95,16 +147,16 @@ const ElementCard = ({ item, user, index, tipo }) => {
     const handleAccept = (accepted) => {
         if (accepted && tipo == "request") {
             aceptarSolicitud();
-
-            console.log(item);
+        } else if (accepted && tipo == "proposal") {
+            aceptarPropuesta();
         }
     };
 
-    const handleReject = (Reject) => {
-        if (Reject && tipo == "request") {
+    const handleReject = (reject) => {
+        if (reject && tipo == "request") {
             rechazarSolicitud();
-
-            console.log(item);
+        } else if (reject && tipo == "proposal") {
+            rechazarPropuesta();
         }
     };
 
@@ -140,7 +192,7 @@ const ElementCard = ({ item, user, index, tipo }) => {
             </div>
 
             {
-                ((tipo == "request" || tipo == "proposal") && item.estado == "Pendiente" && user.rol == "trabajador") ? (
+                (((tipo == "request" && user.rol == "trabajador") || (tipo == "proposal" && user.rol == "cliente")) && item.estado == "Pendiente") ? (
                     <AcceptOrReject onAccept={handleAccept} onReject={handleReject} />
                 ) : (
                     <Show cambiarRuta={() => cambiarRuta(item)} />
