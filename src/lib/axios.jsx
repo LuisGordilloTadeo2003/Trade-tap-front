@@ -1,6 +1,6 @@
 import axios from 'axios';
 const instance = axios.create({
-    baseURL: "https://ismael.informaticamajada.es",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     withXSRFToken: true,
     withCredentials: true,
 });
