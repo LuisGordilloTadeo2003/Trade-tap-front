@@ -6,7 +6,6 @@ import useAuthContext from './hooks/useAuthContext';
 import AuthLayout from './components/layout/AuthLayout';
 import GuestLayout from './components/layout/GuestLayout';
 import Home from './pages/Home';
-import QuickStart from './pages/QuickStart';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import Navbar from './components/ui/Navbar';
