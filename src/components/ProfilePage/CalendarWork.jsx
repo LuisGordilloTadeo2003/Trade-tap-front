@@ -5,8 +5,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 const CalendarWork = () => {
     const calendarRef = useRef(null);
     const [events, setEvents] = useState([
-        { title: "Evento 1", start: "2024-02-26", end: "2024-02-29", color: "red" },
-        { title: "Evento 2", start: "2024-02-26", end: "2024-02-26", color: "blue" },
+        { title: "Mesa", start: "2024-02-26", end: "2024-02-29", color: "red" },
+        { title: "Jardin", start: "2024-02-26", end: "2024-02-26", color: "blue" },
+        { title: "Pintar casa", start: "2024-02-29", color: "green" },
+        { title: "3 sillas", start: "2024-03-02", end: "2024-03-04", color: "pink" },
     ]);
 
     const handleDateClick = (info) => {

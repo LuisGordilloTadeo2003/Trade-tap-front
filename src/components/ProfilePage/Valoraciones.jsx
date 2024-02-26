@@ -19,9 +19,9 @@ const Valoraciones = ({ valoraciones }) => {
                     <div key={index} style={{ marginBottom: "10px" }}>
                         {
                             typeUser == "worker" ?
-                                <p>{valoracion.cliente.name + " " + valoracion.cliente.name + " " + valoracion.cliente.apellido2}</p>
+                                <p>{valoracion.cliente.name + " " + valoracion.cliente.apellido1 + " " + valoracion.cliente.apellido2}</p>
                                 :
-                                <p></p>
+                                <p>{valoracion.trabajador.name + " " + valoracion.trabajador.apellido1 + " " + valoracion.trabajador.apellido2}</p>
                         }
                         <p>{generarEstrellas(valoracion.valoracion)}</p>
                     </div>
