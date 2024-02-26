@@ -7,7 +7,7 @@ const InfoProposal = ({ extra, handleOpenModal }) => {
                 <p className="h2 text-center">Propuesta</p>
             </div>
             <div className="row d-flex align-items-center mb-2 mx-3 py-3 px-1" style={{ height: "15%", border: "1px solid #74c87a", borderRadius: "20px" }}>
-                <p className="h4">{extra.nombre}</p>
+                <p className="h4">{extra.titulo}</p>
             </div>
             <div className="row mx-3 py-3 px-1" style={{ height: "60%", border: "1px solid #74c87a", borderRadius: "20px" }}>
                 <p>{extra.descripcion}</p>

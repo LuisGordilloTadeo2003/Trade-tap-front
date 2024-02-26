@@ -12,11 +12,11 @@ import { Result } from "postcss";
 import BigSpinner from "../components/ui/BigSpinner";
 
 const RequestPage = () => {
-    const [request, setRequest] = useState([]);
+    const [proposal, setProposal] = useState([]);
     const [user, setUser] = useState();
     const [profile, setProfile] = useState();
     let id = useParams().id;
-    let tipo = useParams().tipo;
+    let userDataId = useParams().userId;
     let typeUser = useParams().user;
     const xsrfToken = Cookies.get('XSRF-TOKEN');
 
@@ -25,10 +25,10 @@ const RequestPage = () => {
     typeUser == "worker" ? url = "cliente" : url = "trabajador";
 
     useEffect(() => {
-        const RequestData = async () => {
+        const ProposalData = async () => {
             try {
                 const response = await axios.get(`api/propuesta/${id}`);
-                setRequest(response.data.data);
+                setProposal(response.data.data);
             } catch (e) {
                 if (typeof e === 'object' && e !== null && 'response' in e) {
                     console.warn(e.response.data);
@@ -43,7 +43,7 @@ const RequestPage = () => {
 
         const UserData = async () => {
             try {
-                const response = await axios.get(`api/${url}/${id}`);
+                const response = await axios.get(`api/${url}/${userDataId}`);
                 setProfile(response.data.data);
             } catch (e) {
                 if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -69,8 +69,8 @@ const RequestPage = () => {
 
         getUser();
 
-        RequestData();
-    }, [request]);
+        ProposalData();
+    }, [proposal]);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -82,7 +82,7 @@ const RequestPage = () => {
         setShowModal(false);
     };
 
-    if (user == undefined && profile == undefined && request.length == 0) {
+    if (user == undefined && profile == undefined && proposal.length == 0) {
         return (
             <BigSpinner />
         )
@@ -95,7 +95,7 @@ const RequestPage = () => {
                 <Valoraciones />
             </div>
 
-            <InfoProposal extra={request} handleOpenModal={handleOpenModal} />
+            <InfoProposal extra={proposal} handleOpenModal={handleOpenModal} />
 
             <ModalComponent tipo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
 

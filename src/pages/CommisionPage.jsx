@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from "react";
 import PersonalInformation from "../components/ProfilePage/PersonalInformation";
 import Valoraciones from "../components/ProfilePage/Valoraciones";
-import InfoRequest from "../components/ProfilePage/InfoRequest";
+import InfoCommision from "../components/ProfilePage/InfoCommision";
 import ModalComponent from "../components/ui/ModalComponent";
 
 import axios from "../lib/axios";
@@ -11,13 +11,11 @@ import { useParams } from "react-router-dom";
 import { Result } from "postcss";
 import BigSpinner from "../components/ui/BigSpinner";
 
-const RequestPage = () => {
-    const [request, setRequest] = useState([]);
+const CommisionPage = () => {
+    const [commision, setCommision] = useState([]);
     const [user, setUser] = useState();
     const [profile, setProfile] = useState();
     let id = useParams().id;
-    let userDataId = useParams().userId;
-    let tipo = useParams().tipo;
     let typeUser = useParams().user;
     const xsrfToken = Cookies.get('XSRF-TOKEN');
 
@@ -26,10 +24,10 @@ const RequestPage = () => {
     typeUser == "worker" ? url = "cliente" : url = "trabajador";
 
     useEffect(() => {
-        const RequestData = async () => {
+        const CommisionData = async () => {
             try {
-                const response = await axios.get(`api/solicitud/${id}`);
-                setRequest(response.data.data);
+                const response = await axios.get(`api/encargo/${id}`);
+                setCommision(response.data.data);
             } catch (e) {
                 if (typeof e === 'object' && e !== null && 'response' in e) {
                     console.warn(e.response.data);
@@ -44,7 +42,7 @@ const RequestPage = () => {
 
         const UserData = async () => {
             try {
-                const response = await axios.get(`api/${url}/${userDataId}`);
+                const response = await axios.get(`api/${url}/${id}`);
                 setProfile(response.data.data);
             } catch (e) {
                 if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -70,8 +68,8 @@ const RequestPage = () => {
 
         getUser();
 
-        RequestData();
-    }, [request]);
+        CommisionData();
+    }, [commision]);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -83,7 +81,7 @@ const RequestPage = () => {
         setShowModal(false);
     };
 
-    if (user == undefined && profile == undefined && request.length == 0) {
+    if (user == undefined && profile == undefined && commision.length == 0) {
         return (
             <BigSpinner />
         )
@@ -96,12 +94,12 @@ const RequestPage = () => {
                 <Valoraciones />
             </div>
 
-            <InfoRequest nav={user} extra={request} handleOpenModal={handleOpenModal} />
+            <InfoCommision nav={user} extra={commision} handleOpenModal={handleOpenModal} />
 
-            <ModalComponent info={request} campo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
+            <ModalComponent campo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
 
         </div>
     );
 }
 
-export default RequestPage;
+export default CommisionPage;

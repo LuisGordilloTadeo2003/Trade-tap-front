@@ -19,6 +19,8 @@ export default function Navbar({ user }) {
   let url;
   user.rol == "trabajador" ? url = "worker" : url = "client";
 
+  console.log(user);
+
   const { logout } = useAuthContext();
 
   return (
@@ -77,7 +79,7 @@ export default function Navbar({ user }) {
                     <Menu.Item>
                       {({ active }) => (
                         <>
-                          <Link to={`/profile/${url}/${user.id}`} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                          <Link to={`/profile/${url}/${user.userable_id}`} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                             Mi Perfil
                           </Link>
                           <Link onClick={logout} className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>

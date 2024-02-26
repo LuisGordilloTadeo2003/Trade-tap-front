@@ -6,12 +6,28 @@ import SearchBar from "../HomePage/SearchBar";
 import ProfessionIcon from "../HomePage/ProfessionIcon";
 import axios from "../../lib/axios";
 import { useState, useEffect } from "react";
+import MensajeFlash from "../ui/MensajeFlash";
 
 
 const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
-
+    const [userData, setUserData] = useState();
     const [pendiente, setPendiente] = useState(true);
     const [Filtradas, setFiltradas] = useState([]);
+
+    const getUserData = async () => {
+        try {
+            const response = await axios.get(`api/${user.rol}/${user.userable_id}`)
+            setUserData(response.data.data);
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
 
     useEffect(() => {
         const filtradas = data.filter(item => {
@@ -19,8 +35,11 @@ const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
         });
 
         setFiltradas(filtradas);
+        getUserData();
 
     }, [profesiones]);
+
+
 
     const togglePendiente = (nuevoEstado) => {
 
@@ -66,15 +85,7 @@ const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
                 ) : tipo == "proposal" ? (
                     <div className="row my-4">
                         <div
-                            className={`col-6 d-flex justify-content-center border-bottom ${pendiente ? 'selected' : ''}`}
-                            onClick={() => { togglePendiente(true) }}
-                            style={{ cursor: "pointer" }}
-                        >
-                            <p className="h4">Mis propuestas</p>
-                        </div>
-                        <div
-                            className={`col-6 d-flex justify-content-center border-bottom ${!pendiente ? 'selected' : ''}`}
-                            onClick={() => { togglePendiente(false) }}
+                            className={`col-12 d-flex justify-content-center border-bottom selected`}
                             style={{ cursor: "pointer" }}
                         >
                             <p className="h4">Mis propuestas pendientes</p>
@@ -112,15 +123,19 @@ const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
                 </div>
                 <div className="col-9 mt-3">
                     {
-                        tipo == "request" || tipo == "proposal" ? (
-                            Filtradas.map((item, index) => (
-                                <ElementCard key={item.id} item={item} user={user} index={index} tipo={tipo} />
-                            ))
-                        ) : tipo == "workers" ? (
-                            data.map((item, index) => {
-                                return <ElementCard key={item.id} item={item} user={user} index={index} tipo={tipo} />
-                            })
-                        ) : null
+                        userData == undefined ? (
+                            <BigSpinner />
+                        ) : (
+                            tipo == "request" ? (
+                                Filtradas.map((item, index) => (
+                                    <ElementCard userData={userData} key={item.id} item={item} user={user} index={index} tipo={tipo} />
+                                ))
+                            ) : tipo == "workers" || tipo == "commisions" || tipo == "proposal" ? (
+                                data.map((item, index) => {
+                                    return <ElementCard userData={userData} key={item.id} item={item} user={user} index={index} tipo={tipo} />
+                                })
+                            ) : null
+                        )
                     }
                 </div>
             </div>

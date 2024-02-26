@@ -10,6 +10,8 @@ import Publicaciones from "../components/ProfilePage/Publicaciones";
 import Valoraciones from "../components/ProfilePage/Valoraciones";
 import InfoRequest from "../components/ProfilePage/InfoRequest";
 import BigSpinner from "../components/ui/BigSpinner";
+import LikeModalComponent from "../components/ui/LikeModalComponent";
+import PublicacionModalComponent from "../components/ui/PublicacionModalComponent";
 
 const ProfilePage = () => {
     const [user, setUser] = useState();
@@ -56,29 +58,46 @@ const ProfilePage = () => {
     }, [id]);
 
     const [showModal, setShowModal] = useState(false);
+    const [showLikeModal, setShowLikeModal] = useState(false);
+    const [showPublicacionModal, setShowPublicacionModal] = useState(false);
 
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
+    const handleOpenModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
+    const handleCloseLikeModal = () => setShowLikeModal(false);
+    const handleShowLikeModal = () => setShowLikeModal(true);
+
+    const handleShowPublicacionModal = () => setShowPublicacionModal(true);
+    const handleClosePublicacionModal = () => setShowPublicacionModal(true);
 
     if (profile == undefined && user == undefined) {
         <BigSpinner />
     }
 
+    console.log(user);
+    console.log(profile);
+
     return (
         <div className="row mt-3 d-flex justify-content-center">
             <div className="col-3">
-                <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} />
+                {
+                    user && profile ? (
+                        user.id == profile.user.id ? (
+                            <div className="d-flex justify-content-center">
+                                <button className="btn mb-2" onClick={handleShowPublicacionModal} style={{ color: "black", background: "#74c87a" }}><strong>Nueva Publicación</strong></button>
+                            </div>
+                        ) : null
+                    ) : null
+                }
+                <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} handleOpenLikeModal={handleShowLikeModal} />
                 <Valoraciones />
             </div>
 
             <Publicaciones />
 
+            <LikeModalComponent showLikeModal={showLikeModal} handleCloseLikeModal={handleCloseLikeModal} user={user} />
             <ModalComponent campo={"solicitud"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
+            <PublicacionModalComponent nav={user} showPublicacionModal={showPublicacionModal} handleClosePublicacionModal={handleClosePublicacionModal} />
         </div>
     );
 }

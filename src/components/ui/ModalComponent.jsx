@@ -7,9 +7,14 @@ import 'react-calendar/dist/Calendar.css';
 
 import axios from '../../lib/axios';
 import Cookies from 'js-cookie';
+import MensajeFlash from './MensajeFlash';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
+const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
+    let userDataId = useParams().userId;
+    let navigate = useNavigate();
     let [descripcions, setDescripcions] = useState();
     let [titulo, setTitulo] = useState();
     const [tableData, setTableData] = useState([{ cantidad: "", descripcionCorta: "", presupuesto: 0 }]);
@@ -82,9 +87,11 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
                 trabajador_id
             };
         }
-
-
     }
+
+    let rutaRol;
+
+    nav.rol == "trabajador" ? rutaRol = "worker" : rutaRol = "cliente";
 
     const enviarData = async () => {
         console.log(payload);
@@ -92,9 +99,12 @@ const ModalComponent = ({ campo, showModal, handleCloseModal, nav, user }) => {
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
-            await axios.post(`api/${campo}`, payload)
-            console.log(payload);
-            console.log("Hecho");
+            const response = await axios.post(`api/${campo}`, payload)
+            MensajeFlash("Datos enviados correctamente", "success");
+            if (campo == "propuesta") {
+                await axios.delete(`api/solicitud/${info.id}`);
+                navigate(`/proposal/${rutaRol}/${response.data.data.id}/${userDataId}`);
+            }
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
