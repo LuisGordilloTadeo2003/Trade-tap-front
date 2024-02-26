@@ -7,7 +7,7 @@ const RankingTable = ({ selectedProfessionId }) => {
             <table>
                 <thead>
                     <tr className="mb-4">
-                        <th><h3>TOP 10 TRABAJADORES DEL MES</h3></th>
+                        <th><h3>TOP TRABAJADORES DEL MES</h3></th>
                     </tr>
                 </thead>
                 <tbody>

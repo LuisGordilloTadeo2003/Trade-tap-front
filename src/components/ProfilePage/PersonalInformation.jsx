@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }) => {
     let typeUser = useParams().user;
     const xsrfToken = Cookies.get('XSRF-TOKEN');
+    const [numeroMeGustas, setNumeroMeGustas] = useState();
 
     const parts = window.location.pathname.split('/');
     const send = parts[1];
@@ -24,12 +25,28 @@ const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }
 
         try {
             console.log(payload);
-            await axios.post('http://localhost:8000/api/megusta', payload);
+            await axios.post('https://localhost:8000/api/megusta', payload);
         }
         catch (e) {
             console.warn('Error ', e);
         }
     }
+
+    const getMeGusta = async () => {
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        try {
+            const response = await axios.get('https://localhost:8000/api/megusta');
+            setNumeroMeGustas(response.data.data);
+        }
+        catch (e) {
+            console.warn('Error ', e);
+        }
+    }
+
+    useEffect(() => {
+        getMeGusta();
+    }, [user])
 
     if (user == undefined || nav == undefined) {
         return (
@@ -74,7 +91,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }
                             <div className="d-flex align-items-center ml-3">
                                 <HeartFill color="white" size={20} />
 
-                                <span className="mx-3">{"Le gusta a " + user.valaracionesTotales + " personas"}</span>
+                                <span className="mx-3">{"Le gusta a " + numeroMeGustas + " personas"}</span>
                             </div>
                             <div className="d-flex justify-content-between mt-4">
                                 {

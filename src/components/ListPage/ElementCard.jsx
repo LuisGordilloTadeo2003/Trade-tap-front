@@ -249,19 +249,19 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
                     (((tipo == "request" && user.rol == "trabajador") || (tipo == "proposal" && user.rol == "cliente")) && item.estado == "Pendiente") ? (
                         <AcceptOrReject onAccept={handleAccept} onReject={handleReject} />
                     ) : tipo == "commisions" ?
-                        <>
+                        <div className="col-4 px-1 d-flex justify-content-end">
                             <Deliver onAccept={handleAcceptCommission} />
                             <Delete />
-                        </>
+                        </div>
                         : (
-                            <>
+                            <div className="col-4 px-1 d-flex justify-content-end">
                                 <Show cambiarRuta={() => cambiarRuta(item)} />
                                 {
-                                    user.rol == "trabajador" && tipo != "workers" ?
-                                        <Delete />
+                                    user.rol == "trabajador" && tipo != "workers" || (user.rol == "cliente" && (tipo == "request" && item.estado == "Pendiente")) ?
+                                        <Delete item={item} tipo={tipo} />
                                         : null
                                 }
-                            </>
+                            </div>
                         )
                 }
             </div >

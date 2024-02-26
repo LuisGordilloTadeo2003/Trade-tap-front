@@ -8,7 +8,7 @@ const SixWorkers = ({ user }) => {
     const [workers, setWorkers] = useState([]);
 
     const sixWorkers = async () => {
-        await axios.get(`api/trabajador?cerca=${user.localidad}`, {
+        if (user) await axios.get(`api/trabajador?cerca=${user.localidad}`, {
         })
             .then(function (response) {
                 setWorkers(response.data.data);
@@ -20,7 +20,7 @@ const SixWorkers = ({ user }) => {
 
     useEffect(() => {
         sixWorkers();
-    }, []);
+    }, [user]);
 
     console.log(user);
 
@@ -41,7 +41,7 @@ const SixWorkers = ({ user }) => {
 
     if (workers.length == 0) {
         return (
-            <></>
+            <BigSpinner />
         )
     } else {
         return (

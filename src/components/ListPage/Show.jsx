@@ -52,25 +52,22 @@ const Show = ({ cambiarRuta }) => {
     };
 
     return (
-        <div className="col-4 px-1 d-flex justify-content-end">
-            <button
-                className={`my-1 mx-1 ${isDragging ? 'active' : ''}`}
-                style={{
-                    border: "none",
-                    borderRadius: "20px",
-                    backgroundColor: "#74c87a",
-                    minWidth: "70px",
-                    width: `${buttonWidth}px`,
-                }}
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleMouseDown}
-            >
-                <div className="d-flex justify-content-center">
-                    <ArrowLeftCircleFill color="black" size={40} />
-                </div>
-            </button>
-
-        </div>
+        <button
+            className={`my-1 mx-1 ${isDragging ? 'active' : ''}`}
+            style={{
+                border: "none",
+                borderRadius: "20px",
+                backgroundColor: "#74c87a",
+                minWidth: "70px",
+                width: `${buttonWidth}px`,
+            }}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleMouseDown}
+        >
+            <div className="d-flex justify-content-center">
+                <ArrowLeftCircleFill color="black" size={40} />
+            </div>
+        </button>
     );
 }
 
