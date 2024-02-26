@@ -14,7 +14,7 @@ const Valoraciones = ({ valoraciones }) => {
 
     return (
         <div className="row mt-3 d.flex justify-content-center" style={{ border: "1px solid #74c87a", borderRadius: "20px", height: "300px" }}>
-            <div className="col-10">
+            <div className="col">
                 {valoraciones.map((valoracion, index) => (
                     <div key={index} style={{ marginBottom: "10px" }}>
                         {
