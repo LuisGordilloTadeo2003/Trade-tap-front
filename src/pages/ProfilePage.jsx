@@ -172,11 +172,10 @@ const ProfilePage = () => {
                     user && profile ? (
                         user.id == profile.user.id ? (
                             <CalendarWork />
-                        ) : null
+                        ) : <Valoraciones valoraciones={valoraciones} />
                     ) : null
                 }
             </div>
-            <Valoraciones valoraciones={valoraciones} />
             <Publicaciones />
 
             <LikeModalComponent showLikeModal={showLikeModal} handleCloseLikeModal={handleCloseLikeModal} user={user} />
