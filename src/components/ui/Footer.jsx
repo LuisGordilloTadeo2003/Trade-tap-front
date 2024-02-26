@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-6">
-                        <p>© 2024 TradeTap. Todos los derechos reservados.</p>
+                        <p>2024 TradeTap. Bajo la licencia GPLv3.</p>
                     </div>
                     <div className="col-6 d-flex">
                         <a href="https://github.com/LuisGordilloTadeo2003" className="me-3 d-flex align-items-center">
