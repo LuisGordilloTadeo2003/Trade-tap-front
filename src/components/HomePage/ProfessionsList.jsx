@@ -17,7 +17,6 @@ const ProfessionsList = ({ onProfessionClick }) => {
             setProfesiones(response.data.data);
             setCurrentPage(response.data.meta.current_page);
             setTotalPages(response.data.meta.last_page);
-            console.log(response.data.data);
             setLoading(false);
             setTransitionDirection(null);
         } catch (error) {
