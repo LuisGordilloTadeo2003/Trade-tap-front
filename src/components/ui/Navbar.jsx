@@ -5,10 +5,11 @@ import { Link, NavLink } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext';
 
 const navigation = [
-  { name: 'Mis Solicitudes', path: '/request', current: true },
-  { name: 'Mis Propuestas', path: '/proposal', current: true },
-  { name: 'Mis Reservas', path: '/reserves', current: true },
-  { name: 'Mis Encargos', path: '/commisions', current: true },
+  { name: 'Solicitudes', path: '/request', current: true },
+  { name: 'Propuestas', path: '/proposal', current: true },
+  { name: 'Reservas', path: '/reserves', current: true },
+  { name: 'Encargos', path: '/commisions', current: true },
+  { name: 'Servicios', path: '/services', current: true },
 ];
 
 function classNames(...classes) {
@@ -18,8 +19,6 @@ function classNames(...classes) {
 export default function Navbar({ user }) {
   let url;
   user.rol == "trabajador" ? url = "worker" : url = "client";
-
-  console.log(user);
 
   const { logout } = useAuthContext();
 

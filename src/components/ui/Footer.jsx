@@ -3,7 +3,7 @@ import { Github } from "react-bootstrap-icons";
 
 const Footer = () => {
     return (
-        <footer className="custom-bg-color border-top border-color fixed-bottom text-center py-3">
+        <footer className="custom-bg-color border-top border-color text-center py-3">
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-6">

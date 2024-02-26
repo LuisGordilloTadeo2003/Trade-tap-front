@@ -5,20 +5,22 @@ import { useParams } from "react-router-dom";
 import { HouseFill, HeartFill, PhoneFill } from 'react-bootstrap-icons';
 import BigSpinner from "../ui/BigSpinner";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }) => {
     let typeUser = useParams().user;
+    const xsrfToken = Cookies.get('XSRF-TOKEN');
 
     const parts = window.location.pathname.split('/');
     const send = parts[1];
 
-    console.log(user)
-
     const guardarMeGusta = async () => {
         const payload = {
             cliente_id: nav.userable_id,
-            trabajador_id: user.user.id,
+            trabajador_id: user.id,
         }
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
             console.log(payload);
@@ -65,7 +67,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }
                 {
                     ((typeUser == "worker" && (send != "request" && send != "proposal")) || (send == "request" && typeUser == "client")) ? (
                         <>
-                            <div className="d-flex align-items-center ml-3">
+                            <div className="d-flex align-items-center ml-3 text-start">
                                 <HouseFill color="white" size={20} />
                                 <span className="mx-3">{user.user.localidad + ", " + user.user.provincia}</span>
                             </div>

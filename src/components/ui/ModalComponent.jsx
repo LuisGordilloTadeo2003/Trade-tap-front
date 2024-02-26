@@ -33,8 +33,8 @@ const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user })
         );
     }
 
-    const trabajador_id = user.id;
-    const cliente_id = nav.userable_id;
+    // const trabajador_id = nav.userable_id;
+    // const cliente_id = user.id;
     const estado = 'Pendiente';
 
     let payload;
@@ -60,8 +60,8 @@ const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user })
         payload = {
             descripcion: descripcions,
             titulo,
-            trabajador_id,
-            cliente_id,
+            trabajador_id: user.id,
+            cliente_id: nav.userable_id,
             estado
         };
     } else if (campo == "propuesta") {
@@ -74,8 +74,8 @@ const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user })
                 estado,
                 fecha_estimada_inicio: fechaEncargoInicio,
                 fecha_estimada_final: fechaEncargoFin,
-                cliente_id,
-                trabajador_id
+                cliente_id: user.id,
+                trabajador_id: nav.userable_id,
             };
         } else if (trabajo == "reserva") {
             payload = {
@@ -83,8 +83,8 @@ const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user })
                 descripcion: descripcions,
                 presupuesto,
                 tipo,
-                cliente_id,
-                trabajador_id
+                cliente_id: user.id,
+                trabajador_id: nav.userable_id,
             };
         }
     }
@@ -94,8 +94,6 @@ const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user })
     nav.rol == "trabajador" ? rutaRol = "worker" : rutaRol = "cliente";
 
     const enviarData = async () => {
-        console.log(payload);
-
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {

@@ -12,6 +12,7 @@ import InfoRequest from "../components/ProfilePage/InfoRequest";
 import BigSpinner from "../components/ui/BigSpinner";
 import LikeModalComponent from "../components/ui/LikeModalComponent";
 import PublicacionModalComponent from "../components/ui/PublicacionModalComponent";
+import CalendarWork from "../components/ProfilePage/CalendarWork";
 
 const ProfilePage = () => {
     const [user, setUser] = useState();
@@ -90,7 +91,13 @@ const ProfilePage = () => {
                     ) : null
                 }
                 <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} handleOpenLikeModal={handleShowLikeModal} />
-                <Valoraciones />
+                {
+                    user && profile ? (
+                        user.id == profile.user.id ? (
+                            <CalendarWork />
+                        ) : <Valoraciones />
+                    ) : null
+                }
             </div>
 
             <Publicaciones />

@@ -37,6 +37,10 @@ const PageList = () => {
                     pathPage = `api/encargo`;
                     setTipo("commisions");
                     break;
+                case '/services':
+                    pathPage = `api/servicio`;
+                    setTipo("services");
+                    break;
                 default:
                     pathPage = false;
                     break;

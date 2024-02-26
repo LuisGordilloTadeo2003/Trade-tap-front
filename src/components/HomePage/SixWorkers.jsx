@@ -39,19 +39,25 @@ const SixWorkers = ({ user }) => {
 
     console.log(workers)
 
-    return (
-        <div className="col-8">
-            {workers.map((worker, index) => (
-                (index % 3 === 0) && <div key={index} className="row">
-                    {workers.slice(index, index + 3).map((worker, subIndex) => (
-                        <div key={subIndex} className="col-4">
-                            <SixWorkerCard worker={worker} />
-                        </div>
-                    ))}
-                </div>
-            ))}
-        </div>
-    );
+    if (workers.length == 0) {
+        return (
+            <></>
+        )
+    } else {
+        return (
+            <div className="col-8">
+                {workers.map((worker, index) => (
+                    (index % 3 === 0) && <div key={index} className="row">
+                        {workers.slice(index, index + 3).map((worker, subIndex) => (
+                            <div key={subIndex} className="col-4">
+                                <SixWorkerCard worker={worker} />
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        );
+    }
 }
 
 export default SixWorkers;

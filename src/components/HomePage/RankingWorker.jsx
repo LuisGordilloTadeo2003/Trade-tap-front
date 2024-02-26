@@ -2,6 +2,8 @@ import React from "react";
 
 const RankingWorker = ({ worker, generarEstrellas, idTrabajo }) => {
 
+    console.log(worker);
+
     return (
         worker.profesiones.data.map((profesion) => {
             if (profesion.id == idTrabajo) {

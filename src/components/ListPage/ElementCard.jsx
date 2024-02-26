@@ -8,9 +8,11 @@ import Cookies from 'js-cookie';
 import { Link } from "react-router-dom";
 import MensajeFlash from "../ui/MensajeFlash";
 import Deliver from "./Deliver";
+import Delete from "./Delete";
 
 const ElementCard = ({ userData, item, user, index, tipo }) => {
     const xsrfToken = Cookies.get('XSRF-TOKEN');
+    const [isLoading, setIsLoading] = useState(false)
 
     const generarEstrellas = (valoracion) => {
         const estrellas = [];
@@ -22,21 +24,27 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
 
     let rol;
     user.rol == "trabajador" ? rol = "worker" : rol = "client";
+    console.log(userData);
+    console.log(item);
 
     const cambiarRuta = (item) => {
         if (userData) {
             switch (tipo) {
                 case 'request':
-                    window.location.assign(`/request/${rol}/${item.id}/${userData.id}`);
+                    if (user.rol == "trabajador") window.location.assign(`/request/${rol}/${item.id}/${item.cliente_id}`);
+                    if (user.rol == "cliente") window.location.assign(`/request/${rol}/${item.id}/${userData.id}`);
                     break;
                 case 'proposal':
-                    window.location.assign(`/proposal/${rol}/${item.id}/${userData.id}`);
+                    if (user.rol == "trabajador") window.location.assign(`/request/${rol}/${item.id}/${item.cliente_id}`);
+                    if (user.rol == "cliente") window.location.assign(`/request/${rol}/${item.id}/${userData.id}`);
                     break;
                 case 'reserves':
-                    window.location.assign(`/reserves/${rol}/${item.id}/${userData.id}`);
+                    if (user.rol == "trabajador") window.location.assign(`/request/${rol}/${item.id}/${item.cliente_id}`);
+                    if (user.rol == "cliente") window.location.assign(`/request/${rol}/${item.id}/${userData.id}`);
                     break;
                 case 'commisions':
-                    window.location.assign(`/commisions/${rol}/${item.id}/${userData.id}`);
+                    if (user.rol == "trabajador") window.location.assign(`/request/${rol}/${item.id}/${item.cliente_id}`);
+                    if (user.rol == "cliente") window.location.assign(`/request/${rol}/${item.id}/${userData.id}`);
                     break;
                 case 'workers':
                     window.location.assign(`/profile/worker/${item.id}`);
@@ -153,6 +161,47 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
         }
     }
 
+    console.log(item);
+
+    const encargoEntregado = async () => {
+        const payload = {
+            descripcion: item.descripcion,
+            titulo: item.titulo,
+            trabajador_id: item.trabajador.user.userable_id,
+            cliente_id: item.cliente.user.userable_id,
+            fecha_estimada_inicio: item.fecha_estimada_inicio,
+            fecha_estimada_final: item.fecha_estimada_final,
+            presupuesto: item.presupuesto,
+            estado: "Entregado"
+        };
+
+        const servicio = {
+            coste: item.presupuesto,
+            serviciable_id: item.id,
+            serviciable_type: item.tipo === 'encargo' ? `App\\Models\\Encargo` : 'App\\Models\\Reserva',
+        };
+
+        axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
+
+        console.log(payload);
+        console.log(servicio);
+
+        try {
+            await axios.put(`api/encargo/${item.id}`, payload)
+            MensajeFlash('Encargo entregado correctamente', 'success')
+            await axios.post(`api/servicio`, servicio);
+            MensajeFlash("Por fin avanzas gilipollas", "success");
+        }
+        catch (e) {
+            if (typeof e === 'object' && e !== null && 'response' in e) {
+                console.warn(e.response.data);
+            }
+            else {
+                console.warn(e);
+            }
+        }
+    }
+
     const handleAccept = (accepted) => {
         if (accepted && tipo == "request") {
             aceptarSolicitud();
@@ -165,6 +214,10 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
         if (reject) {
             rechazar(tipo);
         }
+    };
+
+    const handleAcceptCommission = () => {
+        encargoEntregado();
     };
 
     if (userData) {
@@ -202,9 +255,15 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
                     (((tipo == "request" && user.rol == "trabajador") || (tipo == "proposal" && user.rol == "cliente")) && item.estado == "Pendiente") ? (
                         <AcceptOrReject onAccept={handleAccept} onReject={handleReject} />
                     ) : tipo == "commisions" ?
-                        <Deliver />
+                        <>
+                            <Deliver onAccept={handleAcceptCommission} />
+                            <Delete />
+                        </>
                         : (
-                            <Show cambiarRuta={() => cambiarRuta(item)} />
+                            <>
+                                <Show cambiarRuta={() => cambiarRuta(item)} />
+                                <Delete />
+                            </>
                         )
                 }
             </div >

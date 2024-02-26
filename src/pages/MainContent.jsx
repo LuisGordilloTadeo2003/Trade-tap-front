@@ -41,10 +41,12 @@ const MainContent = () => {
                     <Route element={<PageList />} path="/proposal"></Route>
                     <Route element={<PageList />} path="/reserves"></Route>
                     <Route element={<PageList />} path="/commisions"></Route>
+                    <Route element={<PageList />} path="/services"></Route>
                     <Route element={<RequestPage />} path="/request/:user/:id/:userId"></Route>
                     <Route element={<ProposalPage />} path="/proposal/:user/:id/:userId"></Route>
                     <Route element={<ReservePage />} path="/reserves/:user/:id/:userId"></Route>
                     <Route element={<CommisionPage />} path="/commisions/:user/:id/:userId"></Route>
+                    <Route element={<CommisionPage />} path="/service/:user/:id/:userId"></Route>
                     <Route element={<ProfilePage />} path="/profile/:user/:id"></Route>
                     <Route element={<EditProfilePage />} path="/edit/profile/:id"></Route>
                 </Routes>

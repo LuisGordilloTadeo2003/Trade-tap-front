@@ -1,14 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../lib/axios";
 import { useState } from "react";
 import { Search } from "react-bootstrap-icons";
 
 const SearchBar = () => {
     const [search, setSearch] = useState('');
+    let navigate = useNavigate();
 
     const handleInputChange = (event) => {
         setSearch(event.target.value);
+    };
+
+    const handleInputClick = () => {
+        navigate(`/workers?search=${search}`);
     };
 
     return (
@@ -23,6 +28,7 @@ const SearchBar = () => {
                         placeholder="¿Qué quieres solucionar hoy?"
                         value={search}
                         onChange={handleInputChange}
+                        onClick={handleInputClick}
                     />
                 </div>
                 <div className="col-1 pr-3 d-flex justify-content-end">

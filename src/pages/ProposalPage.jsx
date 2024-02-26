@@ -95,7 +95,7 @@ const RequestPage = () => {
                 <Valoraciones />
             </div>
 
-            <InfoProposal extra={proposal} handleOpenModal={handleOpenModal} />
+            <InfoProposal extra={proposal} />
 
             <ModalComponent tipo={"propuesta"} nav={user} user={profile} showModal={showModal} handleCloseModal={handleCloseModal} />
 

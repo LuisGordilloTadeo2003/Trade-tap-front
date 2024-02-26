@@ -1,8 +1,7 @@
 import react from "react";
-import { SendDashFill } from "react-bootstrap-icons";
-import Spinner from "../ui/Spinner";
+import { Trash2Fill } from "react-bootstrap-icons";
 
-const Deliver = ({ onAccept }) => {
+const Delete = ({ onAccept }) => {
     return (
         <div className="col-4 px-1 d-flex justify-content-end">
             <button
@@ -10,17 +9,17 @@ const Deliver = ({ onAccept }) => {
                 style={{
                     border: "none",
                     borderRadius: "20px",
-                    backgroundColor: "#74c87a",
+                    backgroundColor: "#F45252",
                     minWidth: "70px",
                 }}
                 onClick={onAccept}
             >
                 <div className="d-flex justify-content-center">
-                    <SendDashFill color="black" size={40} />
+                    <Trash2Fill color="black" size={40} />
                 </div>
             </button>
         </div>
     );
 }
 
-export default Deliver;
+export default Delete;

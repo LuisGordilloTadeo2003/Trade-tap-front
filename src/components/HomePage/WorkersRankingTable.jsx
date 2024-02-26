@@ -6,6 +6,8 @@ import BigSpinner from "../ui/BigSpinner.jsx";
 const WorkersRankingTable = ({ id }) => {
     let [workers, setWorkers] = useState([]);
 
+    console.log(id);
+
     const topTrabajadores = async () => {
         await axios.get(`api/trabajador?top=g&tipo=${id}`, {
         })
@@ -21,7 +23,7 @@ const WorkersRankingTable = ({ id }) => {
         if (id) {
             topTrabajadores();
         }
-    }, [workers]);
+    }, [id]);
 
     workers.sort((a, b) => b.valoracion - a.valoracion);
 

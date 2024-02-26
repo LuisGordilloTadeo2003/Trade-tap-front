@@ -1,18 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-import useAuthContext from './hooks/useAuthContext';
-import AuthLayout from './components/layout/AuthLayout';
-import GuestLayout from './components/layout/GuestLayout';
-import Home from './pages/Home';
-import ErrorBoundary from './components/ErrorBoundary';
-
-import Navbar from './components/ui/Navbar';
-import GuestNavbar from './components/ui/GuestNavbar';
 
 import MainContent from './pages/MainContent';
-import Footer from './components/ui/Footer';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
