@@ -25,7 +25,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }
 
         try {
             console.log(payload);
-            await axios.post('https://localhost:8000/api/megusta', payload);
+            await axios.post('api/megusta', payload);
         }
         catch (e) {
             console.warn('Error ', e);
@@ -36,7 +36,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
-            const response = await axios.get('https://localhost:8000/api/megusta');
+            const response = await axios.get('api/megusta');
             setNumeroMeGustas(response.data.data);
         }
         catch (e) {
