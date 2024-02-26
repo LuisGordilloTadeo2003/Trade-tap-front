@@ -9,10 +9,11 @@ import { useState, useEffect } from "react";
 import MensajeFlash from "../ui/MensajeFlash";
 
 
-const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
+const List = ({ profesiones, data, tipo, user }) => {
     const [userData, setUserData] = useState();
     const [pendiente, setPendiente] = useState(true);
     const [Filtradas, setFiltradas] = useState([]);
+    const [filtroTrabajadores, setFiltroTrabajadores] = useState(null);
 
     const getUserData = async () => {
         try {
@@ -50,6 +51,18 @@ const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
         setFiltradas(filtradas);
         setPendiente(nuevoEstado);
     };
+
+    function filtroProfesion(idProfesionBuscada) {
+        console.log("entra");
+
+        const filtroTrabajador = data.filter((trabajador) =>
+            trabajador.profesiones.data.map((profesion) => profesion.id).includes(idProfesionBuscada)
+        );
+
+        console.log(filtroTrabajador);
+
+        setFiltroTrabajadores(filtroTrabajador);
+    }
 
     if (data.length == 0 || user == undefined) {
         return (
@@ -107,14 +120,13 @@ const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
                                                 <ProfessionIcon
                                                     key={profesion.nombre}
                                                     icono={`/Iconos/Icono-${profesion.nombre}.png`}
-                                                /*onClick={() => onProfessionClick(profesion.id)}*/ // Llamamos a la función de devolución de llamada con el ID de la profesión
+                                                    onClick={() => filtroProfesion(profesion.id)} // Llamamos a la función de devolución de llamada con el ID de la profesión
                                                 />
                                             </td>
                                             <td className="p-2">
                                                 <p className="pl-1 text-start" style={{ fontSize: "20px", marginTop: "3px" }}>{profesion.nombre}</p>
                                             </td>
                                         </tr>
-
                                     )
                                 })
                             }
@@ -130,8 +142,12 @@ const List = ({ profesiones, filtroProfesion, data, tipo, user }) => {
                                 Filtradas.map((item, index) => (
                                     <ElementCard userData={userData} key={item.id} item={item} user={user} index={index} tipo={tipo} />
                                 ))
-                            ) : tipo == "workers" || tipo == "commisions" || tipo == "proposal" ? (
+                            ) : (tipo == "workers" && filtroTrabajadores == null) || tipo == "commisions" || tipo == "proposal" ? (
                                 data.map((item, index) => {
+                                    return <ElementCard userData={userData} key={item.id} item={item} user={user} index={index} tipo={tipo} />
+                                })
+                            ) : (tipo == "workers" && filtroTrabajadores != null) ? (
+                                filtroTrabajadores.map((item, index) => {
                                     return <ElementCard userData={userData} key={item.id} item={item} user={user} index={index} tipo={tipo} />
                                 })
                             ) : null

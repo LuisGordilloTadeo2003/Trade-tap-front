@@ -135,3 +135,28 @@
     padding: 3px;
     /* Espacio alrededor del número */
 }
+
+.professions-list {
+    display: flex;
+    overflow-x: hidden;
+    /* Para ocultar el desbordamiento horizontal */
+}
+
+.professions-list table {
+    display: flex;
+    transition: transform 0.5s ease;
+    /* Transición suave */
+}
+
+.professions-list table td {
+    min-width: 100px;
+    text-align: center;
+}
+
+.professions-list.transition-left table {
+    transform: translateX(-100%);
+}
+
+.professions-list.transition-right table {
+    transform: translateX(100%);
+}

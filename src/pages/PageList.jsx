@@ -10,7 +10,6 @@ const PageList = () => {
     const [path, setPath] = useState();
     const [profesiones, setProfesiones] = useState([]);
     const xsrfToken = Cookies.get('XSRF-TOKEN');
-    const [filtroProfesion, setFiltroProfesion] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
@@ -96,7 +95,7 @@ const PageList = () => {
 
     return (
         <div>
-            <List profesiones={profesiones} filtroProfesion={filtroProfesion} data={results} tipo={tipo} user={user} />
+            <List profesiones={profesiones} data={results} tipo={tipo} user={user} />
         </div>
     );
 }

@@ -58,6 +58,83 @@ const ProfilePage = () => {
         getUser();
     }, [id]);
 
+    const valoraciones = [
+        {
+            id: 1,
+            valoracion: 4,
+            multimedia: [
+                {
+                    url: "url1",
+                    tipo: "imagen"
+                },
+                {
+                    url: "url2",
+                    tipo: "video"
+                }
+            ],
+            trabajador: {
+                id: 2,
+                name: "Luis",
+                apellido: "Gordillo",
+                apellido2: "Tadeo",
+            },
+            cliente: {
+                id: 5,
+                name: "Cliente",
+                apellido1: "Gordillo",
+                apellido2: "Tadeo",
+            }
+        },
+        {
+            id: 2,
+            valoracion: 3,
+            multimedia: [
+                {
+                    url: "url1",
+                    tipo: "imagen"
+                },
+                {
+                    url: "url2",
+                    tipo: "video"
+                }
+            ],
+            trabajador: {
+                id: 2,
+                name: "Luis2",
+                apellido: "Gordillo",
+                apellido2: "Tadeo",
+            },
+            cliente: {
+                id: 5,
+                name: "Cliente2",
+                apellido1: "Gordillo",
+                apellido2: "Tadeo",
+            }
+        },
+        {
+            id: 3,
+            valoracion: 5,
+            multimedia: [
+                {
+                    url: "url1",
+                    tipo: "imagen"
+                }
+            ],
+            trabajador: {
+                id: 2,
+                name: "Luis3",
+                apellido: "Gordillo",
+                apellido2: "Tadeo",
+            },
+            cliente: {
+                id: 5,
+                name: "Cliente3",
+                apellido1: "Gordillo",
+                apellido2: "Tadeo",
+            }
+        }
+    ]
+
     const [showModal, setShowModal] = useState(false);
     const [showLikeModal, setShowLikeModal] = useState(false);
     const [showPublicacionModal, setShowPublicacionModal] = useState(false);
@@ -95,11 +172,11 @@ const ProfilePage = () => {
                     user && profile ? (
                         user.id == profile.user.id ? (
                             <CalendarWork />
-                        ) : <Valoraciones />
+                        ) : null
                     ) : null
                 }
             </div>
-
+            {/*<Valoraciones valoraciones={valoraciones} />*/}
             <Publicaciones />
 
             <LikeModalComponent showLikeModal={showLikeModal} handleCloseLikeModal={handleCloseLikeModal} user={user} />

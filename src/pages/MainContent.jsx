@@ -51,7 +51,7 @@ const MainContent = () => {
                     <Route element={<EditProfilePage />} path="/edit/profile/:id"></Route>
                 </Routes>
             </div>
-            <div className="row mt-4">
+            <div className="row" style={{ marginTop: "100px" }}>
                 <Footer />
             </div>
         </>

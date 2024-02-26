@@ -93,7 +93,7 @@ const RequestPage = () => {
         <div className="row mt-3 d-flex justify-content-center">
             <div className="col-3">
                 <PersonalInformation nav={user} user={profile} handleOpenModal={handleOpenModal} />
-                <Valoraciones />
+                {/*<Valoraciones />*/}
             </div>
 
             <InfoRequest nav={user} extra={request} handleOpenModal={handleOpenModal} />

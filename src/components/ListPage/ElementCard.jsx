@@ -24,8 +24,6 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
 
     let rol;
     user.rol == "trabajador" ? rol = "worker" : rol = "client";
-    console.log(userData);
-    console.log(item);
 
     const cambiarRuta = (item) => {
         if (userData) {
@@ -108,8 +106,6 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
             estado: "Pendiente"
         }
 
-        console.log(encargo)
-
         axios.defaults.headers['X-XSRF-TOKEN'] = xsrfToken;
 
         try {
@@ -160,8 +156,6 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
             }
         }
     }
-
-    console.log(item);
 
     const encargoEntregado = async () => {
         const payload = {
@@ -231,7 +225,7 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
                         tipo == "workers" && (
                             <>
                                 <p className="h5">{item.user.name + ' ' + item.user.apellido1 + ' ' + item.user.apellido2}{generarEstrellas(item.valoracion)}</p>
-                                <p className="h6">{item.descripcion}</p>
+                                <p className="small">{item.descripcion}</p>
                             </>
                         )
                     }
@@ -262,7 +256,11 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
                         : (
                             <>
                                 <Show cambiarRuta={() => cambiarRuta(item)} />
-                                <Delete />
+                                {
+                                    user.rol == "trabajador" && tipo != "workers" ?
+                                        <Delete />
+                                        : null
+                                }
                             </>
                         )
                 }

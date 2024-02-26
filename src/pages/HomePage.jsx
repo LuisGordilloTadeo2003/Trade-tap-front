@@ -26,21 +26,6 @@ const HomePage = () => {
         }
     };
 
-    const listadoProfesiones = async () => {
-        await axios.get('api/profesion', {
-        })
-            .then(function (response) {
-                setProfesiones(response.data.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
-
-    useEffect(() => {
-        listadoProfesiones();
-    }, []);
-
     useEffect(() => {
         getUser()
     }, []);
@@ -49,7 +34,7 @@ const HomePage = () => {
         <div className="row d-flex justify-content-center">
             <SearchBar />
             <div className="d-flex col-12 justify-content-center mt-3">
-                <ProfessionsList profesiones={profesiones} onProfessionClick={handleProfessionClick} />
+                <ProfessionsList onProfessionClick={handleProfessionClick} />
             </div>
             <div className="row mt-4">
                 <RankingTable selectedProfessionId={selectedProfessionId} />
