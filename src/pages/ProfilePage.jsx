@@ -176,7 +176,7 @@ const ProfilePage = () => {
                     ) : null
                 }
             </div>
-            {/*<Valoraciones valoraciones={valoraciones} />*/}
+            <Valoraciones valoraciones={valoraciones} />
             <Publicaciones />
 
             <LikeModalComponent showLikeModal={showLikeModal} handleCloseLikeModal={handleCloseLikeModal} user={user} />

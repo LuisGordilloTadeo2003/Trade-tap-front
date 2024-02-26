@@ -98,7 +98,7 @@ const ModalComponent = ({ info, campo, showModal, handleCloseModal, nav, user })
 
         try {
             const response = await axios.post(`api/${campo}`, payload)
-            MensajeFlash("Datos enviados correctamente", "success");
+            MensajeFlash(`${campo}`, "Datos enviados correctamente", "success");
             if (campo == "propuesta") {
                 await axios.delete(`api/solicitud/${info.id}`);
                 navigate(`/proposal/${rutaRol}/${response.data.data.id}/${userDataId}`);

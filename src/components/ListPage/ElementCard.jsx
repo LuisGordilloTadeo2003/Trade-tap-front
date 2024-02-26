@@ -66,7 +66,7 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
 
         try {
             await axios.put(`api/solicitud/${item.id}`, payload)
-            MensajeFlash('Solicitud aceptada correctamente', 'success')
+            MensajeFlash("Solicitud", 'Solicitud aceptada correctamente', 'success')
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -111,7 +111,7 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
         try {
             await axios.put(`api/propuesta/${item.id}`, payload)
             await axios.post(`api/encargo`, encargo)
-            MensajeFlash('Solicitud aceptada correctamente', 'success')
+            MensajeFlash("Propuesta", 'Propuesta aceptada correctamente', 'success')
             await axios.delete(`api/propuesta/${item.id}`);
         }
         catch (e) {
@@ -145,7 +145,7 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
 
         try {
             await axios.delete(`api/${campo}/${item.id}`)
-            MensajeFlash(msg, 'success')
+            MensajeFlash(`${campo}`, msg, 'success')
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
@@ -182,9 +182,8 @@ const ElementCard = ({ userData, item, user, index, tipo }) => {
 
         try {
             await axios.put(`api/encargo/${item.id}`, payload)
-            MensajeFlash('Encargo entregado correctamente', 'success')
+            MensajeFlash("Encargo", 'Encargo entregado correctamente', 'success')
             await axios.post(`api/servicio`, servicio);
-            MensajeFlash("Por fin avanzas gilipollas", "success");
         }
         catch (e) {
             if (typeof e === 'object' && e !== null && 'response' in e) {
