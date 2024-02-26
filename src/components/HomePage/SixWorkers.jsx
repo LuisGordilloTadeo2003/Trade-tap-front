@@ -41,7 +41,7 @@ const SixWorkers = ({ user }) => {
 
     if (workers.length == 0) {
         return (
-            <BigSpinner />
+            <></>
         )
     } else {
         return (
