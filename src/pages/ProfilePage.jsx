@@ -172,7 +172,7 @@ const ProfilePage = () => {
                     user && profile ? (
                         user.id == profile.user.id ? (
                             <CalendarWork />
-                        ) : null
+                        ) : <Valoraciones valoraciones={valoraciones} />
                     ) : null
                 }
             </div>
