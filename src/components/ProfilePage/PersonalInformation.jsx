@@ -98,7 +98,7 @@ const PersonalInformation = ({ nav, user, handleOpenModal, handleOpenLikeModal }
                                     nav.rol == "cliente" ?
                                         <>
                                             <button className="btn ml-auto mr-4" onClick={handleOpenModal} style={{ color: "black", background: "#74c87a" }}><strong>Contacta</strong></button>
-                                            <button className="btn mx-2" onClick={() => guardarMeGusta()} style={{ color: "black", background: "#FC0FC0" }}><strong>Me gusta</strong></button>
+                                            <button className="btn mx-2" onClick={() => handleOpenLikeModal()} style={{ color: "black", background: "#FC0FC0" }}><strong>Me gusta</strong></button>
                                         </>
                                         : nav.id == user.user.id ?
                                             <Link to={`/edit/profile/${user.user.id}`}>
